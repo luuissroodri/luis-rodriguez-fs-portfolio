@@ -73,6 +73,12 @@ function App() {
                   ${link.name === 'Inicio' ? (isDark ? 'bg-white/10 text-white' : 'bg-black/5 text-black') + ' rounded-full px-5' : ''}
                 `}>
                   {link.name}
+                  {link.name === 'Trabajos' && isScrolled && (
+                    <span className="absolute top-1 right-1 flex h-2 w-2">
+                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                       <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -145,7 +151,15 @@ function App() {
               <ul className="flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <li key={link.name} className={`flex items-center justify-between p-4 rounded-2xl transition-all cursor-pointer group ${isDark ? 'hover:bg-white/5' : 'hover:bg-black/5'}`}>
-                    <span className={`text-base font-semibold transition-colors ${isDark ? 'text-[#94A3B8] group-hover:text-white' : 'text-[#64748B] group-hover:text-black'}`}>{link.name}</span>
+                    <div className="flex items-center gap-3">
+                      <span className={`text-base font-semibold transition-colors ${isDark ? 'text-[#94A3B8] group-hover:text-white' : 'text-[#64748B] group-hover:text-black'}`}>{link.name}</span>
+                      {link.name === 'Trabajos' && isScrolled && (
+                        <span className="flex h-2 w-2">
+                           <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-500 opacity-75"></span>
+                           <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        </span>
+                      )}
+                    </div>
                     <ChevronDown className={`w-4 h-4 -rotate-90 transition-all ${isDark ? 'text-[#94A3B8] group-hover:text-white' : 'text-[#64748B] group-hover:text-black'} group-hover:translate-x-1`} />
                   </li>
                 ))}
@@ -168,10 +182,6 @@ function App() {
             <div className="flex-1 text-left order-2 lg:order-1">
               {/* Badge */}
               <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ${isDark ? 'bg-[#582CFF]/10 border-[#582CFF]/20 text-[#582CFF]' : 'bg-[#582CFF]/5 border-[#582CFF]/10 text-[#582CFF]'}`}>
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#582CFF] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#582CFF]"></span>
-                </span>
                 <span className="text-[11px] font-bold uppercase tracking-[0.15em]">Desarrollador Full Stack</span>
               </div>
 
@@ -181,7 +191,7 @@ function App() {
               </h1>
 
               <p className={`text-base md:text-lg max-w-xl mb-8 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-                Ingeniero de Sistemas especializado en soluciones Web Escalables y Automatización. Transformando requisitos complejos en arquitecturas de alto impacto.
+                Ingeniero de Sistemas enfocado en desarrollo web. Transformo problemas complejos de UX en soluciones UI escalables, mediante código limpio y arquitecturas robustas.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
