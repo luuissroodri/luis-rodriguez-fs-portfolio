@@ -266,6 +266,39 @@ function App() {
           </div>
         </div>
 
+        {/* Technical Metrics Section */}
+        <div className={`mt-24 pt-12 border-t transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+            {[
+              { title: '6+', subtitle: 'MESES DE EXPERIENCIA', status: 'system_status: active' },
+              { title: '100%', subtitle: 'ENFOQUE PIXEL-PERFECT', status: 'ux_latency: <100ms' },
+              { title: 'Robusta', subtitle: 'APIS & ARQUITECTURA', status: 'uptime: 99.9%' },
+              { title: '10+', subtitle: 'SISTEMAS DESPLEGADOS', status: 'deployments: success' }
+            ].map((metric, i) => (
+              <div key={i} className="flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
+                <span className={`text-4xl md:text-5xl font-black tracking-tighter ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+                  {metric.title}
+                </span>
+                <span className={`text-[10px] font-bold tracking-[0.2em] uppercase ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+                  {metric.subtitle}
+                </span>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-[#582CFF] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#582CFF]"></span>
+                  </span>
+                  <span className={`text-[10px] font-mono lowercase ${isDark ? 'text-[#582CFF]/80' : 'text-[#582CFF]'}`}>
+                    {metric.status}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom Separator */}
+        <div className={`mt-24 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
+
         {/* Clients section (moved down out of immediate view) */}
         <div className="mt-64 pb-24 animate-in fade-in duration-1000 delay-1000">
           <p className={`text-[10px] font-bold uppercase tracking-[0.3em] mb-10 text-center ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
