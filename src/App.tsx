@@ -532,8 +532,16 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
         <div className={`mt-24 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
 
         {/* Conocimientos Section (Self-Contained Refactor) */}
-        <section id="conocimientos" className={`mt-32 max-w-7xl mx-auto px-6 lg:px-12 py-16 rounded-[2.5rem] border transition-all duration-500 ${isDark ? 'bg-[#0B0E14]/40 border-white/5 shadow-2xl overflow-hidden' : 'bg-black/[0.01] border-black/[0.03] shadow-sm'} animate-in fade-in slide-in-from-bottom-12 duration-1000`}>
-          <div className="flex flex-col lg:flex-row gap-16">
+        <section id="conocimientos" className={`mt-32 max-w-7xl mx-auto px-6 lg:px-12 py-16 rounded-[2.5rem] border transition-all duration-500 relative group overflow-hidden ${isDark ? 'border-white/5 shadow-2xl' : 'border-black/[0.03] shadow-sm'} animate-in fade-in slide-in-from-bottom-12 duration-1000`}>
+          {/* Snake Border Animation Layers */}
+          <div className="absolute inset-[-100%] aspect-square animate-border-spin opacity-50 z-0 pointer-events-none flex items-center justify-center" 
+               style={{ 
+                 background: `conic-gradient(from 0deg, transparent 0 348deg, ${isDark ? '#582CFF' : '#8E54FF'} 360deg)` 
+               }}
+          />
+          <div className={`absolute inset-[2px] rounded-[2.4rem] z-[1] transition-colors duration-500 ${isDark ? 'bg-[#050505]' : 'bg-[#F8FAFC]'}`} />
+
+          <div className="relative z-10 flex flex-col lg:flex-row gap-16">
             {/* Left Column: Tech Configuration & Selector */}
             <div className="w-full lg:w-[35%] flex flex-col">
               <div className="mb-10">
