@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download } from 'lucide-react'
+import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download, Copy } from 'lucide-react'
 import { GiPenguin } from 'react-icons/gi'
 import luisPhoto from './assets/Luis.jpeg'
 
@@ -10,7 +10,238 @@ function App() {
   const [lang, setLang] = useState('ES')
   const [isLangOpen, setIsLangOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('react')
+  const [copiedTab, setCopiedTab] = useState<string | null>(null)
   const langRef = useRef<HTMLDivElement>(null)
+
+  // Configuration object for Technology Stack
+  const technologies: Record<string, { name: string; icon: string; color: string; ext: string; desc: string; code: React.ReactNode; raw: string }> = {
+    react: {
+      name: 'React',
+      icon: 'devicon-react-original',
+      color: '#61DAFB',
+      ext: 'tsx',
+      desc: 'Gestión de estado reactivo y ciclo de vida de componentes para interfaces dinámicas.',
+      raw: `const [isLive, setIsLive] = useState(true);
+
+useEffect(() => {
+  console.log("System optimized");
+}, []);
+
+return <InteractivePanel status={isLive} />;`,
+      code: (
+        <>
+          <p><span className="text-purple-400">const</span> [isLive, setIsLive] = <span className="text-blue-400">useState</span>(<span className="text-orange-400">true</span>);</p>
+          <br />
+          <p><span className="text-blue-400">useEffect</span>(() ={'>'} {'{'}</p>
+          <p className="pl-4"><span className="text-green-400">console</span>.<span className="text-blue-400">log</span>(<span className="text-yellow-200">"System optimized"</span>);</p>
+          <p>{'}'}, []);</p>
+          <br />
+          <p><span className="text-purple-400">return</span> {'<'}<span className="text-red-400">InteractivePanel</span> <span className="text-blue-300">status</span>={'{'}isLive{'}'} {'/>'};</p>
+        </>
+      )
+    },
+    html: {
+      name: 'HTML5',
+      icon: 'devicon-html5-plain',
+      color: '#E34F26',
+      ext: 'html',
+      desc: 'Arquitectura semántica y SEO-friendly, garantizando accesibilidad y estructura robusta.',
+      raw: `<section class="hero-container">
+  <div class="glass-morphism">
+    <h1>Sistemas Robustos</h1>
+    <p>Desarrollo Full Stack</p>
+  </div>
+</section>`,
+      code: (
+        <>
+          <p>{'<'}<span className="text-red-400">section</span> <span className="text-blue-300">class</span>=<span className="text-yellow-200">"hero-container"</span>{'>'}</p>
+          <p className="pl-4">{'<'}<span className="text-red-400">div</span> <span className="text-blue-300">class</span>=<span className="text-yellow-200">"glass-morphism"</span>{'>'}</p>
+          <p className="pl-8">{'<'}<span className="text-red-400">h1</span>{'>'}Sistemas Robustos{'<'}/<span className="text-red-400">h1</span>{'>'}</p>
+          <p className="pl-8">{'<'}<span className="text-red-400">p</span>{'>'}Desarrollo Full Stack{'<'}/<span className="text-red-400">p</span>{'>'}</p>
+          <p className="pl-4">{'<'}/<span className="text-red-400">div</span>{'>'}</p>
+          <p>{'<'}/<span className="text-red-400">section</span>{'>'}</p>
+        </>
+      )
+    },
+    css: {
+      name: 'CSS3',
+      icon: 'devicon-css3-plain',
+      color: '#1572B6',
+      ext: 'css',
+      desc: 'Diseños de alta fidelidad con efectos de cristal (glassmorphism) y animaciones fluidas.',
+      raw: `.glass-card {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}`,
+      code: (
+        <>
+          <p><span className="text-yellow-400">.glass-card</span> {'{'}</p>
+          <p className="pl-4"><span className="text-blue-300">backdrop-filter</span>: <span className="text-orange-400">blur</span>(12px);</p>
+          <p className="pl-4"><span className="text-blue-300">background</span>: <span className="text-orange-400">rgba</span>(255, 255, 255, 0.1);</p>
+          <p className="pl-4"><span className="text-blue-300">border</span>: 1px <span className="text-orange-400">solid</span> <span className="text-orange-400">rgba</span>(255, 255, 255, 0.2);</p>
+          <p className="pl-4"><span className="text-blue-300">box-shadow</span>: 0 4px 30px <span className="text-orange-400">rgba</span>(0, 0, 0, 0.1);</p>
+          <p>{'}'}</p>
+        </>
+      )
+    },
+    tailwind: {
+      name: 'Tailwind',
+      icon: 'devicon-tailwindcss-plain',
+      color: '#06B6D4',
+      ext: 'html',
+      desc: 'Maquetado eficiente basado en utilidades, permitiendo iteraciones de diseño ultra-rápidas.',
+      raw: `<div className="flex flex-col lg:flex-row items-center
+  gap-8 p-12 bg-[#582CFF] rounded-3xl
+  shadow-2xl hover:scale-105 transition-all">
+  <Logo className="w-12 h-12" />
+  <Content />
+</div>`,
+      code: (
+        <>
+          <p>{'<'}<span className="text-red-400">div</span> <span className="text-blue-300">className</span>=<span className="text-yellow-200">"flex flex-col lg:flex-row</span></p>
+          <p className="pl-8 text-yellow-200">items-center gap-8 p-12 bg-[#582CFF]</p>
+          <p className="pl-8 text-yellow-200">rounded-3xl shadow-2xl hover:scale-105</p>
+          <p className="pl-8 text-yellow-200">transition-all"{'>'}</p>
+          <p className="pl-4">{'<'}<span className="text-red-400">Logo</span> <span className="text-blue-300">className</span>=<span className="text-yellow-200">"w-12 h-12"</span> {'/>'}</p>
+          <p className="pl-4">{'<'}<span className="text-red-400">Content</span> {'/>'}</p>
+          <p>{'<'}/<span className="text-red-400">div</span>{'>'}</p>
+        </>
+      )
+    },
+    js: {
+      name: 'JavaScript',
+      icon: 'devicon-javascript-plain',
+      color: '#F7DF1E',
+      ext: 'js',
+      desc: 'Lógica de cliente asíncrona, optimización de algoritmos y manipulación avanzada del DOM.',
+      raw: `async function fetchData() {
+  const res = await fetch('/api/v1/projects');
+  const data = await res.json();
+
+  if (data.status === 'success') {
+    return data.projects.filter(p => p.active);
+  }
+}`,
+      code: (
+        <>
+          <p><span className="text-purple-400">async function</span> <span className="text-blue-400">fetchData</span>() {'{'}</p>
+          <p className="pl-4"><span className="text-purple-400">const</span> res = <span className="text-purple-400">await</span> <span className="text-blue-400">fetch</span>(<span className="text-yellow-200">'/api/v1/projects'</span>);</p>
+          <p className="pl-4"><span className="text-purple-400">const</span> data = <span className="text-purple-400">await</span> res.<span className="text-blue-400">json</span>();</p>
+          <br />
+          <p className="pl-4"><span className="text-purple-400">if</span> (data.status === <span className="text-yellow-200">'success'</span>) {'{'}</p>
+          <p className="pl-8"><span className="text-purple-400">return</span> data.projects.<span className="text-blue-400">filter</span>(p ={'>'} p.active);</p>
+          <p className="pl-4">{'}'}</p>
+          <p>{'}'}</p>
+        </>
+      )
+    },
+    laravel: {
+      name: 'Laravel',
+      icon: 'devicon-laravel-plain',
+      color: '#FF2D20',
+      ext: 'php',
+      desc: 'Estructuras de backend escalables con Eloquent ORM y diseño de APIs RESTful.',
+      raw: `public function index()
+{
+  return Project::query()
+    ->where('is_published', true)
+    ->latest()
+    ->paginate(12);
+}`,
+      code: (
+        <>
+          <p><span className="text-purple-400">public function</span> <span className="text-blue-400">index</span>()</p>
+          <p>{'{'}</p>
+          <p className="pl-4"><span className="text-purple-400">return</span> <span className="text-red-400">Project</span>::<span className="text-blue-400">query</span>()</p>
+          <p className="pl-8">-{'>'}<span className="text-blue-400">where</span>(<span className="text-yellow-200">'is_published'</span>, <span className="text-orange-400">true</span>)</p>
+          <p className="pl-8">-{'>'}<span className="text-blue-400">latest</span>()</p>
+          <p className="pl-8">-{'>'}<span className="text-blue-400">paginate</span>(12);</p>
+          <p>{'}'}</p>
+        </>
+      )
+    },
+    php: {
+      name: 'PHP',
+      icon: 'devicon-php-plain',
+      color: '#777BB4',
+      ext: 'php',
+      desc: 'Desarrollo de lógica robusta en el servidor con arquitecturas limpias y patrones de diseño.',
+      raw: `namespace App\Core;
+
+class SystemEngine
+{
+  private $status = 'optimized';
+
+  public function run()
+  {
+    return $this->status;
+  }
+}`,
+      code: (
+        <>
+          <p><span className="text-purple-400">namespace</span> App\Core;</p>
+          <br />
+          <p><span className="text-purple-400">class</span> <span className="text-red-400">SystemEngine</span></p>
+          <p>{'{'}</p>
+          <p className="pl-4"><span className="text-purple-400">private</span> <span className="text-blue-400">$status</span> = <span className="text-yellow-200">'optimized'</span>;</p>
+          <br />
+          <p className="pl-4"><span className="text-purple-400">public function</span> <span className="text-blue-400">run</span>()</p>
+          <p className="pl-4">{'{'}</p>
+          <p className="pl-8"><span className="text-purple-400">return</span> <span className="text-blue-400">$this</span>-{'>'}status;</p>
+          <p className="pl-4">{'}'}</p>
+          <p>{'}'}</p>
+        </>
+      )
+    },
+    sql: {
+      name: 'MySQL',
+      icon: 'devicon-mysql-plain',
+      color: '#4479A1',
+      ext: 'sql',
+      desc: 'Consultas optimizadas para bases de datos relacionales y gestión eficiente de la información.',
+      raw: `SELECT * FROM users
+WHERE active = 1
+AND role = 'admin'
+ORDER BY created_at DESC
+LIMIT 10;`,
+      code: (
+        <>
+          <p><span className="text-purple-400">SELECT</span> * <span className="text-purple-400">FROM</span> users</p>
+          <p><span className="text-purple-400">WHERE</span> active = <span className="text-orange-400">1</span></p>
+          <p><span className="text-purple-400">AND</span> role = <span className="text-yellow-200">'admin'</span></p>
+          <p><span className="text-purple-400">ORDER BY</span> created_at <span className="text-purple-400">DESC</span></p>
+          <p><span className="text-purple-400">LIMIT</span> <span className="text-orange-400">10</span>;</p>
+        </>
+      )
+    },
+    postgresql: {
+      name: 'PostgreSQL',
+      icon: 'devicon-postgresql-plain',
+      color: '#336791',
+      ext: 'sql',
+      desc: 'Modelado de datos avanzado, soporte JSONB e indexación para alto rendimiento.',
+      raw: `CREATE TABLE analytics (
+  id SERIAL PRIMARY KEY,
+  event_data JSONB,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
+      code: (
+        <>
+          <p><span className="text-purple-400">CREATE TABLE</span> analytics (</p>
+          <p className="pl-4">id <span className="text-purple-400">SERIAL PRIMARY KEY</span>,</p>
+          <p className="pl-4">event_data <span className="text-purple-400">JSONB</span>,</p>
+          <p className="pl-4">created_at <span className="text-purple-400">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span></p>
+          <p>);</p>
+          <br />
+          <p><span className="text-purple-400">CREATE INDEX</span> idx_data <span className="text-purple-400">ON</span> analytics <span className="text-purple-400">USING GIN</span>(event_data);</p>
+        </>
+      )
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,13 +262,13 @@ function App() {
 
   const navLinks = [
     { name: 'Inicio', href: '#' },
-    { name: 'Conocimientos', href: '#' },
+    { name: 'Conocimientos', href: '#conocimientos' },
     { name: 'Trabajos', href: '#' },
     { name: 'Trayectoria', href: '#' }
   ]
 
   return (
-    <div className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-[#F9FAFB] text-[#050505]'} font-sans selection:bg-[#582CFF]/30`}>
+    <div className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-[#F8FAFC] text-[#1E293B]'} font-sans selection:bg-[#582CFF]/30`}>
       {/* Background radial gradient */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] transition-opacity duration-1000 ${isDark ? 'bg-[#582CFF]/10' : 'bg-[#582CFF]/5'} blur-[120px] rounded-full`}></div>
@@ -49,8 +280,8 @@ function App() {
           <nav className={`
             flex items-center justify-between transition-all duration-500 ease-in-out
             ${isScrolled 
-              ? `px-4 py-2.5 w-full max-w-5xl ${isDark ? 'bg-[#0F0F10]/95 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]' : 'bg-white/95 border-2 border-[#582CFF]/20 shadow-[0_20px_40px_rgba(88,44,255,0.05)]'} backdrop-blur-xl border` 
-              : `px-6 py-4 w-full max-w-6xl ${isDark ? 'bg-[#0F0F10]/60 border-white/5' : 'bg-white/60 border-2 border-[#582CFF]/10'} backdrop-blur-md border`} 
+              ? `px-4 py-2.5 w-full max-w-5xl ${isDark ? 'bg-[#0F0F10]/95 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]' : 'bg-white/70 border-black/[0.03] shadow-[0_20px_40px_rgba(88,44,255,0.05)]'} backdrop-blur-xl border` 
+              : `px-6 py-4 w-full max-w-6xl ${isDark ? 'bg-[#0F0F10]/60 border-white/5' : 'bg-white/60 border-black/[0.01]'} backdrop-blur-md border`} 
             rounded-full
           `}>
             {/* Logo */}
@@ -73,7 +304,11 @@ function App() {
                   ${isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#64748B] hover:text-black'}
                   ${link.name === 'Inicio' ? (isDark ? 'bg-white/10 text-white' : 'bg-black/5 text-black') + ' rounded-full px-5' : ''}
                 `}>
-                  {link.name}
+                  {link.name === 'Conocimientos' ? (
+                    <a href={link.href}>{link.name}</a>
+                  ) : (
+                    link.name
+                  )}
                   {link.name === 'Trabajos' && isScrolled && (
                     <span className="absolute top-1 right-1 flex h-2 w-2">
                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
@@ -105,29 +340,29 @@ function App() {
                         { id: 'ES', label: 'Español' },
                         { id: 'EN', label: 'English' }
                       ].map((option) => (
-                        <button
+                        <div 
                           key={option.id}
                           onClick={() => {
                             setLang(option.id)
                             setIsLangOpen(false)
                           }}
-                          className={`flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${lang === option.id ? (isDark ? 'bg-white/10 text-white' : 'bg-black/5 text-black') : (isDark ? 'text-[#94A3B8] hover:bg-white/5 hover:text-white' : 'text-[#64748B] hover:bg-black/5 hover:text-black')}`}
+                          className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl cursor-pointer transition-colors ${lang === option.id ? (isDark ? 'bg-[#582CFF] text-white' : 'bg-[#582CFF] text-white') : (isDark ? 'hover:bg-white/5 text-[#94A3B8]' : 'hover:bg-black/5 text-[#64748B]')}`}
                         >
-                          {option.label}
-                          {lang === option.id && <Check className="w-3.5 h-3.5 text-[#582CFF]" />}
-                        </button>
+                          <span className="text-[13px] font-bold">{option.label}</span>
+                          {lang === option.id && <Check className="w-3 h-3" />}
+                        </div>
                       ))}
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Theme Toggle */}
+              {/* Theme Toggle Button */}
               <button 
                 onClick={() => setIsDark(!isDark)}
-                className={`w-10 h-10 flex items-center justify-center rounded-full border transition-all ${isDark ? 'bg-[#1E1E1E]/80 border-white/5 hover:bg-white/10 text-white' : 'bg-black/5 border-black/5 hover:bg-black/10 text-[#582CFF]'}`}
+                className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 active:scale-90 border ${isDark ? 'bg-[#1E1E1E]/80 border-white/5 hover:bg-white/10 text-yellow-400' : 'bg-black/5 border-black/5 hover:bg-black/10 text-orange-600'}`}
               >
-                {isDark ? <Sun className="w-5 h-5 flex-shrink-0" /> : <Moon className="w-5 h-5 flex-shrink-0" />}
+                {isDark ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
               </button>
               
               <button className={`${isScrolled ? 'hidden sm:block' : 'block'} bg-[#582CFF] hover:bg-[#4a24d9] rounded-full px-6 py-2.5 text-[13px] font-bold transition-all active:scale-95 text-white whitespace-nowrap`}>
@@ -226,10 +461,6 @@ function App() {
                     src={luisPhoto} 
                     alt="Luis Rodriguez"
                     className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800';
-                    }}
                   />
                   <div className={`absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60 transition-opacity duration-500 ${isDark ? 'opacity-60' : 'opacity-20'}`}></div>
                 </div>
@@ -300,203 +531,126 @@ function App() {
         {/* Bottom Separator */}
         <div className={`mt-24 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
 
-        {/* Conocimientos Section */}
-        <section id="conocimientos" className="mt-32 max-w-7xl mx-auto px-6 lg:px-8 animate-in fade-in slide-in-from-bottom-12 duration-1000">
+        {/* Conocimientos Section (Self-Contained Refactor) */}
+        <section id="conocimientos" className={`mt-32 max-w-7xl mx-auto px-6 lg:px-12 py-16 rounded-[2.5rem] border transition-all duration-500 ${isDark ? 'bg-[#0B0E14]/40 border-white/5 shadow-2xl overflow-hidden' : 'bg-black/[0.01] border-black/[0.03] shadow-sm'} animate-in fade-in slide-in-from-bottom-12 duration-1000`}>
           <div className="flex flex-col lg:flex-row gap-16">
-            {/* Left: Info & Selector */}
-            <div className="lg:w-1/3">
-              <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-4">
-                Stack Tecnológico
-              </h2>
-              <p className={`text-base mb-10 max-w-md ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-                Soluciones modernas construidas con tecnologías de vanguardia para arquitecturas escalables.
-              </p>
+            {/* Left Column: Tech Configuration & Selector */}
+            <div className="w-full lg:w-[35%] flex flex-col">
+              <div className="mb-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-4">
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Skills Core</span>
+                </div>
+                <h2 className={`text-4xl font-black tracking-tighter mb-4 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+                  Stack Tecnológico
+                </h2>
+                <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+                  Infraestructura robusta construida con herramientas líderes de la industria para garantizar escalabilidad y rendimiento extremo.
+                </p>
+              </div>
 
-              <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-3 gap-4">
-                {[
-                  { id: 'react', name: 'React', icon: 'devicon-react-original', color: '#61DAFB' },
-                  { id: 'html', name: 'HTML5', icon: 'devicon-html5-plain', color: '#E34F26' },
-                  { id: 'css', name: 'CSS3', icon: 'devicon-css3-plain', color: '#1572B6' },
-                  { id: 'tailwind', name: 'Tailwind', icon: 'devicon-tailwindcss-plain', color: '#06B6D4' },
-                  { id: 'js', name: 'JavaScript', icon: 'devicon-javascript-plain', color: '#F7DF1E' },
-                  { id: 'laravel', name: 'Laravel', icon: 'devicon-laravel-plain', color: '#FF2D20' },
-                  { id: 'php', name: 'PHP', icon: 'devicon-php-plain', color: '#777BB4' },
-                  { id: 'sql', name: 'MySQL', icon: 'devicon-mysql-plain', color: '#4479A1' },
-                  { id: 'postgresql', name: 'PostgreSQL', icon: 'devicon-postgresql-plain', color: '#336791' }
-                ].map((tech) => (
-                  <button
-                    key={tech.id}
-                    onClick={() => setActiveTab(tech.id)}
-                    className={`
-                      group relative flex flex-col items-center justify-center p-4 rounded-3xl border transition-all duration-300
-                      ${activeTab === tech.id 
-                        ? (isDark ? 'bg-[#582CFF]/10 border-[#582CFF]/30 ring-1 ring-[#582CFF]/20' : 'bg-[#582CFF]/5 border-[#582CFF]/20') 
-                        : (isDark ? 'bg-white/5 border-white/5 hover:border-white/10' : 'bg-black/5 border-black/5 hover:border-black/10')}
-                    `}
-                  >
-                    <i className={`${tech.icon} text-3xl transition-transform duration-300 group-hover:scale-110 ${activeTab === tech.id ? '' : 'grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100'}`}></i>
-                    <span className={`text-[10px] font-bold mt-2 uppercase tracking-tight ${activeTab === tech.id ? (isDark ? 'text-white' : 'text-black') : 'text-gray-500'}`}>
-                      {tech.name}
-                    </span>
-                  </button>
-                ))}
+              {/* Responsive Grid for Icons */}
+              <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-3 gap-3">
+                {Object.keys(technologies).map((key) => {
+                  const tech = technologies[key];
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => setActiveTab(key)}
+                      className={`
+                        group relative aspect-square flex flex-col items-center justify-center rounded-2xl border transition-all duration-500 active:scale-95
+                        ${activeTab === key 
+                          ? (isDark ? 'bg-[#582CFF]/20 border-[#582CFF]/40 ring-1 ring-[#582CFF]/30' : 'bg-white border-[#582CFF]/30 shadow-lg shadow-[#582CFF]/5') 
+                          : (isDark ? 'bg-[#151515] border-white/5 hover:border-white/10' : 'bg-white border-black/[0.05] hover:border-black/[0.1] shadow-sm')}
+                      `}
+                    >
+                      <i className={`${tech.icon} text-2xl transition-all duration-500 ${activeTab === key ? 'colored scale-110' : 'grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100'}`}></i>
+                      <span className={`text-[9px] font-black mt-2 uppercase tracking-tight transition-colors ${activeTab === key ? (isDark ? 'text-white' : 'text-black') : 'text-gray-500/60'}`}>
+                        {tech.name}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Right: Code Window & Preview */}
-            <div className="lg:w-2/3 flex flex-col gap-6">
-              {/* Terminal Window */}
+            {/* Right Column: Dynamic Terminal & Preview Area */}
+            <div className="w-full lg:w-[65%] flex flex-col gap-8">
+              {/* Terminal Window with Anti-Breakage Constraints */}
               <div className={`
-                relative rounded-3xl border overflow-hidden transition-all duration-500
-                ${isDark ? 'bg-[#0B0E14] border-white/10 shadow-2xl shadow-black' : 'bg-[#0B0E14] border-black/10 shadow-xl shadow-[#582CFF]/5'}
+                w-full rounded-2xl border overflow-hidden transition-all duration-500
+                ${isDark ? 'bg-[#0B0E14] border-white/10 shadow-2xl' : 'bg-[#0D0D0E] border-black/20 shadow-xl'}
               `}>
-                {/* Header Dots */}
-                <div className="flex items-center gap-1.5 px-6 py-4 border-b border-white/5">
-                  <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                  <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                  <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
-                  <div className={`ml-4 text-[10px] font-mono ${isDark ? 'text-white/40' : 'text-white/20'}`}>
-                    {activeTab}.{activeTab === 'laravel' || activeTab === 'php' ? 'php' : activeTab === 'css' ? 'css' : activeTab === 'sql' || activeTab === 'postgresql' ? 'sql' : 'tsx'}
+                {/* Terminal Header */}
+                <div className="flex items-center justify-between px-6 py-4 bg-white/5 border-b border-white/5">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="relative group/copy">
+                      <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText(technologies[activeTab].raw);
+                          setCopiedTab(activeTab);
+                          setTimeout(() => setCopiedTab(null), 2000);
+                        }}
+                        className={`p-2.5 rounded-xl border transition-all duration-300 active:scale-90 ${
+                          copiedTab === activeTab 
+                            ? 'bg-green-500/20 border-green-500/40 text-green-400' 
+                            : 'bg-white/10 border-white/20 text-white/70 hover:bg-[#582CFF] hover:border-[#582CFF] hover:text-white shadow-lg'
+                        }`}
+                      >
+                        {copiedTab === activeTab ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                      </button>
+                      {/* Tooltip - Positioned below to avoid overflow-hidden clipping from top */}
+                      <div className="absolute top-full right-0 mt-3 opacity-0 group-hover/copy:opacity-100 pointer-events-none transition-all duration-300 translate-y-1 group-hover/copy:translate-y-0 z-50">
+                        <div className="bg-[#0F172A] text-[10px] font-black text-white px-3 py-2 rounded-lg border border-white/10 shadow-2xl backdrop-blur-xl whitespace-nowrap uppercase tracking-[0.2em]">
+                          {copiedTab === activeTab ? '¡Copiado!' : 'Copy to clipboard'}
+                        </div>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">
+                      src/core/{activeTab}.{technologies[activeTab].ext}
+                    </span>
                   </div>
                 </div>
-                
-                {/* Code Area */}
-                <div className="p-8 font-mono text-[13px] md:text-sm leading-relaxed overflow-x-auto min-h-[220px]">
-                  {activeTab === 'react' && (
-                    <div className="animate-in fade-in duration-500">
-                      <p><span className="text-purple-400">const</span> [isLive, setIsLive] = <span className="text-blue-400">useState</span>(<span className="text-orange-400">true</span>);</p>
-                      <br />
-                      <p><span className="text-blue-400">useEffect</span>(() ={'>'} {'{'}</p>
-                      <p className="pl-4"><span className="text-green-400">console</span>.<span className="text-blue-400">log</span>(<span className="text-yellow-200">"System optimized"</span>);</p>
-                      <p>{'}'}, []);</p>
-                      <br />
-                      <p><span className="text-purple-400">return</span> {'<'}<span className="text-red-400">InteractivePanel</span> <span className="text-blue-300">status</span>={'{'}isLive{'}'} {'/>'};</p>
+
+                {/* Code Body with Auto-Scroll */}
+                <div className="relative p-6 md:p-10 font-mono text-xs md:text-sm leading-relaxed overflow-x-auto custom-scrollbar min-h-[300px]">
+                  <div className="flex animate-in fade-in zoom-in-95 duration-500 text-white/90">
+                    <div className="flex flex-col text-white/20 select-none mr-6 text-right w-4">
+                      {Array.from({length: 10}).map((_, i) => (
+                        <span key={i}>{i + 1}</span>
+                      ))}
                     </div>
-                  )}
-                  {activeTab === 'html' && (
-                    <div className="animate-in fade-in duration-500">
-                      <p>{'<'}<span className="text-red-400">section</span> <span className="text-blue-300">class</span>=<span className="text-yellow-200">"hero-container"</span>{'>'}</p>
-                      <p className="pl-4">{'<'}<span className="text-red-400">div</span> <span className="text-blue-300">class</span>=<span className="text-yellow-200">"glass-morphism"</span>{'>'}</p>
-                      <p className="pl-8">{'<'}<span className="text-red-400">h1</span>{'>'}Sistemas Robustos{'<'}/<span className="text-red-400">h1</span>{'>'}</p>
-                      <p className="pl-8">{'<'}<span className="text-red-400">p</span>{'>'}Desarrollo Full Stack{'<'}/<span className="text-red-400">p</span>{'>'}</p>
-                      <p className="pl-4">{'<'}/<span className="text-red-400">div</span>{'>'}</p>
-                      <p>{'<'}/<span className="text-red-400">section</span>{'>'}</p>
+                    <div className="flex-1 whitespace-pre">
+                      {technologies[activeTab].code}
                     </div>
-                  )}
-                  {activeTab === 'css' && (
-                    <div className="animate-in fade-in duration-500">
-                      <p><span className="text-yellow-400">.glass-card</span> {'{'}</p>
-                      <p className="pl-4"><span className="text-blue-300">backdrop-filter</span>: <span className="text-orange-400">blur</span>(12px);</p>
-                      <p className="pl-4"><span className="text-blue-300">background</span>: <span className="text-orange-400">rgba</span>(255, 255, 255, 0.1);</p>
-                      <p className="pl-4"><span className="text-blue-300">border</span>: 1px <span className="text-orange-400">solid</span> <span className="text-orange-400">rgba</span>(255, 255, 255, 0.2);</p>
-                      <p className="pl-4"><span className="text-blue-300">box-shadow</span>: 0 4px 30px <span className="text-orange-400">rgba</span>(0, 0, 0, 0.1);</p>
-                      <p>{'}'}</p>
-                    </div>
-                  )}
-                  {activeTab === 'tailwind' && (
-                    <div className="animate-in fade-in duration-500">
-                      <p>{'<'}<span className="text-red-400">div</span> <span className="text-blue-300">className</span>=<span className="text-yellow-200">"flex flex-col lg:flex-row items-center gap-8 p-12 bg-[#582CFF] rounded-3xl shadow-2xl hover:scale-105 transition-all"</span>{'>'}</p>
-                      <p className="pl-4">{'<'}<span className="text-red-400">Logo</span> <span className="text-blue-300">className</span>=<span className="text-yellow-200">"w-12 h-12"</span> {'/>'}</p>
-                      <p className="pl-4">{'<'}<span className="text-red-400">Content</span> {'/>'}</p>
-                      <p>{'<'}/<span className="text-red-400">div</span>{'>'}</p>
-                    </div>
-                  )}
-                  {activeTab === 'js' && (
-                    <div className="animate-in fade-in duration-500">
-                      <p><span className="text-purple-400">async function</span> <span className="text-blue-400">fetchData</span>() {'{'}</p>
-                      <p className="pl-4"><span className="text-purple-400">const</span> res = <span className="text-purple-400">await</span> <span className="text-blue-400">fetch</span>(<span className="text-yellow-200">'/api/v1/projects'</span>);</p>
-                      <p className="pl-4"><span className="text-purple-400">const</span> data = <span className="text-purple-400">await</span> res.<span className="text-blue-400">json</span>();</p>
-                      <br />
-                      <p className="pl-4"><span className="text-purple-400">if</span> (data.status === <span className="text-yellow-200">'success'</span>) {'{'}</p>
-                      <p className="pl-8"><span className="text-purple-400">return</span> data.projects.<span className="text-blue-400">filter</span>(p ={'>'} p.active);</p>
-                      <p className="pl-4">{'}'}</p>
-                      <p>{'}'}</p>
-                    </div>
-                  )}
-                  {activeTab === 'laravel' && (
-                    <div className="animate-in fade-in duration-500">
-                      <p><span className="text-purple-400">public function</span> <span className="text-blue-400">index</span>()</p>
-                      <p>{'{'}</p>
-                      <p className="pl-4"><span className="text-purple-400">return</span> <span className="text-red-400">Project</span>::<span className="text-blue-400">query</span>()</p>
-                      <p className="pl-8">-{'>'}<span className="text-blue-400">where</span>(<span className="text-yellow-200">'is_published'</span>, <span className="text-orange-400">true</span>)</p>
-                      <p className="pl-8">-{'>'}<span className="text-blue-400">latest</span>()</p>
-                      <p className="pl-8">-{'>'}<span className="text-blue-400">paginate</span>(12);</p>
-                      <p>{'}'}</p>
-                    </div>
-                  )}
-                  {activeTab === 'php' && (
-                    <div className="animate-in fade-in duration-500">
-                      <p><span className="text-purple-400">namespace</span> App\Core;</p>
-                      <br />
-                      <p><span className="text-purple-400">class</span> <span className="text-red-400">SystemEngine</span></p>
-                      <p>{'{'}</p>
-                      <p className="pl-4"><span className="text-purple-400">private</span> <span className="text-blue-400">$status</span> = <span className="text-yellow-200">'optimized'</span>;</p>
-                      <br />
-                      <p className="pl-4"><span className="text-purple-400">public function</span> <span className="text-blue-400">run</span>()</p>
-                      <p className="pl-4">{'{'}</p>
-                      <p className="pl-8"><span className="text-purple-400">return</span> <span className="text-blue-400">$this</span>-{'>'}status;</p>
-                      <p className="pl-4">{'}'}</p>
-                      <p>{'}'}</p>
-                    </div>
-                  )}
-                  {activeTab === 'sql' && (
-                    <div className="animate-in fade-in duration-500">
-                      <p><span className="text-purple-400">SELECT</span> * <span className="text-purple-400">FROM</span> users</p>
-                      <p><span className="text-purple-400">WHERE</span> active = <span className="text-orange-400">1</span></p>
-                      <p><span className="text-purple-400">AND</span> role = <span className="text-yellow-200">'admin'</span></p>
-                      <p><span className="text-purple-400">ORDER BY</span> created_at <span className="text-purple-400">DESC</span></p>
-                      <p><span className="text-purple-400">LIMIT</span> <span className="text-orange-400">10</span>;</p>
-                    </div>
-                  )}
-                  {activeTab === 'postgresql' && (
-                    <div className="animate-in fade-in duration-500">
-                      <p><span className="text-purple-400">CREATE TABLE</span> analytics (</p>
-                      <p className="pl-4">id <span className="text-purple-400">SERIAL PRIMARY KEY</span>,</p>
-                      <p className="pl-4">event_data <span className="text-purple-400">JSONB</span>,</p>
-                      <p className="pl-4">created_at <span className="text-purple-400">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span></p>
-                      <p>);</p>
-                      <br />
-                      <p><span className="text-purple-400">CREATE INDEX</span> idx_data <span className="text-purple-400">ON</span> analytics <span className="text-purple-400">USING GIN</span>(event_data);</p>
-                    </div>
-                  )}
+                  </div>
                 </div>
               </div>
 
-              {/* Preview Card */}
+              {/* Integrated Visual Preview Card */}
               <div className={`
-                p-8 rounded-3xl border transition-all duration-500 flex items-center justify-between gap-6
-                ${isDark ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}
+                w-full p-8 rounded-2xl border transition-all duration-700 flex flex-col md:flex-row items-center gap-8
+                ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-black/[0.05] shadow-sm'}
               `}>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <span className={`text-[10px] font-bold uppercase tracking-widest ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>Visual Preview</span>
-                  </div>
-                  <p className={`text-sm font-medium leading-relaxed ${isDark ? 'text-white/80' : 'text-black/80'}`}>
-                    {activeTab === 'react' && 'Gestión de estado reactivo y ciclo de vida de componentes para interfaces dinámicas.'}
-                    {activeTab === 'html' && 'Arquitectura semántica y SEO-friendly, garantizando accesibilidad y estructura robusta.'}
-                    {activeTab === 'css' && 'Diseños de alta fidelidad con efectos de cristal (glassmorphism) y animaciones fluidas.'}
-                    {activeTab === 'tailwind' && 'Maquetado eficiente basado en utilidades, permitiendo iteraciones de diseño ultra-rápidas.'}
-                    {activeTab === 'js' && 'Lógica de cliente asíncrona, optimización de algoritmos y manipulación avanzada del DOM.'}
-                    {activeTab === 'laravel' && 'Estructuras de backend escalables con Eloquent ORM y diseño de APIs RESTful.'}
-                    {activeTab === 'php' && 'Desarrollo de lógica robusta en el servidor con arquitecturas limpias y patrones de diseño.'}
-                    {activeTab === 'sql' && 'Consultas optimizadas para bases de datos relacionales y gestión eficiente de la información.'}
-                    {activeTab === 'postgresql' && 'Modelado de datos avanzado, soporte JSONB e indexación para alto rendimiento.'}
-                  </p>
+                <div className="w-24 h-24 flex-shrink-0 flex items-center justify-center rounded-2xl bg-[#582CFF]/5 border border-[#582CFF]/10 overflow-hidden relative group">
+                  <div className="absolute inset-0 bg-[#582CFF]/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <i className={`${technologies[activeTab].icon} text-5xl colored transition-transform duration-700 group-hover:rotate-12`}></i>
                 </div>
-                <div className="w-24 h-24 flex-shrink-0 flex items-center justify-center rounded-2xl bg-[#582CFF]/10 border border-[#582CFF]/20">
-                  <i className={`
-                    ${activeTab === 'react' ? 'devicon-react-original' : 
-                      activeTab === 'html' ? 'devicon-html5-plain' : 
-                      activeTab === 'css' ? 'devicon-css3-plain' : 
-                      activeTab === 'tailwind' ? 'devicon-tailwindcss-plain' : 
-                      activeTab === 'js' ? 'devicon-javascript-plain' : 
-                      activeTab === 'laravel' ? 'devicon-laravel-plain' : 
-                      activeTab === 'php' ? 'devicon-php-plain' : 
-                      activeTab === 'sql' ? 'devicon-mysql-plain' : 
-                      'devicon-postgresql-plain'} 
-                    text-5xl text-[#582CFF] animate-pulse
-                  `}></i>
+                
+                <div className="flex-1 text-center md:text-left">
+                  <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                    <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+                      Status: Production Ready
+                    </span>
+                  </div>
+                  <p className={`text-sm font-medium leading-relaxed max-w-xl ${isDark ? 'text-white/70' : 'text-[#1E293B]/80'}`}>
+                    {technologies[activeTab].desc}
+                  </p>
                 </div>
               </div>
             </div>
