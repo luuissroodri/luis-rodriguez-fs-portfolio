@@ -150,9 +150,9 @@ function App() {
                   </li>
                 ))}
                 <li className="mt-2 pt-4 border-t border-white/5 px-2 pb-2">
-                   <button className="w-full bg-[#582CFF] py-3.5 rounded-2xl font-bold shadow-lg shadow-[#582CFF]/20 active:scale-[0.98] transition-all text-sm">
-                      Contactar ahora
-                   </button>
+                  <button className="w-full bg-[#582CFF] py-3.5 rounded-2xl font-bold shadow-lg shadow-[#582CFF]/20 active:scale-[0.98] transition-all text-sm text-white">
+                    Contactar ahora
+                  </button>
                 </li>
               </ul>
             </div>
@@ -163,36 +163,36 @@ function App() {
       <main className="relative z-10 max-w-7xl mx-auto pt-32 pb-16 px-6 lg:px-8">
         <div className="min-h-[calc(100vh-200px)] flex flex-col justify-center">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
-          
-          {/* Left Column: Content */}
-          <div className="flex-1 text-left order-2 lg:order-1">
-            {/* Badge */}
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ${isDark ? 'bg-[#582CFF]/10 border-[#582CFF]/20 text-[#582CFF]' : 'bg-[#582CFF]/5 border-[#582CFF]/10 text-[#582CFF]'}`}>
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#582CFF] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#582CFF]"></span>
-              </span>
-              <span className="text-[11px] font-bold uppercase tracking-[0.15em]">Desarrollador Full Stack</span>
-            </div>
+            
+            {/* Left Column: Content */}
+            <div className="flex-1 text-left order-2 lg:order-1">
+              {/* Badge */}
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ${isDark ? 'bg-[#582CFF]/10 border-[#582CFF]/20 text-[#582CFF]' : 'bg-[#582CFF]/5 border-[#582CFF]/10 text-[#582CFF]'}`}>
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#582CFF] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#582CFF]"></span>
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.15em]">Desarrollador Full Stack</span>
+              </div>
 
-            <h1 className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] mb-6 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
-              Sistemas Robustos.<br />
-              <span className={`italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent`}>Arquitectura de Vanguardia.</span>
-            </h1>
+              <h1 className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] mb-6 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+                Sistemas Robustos.<br />
+                <span className={`italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent`}>Arquitectura de Vanguardia.</span>
+              </h1>
 
-            <p className={`text-base md:text-lg max-w-xl mb-8 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-              Ingeniero de Sistemas especializado en soluciones Web Escalables y Automatización. Transformando requisitos complejos en arquitecturas de alto impacto.
-            </p>
+              <p className={`text-base md:text-lg max-w-xl mb-8 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+                Ingeniero de Sistemas especializado en soluciones Web Escalables y Automatización. Transformando requisitos complejos en arquitecturas de alto impacto.
+              </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
-              <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30px_rgba(88,44,255,0.25)] active:scale-95 text-white">
-                Ver Proyectos
-              </button>
-              <button className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-bold border transition-all active:scale-95 ${isDark ? 'border-white/10 hover:bg-white/5' : 'border-black/10 hover:bg-black/5'}`}>
-                Descargar CV
-                <Download className="w-4 h-4" />
-              </button>
-            </div>
+              <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
+                <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30px_rgba(88,44,255,0.25)] active:scale-95 text-white">
+                  Ver Proyectos
+                </button>
+                <button className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-bold border transition-all active:scale-95 ${isDark ? 'border-white/10 hover:bg-white/5' : 'border-black/10 hover:bg-black/5 text-inherit font-bold'}`}>
+                  Descargar CV
+                  <Download className="w-4 h-4" />
+                </button>
+              </div>
 
               {/* Availability Indicator */}
               <div className="flex items-center gap-3 animate-in fade-in duration-700 delay-500">
@@ -204,27 +204,29 @@ function App() {
                   Disponible para proyectos
                 </span>
               </div>
-          </div>
+            </div>
 
-          {/* Right Column: Visual */}
-          <div className="flex-1 flex justify-end relative order-1 lg:order-2 animate-in fade-in zoom-in duration-1000">
-            <div className="relative group w-full flex justify-end">
-              {/* Photo Container */}
-              <div className={`relative z-10 w-full max-w-[460px] aspect-[4/5] rounded-[40px] overflow-hidden border-2 transition-all duration-500 group-hover:scale-[1.02] ${isDark ? 'border-white/10' : 'border-black/5 shadow-2xl'}`}>
-                <img 
-                  src={luisPhoto} 
-                  alt="Luis Rodriguez"
-                  className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800';
-                  }}
-                />
-                <div className={`absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60`}></div>
-              </div>
+            {/* Right Column: Visual */}
+            <div className="flex-1 flex justify-end relative order-1 lg:order-2 animate-in fade-in zoom-in duration-1000">
+              <div className="relative group w-full flex justify-end">
+                {/* Photo Container */}
+                <div className={`relative z-10 w-full max-w-[460px] aspect-[4/5] rounded-[40px] overflow-hidden border-2 transition-all duration-500 group-hover:scale-[1.02] ${isDark ? 'border-white/10' : 'border-black/[0.03] shadow-2xl shadow-indigo-500/5'}`}>
+                  <img 
+                    src={luisPhoto} 
+                    alt="Luis Rodriguez"
+                    className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800';
+                    }}
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60 transition-opacity duration-500 ${isDark ? 'opacity-60' : 'opacity-20'}`}></div>
+                </div>
 
                 {/* Floating Terminal Overlay */}
-                <div className={`absolute -bottom-4 -left-4 lg:-bottom-6 lg:-left-6 z-20 w-56 lg:w-64 p-4 rounded-3xl border backdrop-blur-xl shadow-2xl transition-all duration-500 group-hover:-translate-y-2 ${isDark ? 'bg-[#0F0F10]/90 border-white/10' : 'bg-white/90 border-black/5'}`}>
+                <div className={`absolute -bottom-4 -left-4 lg:-bottom-6 lg:-left-6 z-20 w-56 lg:w-64 p-4 rounded-3xl border backdrop-blur-xl shadow-2xl transition-all duration-500 group-hover:-translate-y-2 ${
+                  isDark ? 'bg-[#0F0F10]/90 border-white/10 text-white' : 'bg-[#F1F5F9]/80 border-black/[0.03] text-[#1E293B] shadow-xl shadow-indigo-500/10'
+                }`}>
                   {/* Traffic Lights */}
                   <div className="flex gap-1.5 mb-3">
                     <div className="w-2 h-2 rounded-full bg-[#FF5F56]"></div>
@@ -234,20 +236,19 @@ function App() {
                   {/* Terminal Content */}
                   <div className="space-y-1.5 font-mono text-[10px] lg:text-[11px]">
                     <div className="flex justify-between">
-                      <span className="text-[#94A3B8]">status:</span>
-                      <span className="text-[#27C93F] font-bold">OPTIMIZED</span>
+                      <span className={`${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>status:</span>
+                      <span className="text-[#27C93F] font-bold uppercase">Optimized</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#94A3B8]">uptime:</span>
-                      <span className="text-white">99.9%</span>
+                      <span className={`${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>uptime:</span>
+                      <span className={`${isDark ? 'text-white' : 'text-[#1E293B]'}`}>99.9%</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#94A3B8]">stack:</span>
+                      <span className={`${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>stack:</span>
                       <span className="text-[#A88BFF] font-black">React / Laravel</span>
                     </div>
                   </div>
                 </div>
-
                 {/* Decorative elements */}
                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#582CFF]/10 blur-[80px] rounded-full pointer-events-none"></div>
               </div>
