@@ -9,6 +9,7 @@ function App() {
   const [isDark, setIsDark] = useState(true)
   const [lang, setLang] = useState('ES')
   const [isLangOpen, setIsLangOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('react')
   const langRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -298,6 +299,209 @@ function App() {
 
         {/* Bottom Separator */}
         <div className={`mt-24 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
+
+        {/* Conocimientos Section */}
+        <section id="conocimientos" className="mt-32 max-w-7xl mx-auto px-6 lg:px-8 animate-in fade-in slide-in-from-bottom-12 duration-1000">
+          <div className="flex flex-col lg:flex-row gap-16">
+            {/* Left: Info & Selector */}
+            <div className="lg:w-1/3">
+              <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-4">
+                Stack Tecnológico
+              </h2>
+              <p className={`text-base mb-10 max-w-md ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+                Soluciones modernas construidas con tecnologías de vanguardia para arquitecturas escalables.
+              </p>
+
+              <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-3 gap-4">
+                {[
+                  { id: 'react', name: 'React', icon: 'devicon-react-original', color: '#61DAFB' },
+                  { id: 'html', name: 'HTML5', icon: 'devicon-html5-plain', color: '#E34F26' },
+                  { id: 'css', name: 'CSS3', icon: 'devicon-css3-plain', color: '#1572B6' },
+                  { id: 'tailwind', name: 'Tailwind', icon: 'devicon-tailwindcss-plain', color: '#06B6D4' },
+                  { id: 'js', name: 'JavaScript', icon: 'devicon-javascript-plain', color: '#F7DF1E' },
+                  { id: 'laravel', name: 'Laravel', icon: 'devicon-laravel-plain', color: '#FF2D20' },
+                  { id: 'php', name: 'PHP', icon: 'devicon-php-plain', color: '#777BB4' },
+                  { id: 'sql', name: 'MySQL', icon: 'devicon-mysql-plain', color: '#4479A1' },
+                  { id: 'postgresql', name: 'PostgreSQL', icon: 'devicon-postgresql-plain', color: '#336791' }
+                ].map((tech) => (
+                  <button
+                    key={tech.id}
+                    onClick={() => setActiveTab(tech.id)}
+                    className={`
+                      group relative flex flex-col items-center justify-center p-4 rounded-3xl border transition-all duration-300
+                      ${activeTab === tech.id 
+                        ? (isDark ? 'bg-[#582CFF]/10 border-[#582CFF]/30 ring-1 ring-[#582CFF]/20' : 'bg-[#582CFF]/5 border-[#582CFF]/20') 
+                        : (isDark ? 'bg-white/5 border-white/5 hover:border-white/10' : 'bg-black/5 border-black/5 hover:border-black/10')}
+                    `}
+                  >
+                    <i className={`${tech.icon} text-3xl transition-transform duration-300 group-hover:scale-110 ${activeTab === tech.id ? '' : 'grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100'}`}></i>
+                    <span className={`text-[10px] font-bold mt-2 uppercase tracking-tight ${activeTab === tech.id ? (isDark ? 'text-white' : 'text-black') : 'text-gray-500'}`}>
+                      {tech.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Code Window & Preview */}
+            <div className="lg:w-2/3 flex flex-col gap-6">
+              {/* Terminal Window */}
+              <div className={`
+                relative rounded-3xl border overflow-hidden transition-all duration-500
+                ${isDark ? 'bg-[#0B0E14] border-white/10 shadow-2xl shadow-black' : 'bg-[#0B0E14] border-black/10 shadow-xl shadow-[#582CFF]/5'}
+              `}>
+                {/* Header Dots */}
+                <div className="flex items-center gap-1.5 px-6 py-4 border-b border-white/5">
+                  <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                  <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                  <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                  <div className={`ml-4 text-[10px] font-mono ${isDark ? 'text-white/40' : 'text-white/20'}`}>
+                    {activeTab}.{activeTab === 'laravel' || activeTab === 'php' ? 'php' : activeTab === 'css' ? 'css' : activeTab === 'sql' || activeTab === 'postgresql' ? 'sql' : 'tsx'}
+                  </div>
+                </div>
+                
+                {/* Code Area */}
+                <div className="p-8 font-mono text-[13px] md:text-sm leading-relaxed overflow-x-auto min-h-[220px]">
+                  {activeTab === 'react' && (
+                    <div className="animate-in fade-in duration-500">
+                      <p><span className="text-purple-400">const</span> [isLive, setIsLive] = <span className="text-blue-400">useState</span>(<span className="text-orange-400">true</span>);</p>
+                      <br />
+                      <p><span className="text-blue-400">useEffect</span>(() ={'>'} {'{'}</p>
+                      <p className="pl-4"><span className="text-green-400">console</span>.<span className="text-blue-400">log</span>(<span className="text-yellow-200">"System optimized"</span>);</p>
+                      <p>{'}'}, []);</p>
+                      <br />
+                      <p><span className="text-purple-400">return</span> {'<'}<span className="text-red-400">InteractivePanel</span> <span className="text-blue-300">status</span>={'{'}isLive{'}'} {'/>'};</p>
+                    </div>
+                  )}
+                  {activeTab === 'html' && (
+                    <div className="animate-in fade-in duration-500">
+                      <p>{'<'}<span className="text-red-400">section</span> <span className="text-blue-300">class</span>=<span className="text-yellow-200">"hero-container"</span>{'>'}</p>
+                      <p className="pl-4">{'<'}<span className="text-red-400">div</span> <span className="text-blue-300">class</span>=<span className="text-yellow-200">"glass-morphism"</span>{'>'}</p>
+                      <p className="pl-8">{'<'}<span className="text-red-400">h1</span>{'>'}Sistemas Robustos{'<'}/<span className="text-red-400">h1</span>{'>'}</p>
+                      <p className="pl-8">{'<'}<span className="text-red-400">p</span>{'>'}Desarrollo Full Stack{'<'}/<span className="text-red-400">p</span>{'>'}</p>
+                      <p className="pl-4">{'<'}/<span className="text-red-400">div</span>{'>'}</p>
+                      <p>{'<'}/<span className="text-red-400">section</span>{'>'}</p>
+                    </div>
+                  )}
+                  {activeTab === 'css' && (
+                    <div className="animate-in fade-in duration-500">
+                      <p><span className="text-yellow-400">.glass-card</span> {'{'}</p>
+                      <p className="pl-4"><span className="text-blue-300">backdrop-filter</span>: <span className="text-orange-400">blur</span>(12px);</p>
+                      <p className="pl-4"><span className="text-blue-300">background</span>: <span className="text-orange-400">rgba</span>(255, 255, 255, 0.1);</p>
+                      <p className="pl-4"><span className="text-blue-300">border</span>: 1px <span className="text-orange-400">solid</span> <span className="text-orange-400">rgba</span>(255, 255, 255, 0.2);</p>
+                      <p className="pl-4"><span className="text-blue-300">box-shadow</span>: 0 4px 30px <span className="text-orange-400">rgba</span>(0, 0, 0, 0.1);</p>
+                      <p>{'}'}</p>
+                    </div>
+                  )}
+                  {activeTab === 'tailwind' && (
+                    <div className="animate-in fade-in duration-500">
+                      <p>{'<'}<span className="text-red-400">div</span> <span className="text-blue-300">className</span>=<span className="text-yellow-200">"flex flex-col lg:flex-row items-center gap-8 p-12 bg-[#582CFF] rounded-3xl shadow-2xl hover:scale-105 transition-all"</span>{'>'}</p>
+                      <p className="pl-4">{'<'}<span className="text-red-400">Logo</span> <span className="text-blue-300">className</span>=<span className="text-yellow-200">"w-12 h-12"</span> {'/>'}</p>
+                      <p className="pl-4">{'<'}<span className="text-red-400">Content</span> {'/>'}</p>
+                      <p>{'<'}/<span className="text-red-400">div</span>{'>'}</p>
+                    </div>
+                  )}
+                  {activeTab === 'js' && (
+                    <div className="animate-in fade-in duration-500">
+                      <p><span className="text-purple-400">async function</span> <span className="text-blue-400">fetchData</span>() {'{'}</p>
+                      <p className="pl-4"><span className="text-purple-400">const</span> res = <span className="text-purple-400">await</span> <span className="text-blue-400">fetch</span>(<span className="text-yellow-200">'/api/v1/projects'</span>);</p>
+                      <p className="pl-4"><span className="text-purple-400">const</span> data = <span className="text-purple-400">await</span> res.<span className="text-blue-400">json</span>();</p>
+                      <br />
+                      <p className="pl-4"><span className="text-purple-400">if</span> (data.status === <span className="text-yellow-200">'success'</span>) {'{'}</p>
+                      <p className="pl-8"><span className="text-purple-400">return</span> data.projects.<span className="text-blue-400">filter</span>(p ={'>'} p.active);</p>
+                      <p className="pl-4">{'}'}</p>
+                      <p>{'}'}</p>
+                    </div>
+                  )}
+                  {activeTab === 'laravel' && (
+                    <div className="animate-in fade-in duration-500">
+                      <p><span className="text-purple-400">public function</span> <span className="text-blue-400">index</span>()</p>
+                      <p>{'{'}</p>
+                      <p className="pl-4"><span className="text-purple-400">return</span> <span className="text-red-400">Project</span>::<span className="text-blue-400">query</span>()</p>
+                      <p className="pl-8">-{'>'}<span className="text-blue-400">where</span>(<span className="text-yellow-200">'is_published'</span>, <span className="text-orange-400">true</span>)</p>
+                      <p className="pl-8">-{'>'}<span className="text-blue-400">latest</span>()</p>
+                      <p className="pl-8">-{'>'}<span className="text-blue-400">paginate</span>(12);</p>
+                      <p>{'}'}</p>
+                    </div>
+                  )}
+                  {activeTab === 'php' && (
+                    <div className="animate-in fade-in duration-500">
+                      <p><span className="text-purple-400">namespace</span> App\Core;</p>
+                      <br />
+                      <p><span className="text-purple-400">class</span> <span className="text-red-400">SystemEngine</span></p>
+                      <p>{'{'}</p>
+                      <p className="pl-4"><span className="text-purple-400">private</span> <span className="text-blue-400">$status</span> = <span className="text-yellow-200">'optimized'</span>;</p>
+                      <br />
+                      <p className="pl-4"><span className="text-purple-400">public function</span> <span className="text-blue-400">run</span>()</p>
+                      <p className="pl-4">{'{'}</p>
+                      <p className="pl-8"><span className="text-purple-400">return</span> <span className="text-blue-400">$this</span>-{'>'}status;</p>
+                      <p className="pl-4">{'}'}</p>
+                      <p>{'}'}</p>
+                    </div>
+                  )}
+                  {activeTab === 'sql' && (
+                    <div className="animate-in fade-in duration-500">
+                      <p><span className="text-purple-400">SELECT</span> * <span className="text-purple-400">FROM</span> users</p>
+                      <p><span className="text-purple-400">WHERE</span> active = <span className="text-orange-400">1</span></p>
+                      <p><span className="text-purple-400">AND</span> role = <span className="text-yellow-200">'admin'</span></p>
+                      <p><span className="text-purple-400">ORDER BY</span> created_at <span className="text-purple-400">DESC</span></p>
+                      <p><span className="text-purple-400">LIMIT</span> <span className="text-orange-400">10</span>;</p>
+                    </div>
+                  )}
+                  {activeTab === 'postgresql' && (
+                    <div className="animate-in fade-in duration-500">
+                      <p><span className="text-purple-400">CREATE TABLE</span> analytics (</p>
+                      <p className="pl-4">id <span className="text-purple-400">SERIAL PRIMARY KEY</span>,</p>
+                      <p className="pl-4">event_data <span className="text-purple-400">JSONB</span>,</p>
+                      <p className="pl-4">created_at <span className="text-purple-400">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span></p>
+                      <p>);</p>
+                      <br />
+                      <p><span className="text-purple-400">CREATE INDEX</span> idx_data <span className="text-purple-400">ON</span> analytics <span className="text-purple-400">USING GIN</span>(event_data);</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Preview Card */}
+              <div className={`
+                p-8 rounded-3xl border transition-all duration-500 flex items-center justify-between gap-6
+                ${isDark ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}
+              `}>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <span className={`text-[10px] font-bold uppercase tracking-widest ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>Visual Preview</span>
+                  </div>
+                  <p className={`text-sm font-medium leading-relaxed ${isDark ? 'text-white/80' : 'text-black/80'}`}>
+                    {activeTab === 'react' && 'Gestión de estado reactivo y ciclo de vida de componentes para interfaces dinámicas.'}
+                    {activeTab === 'html' && 'Arquitectura semántica y SEO-friendly, garantizando accesibilidad y estructura robusta.'}
+                    {activeTab === 'css' && 'Diseños de alta fidelidad con efectos de cristal (glassmorphism) y animaciones fluidas.'}
+                    {activeTab === 'tailwind' && 'Maquetado eficiente basado en utilidades, permitiendo iteraciones de diseño ultra-rápidas.'}
+                    {activeTab === 'js' && 'Lógica de cliente asíncrona, optimización de algoritmos y manipulación avanzada del DOM.'}
+                    {activeTab === 'laravel' && 'Estructuras de backend escalables con Eloquent ORM y diseño de APIs RESTful.'}
+                    {activeTab === 'php' && 'Desarrollo de lógica robusta en el servidor con arquitecturas limpias y patrones de diseño.'}
+                    {activeTab === 'sql' && 'Consultas optimizadas para bases de datos relacionales y gestión eficiente de la información.'}
+                    {activeTab === 'postgresql' && 'Modelado de datos avanzado, soporte JSONB e indexación para alto rendimiento.'}
+                  </p>
+                </div>
+                <div className="w-24 h-24 flex-shrink-0 flex items-center justify-center rounded-2xl bg-[#582CFF]/10 border border-[#582CFF]/20">
+                  <i className={`
+                    ${activeTab === 'react' ? 'devicon-react-original' : 
+                      activeTab === 'html' ? 'devicon-html5-plain' : 
+                      activeTab === 'css' ? 'devicon-css3-plain' : 
+                      activeTab === 'tailwind' ? 'devicon-tailwindcss-plain' : 
+                      activeTab === 'js' ? 'devicon-javascript-plain' : 
+                      activeTab === 'laravel' ? 'devicon-laravel-plain' : 
+                      activeTab === 'php' ? 'devicon-php-plain' : 
+                      activeTab === 'sql' ? 'devicon-mysql-plain' : 
+                      'devicon-postgresql-plain'} 
+                    text-5xl text-[#582CFF] animate-pulse
+                  `}></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Clients section (moved down out of immediate view) */}
         <div className="mt-64 pb-24 animate-in fade-in duration-1000 delay-1000">
