@@ -11,7 +11,11 @@ function App() {
   const [isLangOpen, setIsLangOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('react')
   const [copiedTab, setCopiedTab] = useState<string | null>(null)
+  const [activeSection, setActiveSection] = useState('Inicio')
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 })
+  const isScrollingRef = useRef(false)
   const langRef = useRef<HTMLDivElement>(null)
+  const navRef = useRef<HTMLUListElement>(null)
 
   // Configuration object for Technology Stack
   const technologies: Record<string, { name: string; icon: string; color: string; ext: string; desc: string; code: React.ReactNode; raw: string }> = {
@@ -170,12 +174,10 @@ return <InteractivePanel status={isLive} />;`,
       desc: 'Desarrollo de lógica robusta en el servidor con arquitecturas limpias y patrones de diseño.',
       raw: `namespace App\Core;
 
-class SystemEngine
-{
+class SystemEngine {
   private $status = 'optimized';
 
-  public function run()
-  {
+  public function run() {
     return $this->status;
   }
 }`,
@@ -183,12 +185,10 @@ class SystemEngine
         <>
           <p><span className="text-purple-400">namespace</span> App\Core;</p>
           <br />
-          <p><span className="text-purple-400">class</span> <span className="text-red-400">SystemEngine</span></p>
-          <p>{'{'}</p>
+          <p><span className="text-purple-400">class</span> <span className="text-red-400">SystemEngine</span> {'{'}</p>
           <p className="pl-4"><span className="text-purple-400">private</span> <span className="text-blue-400">$status</span> = <span className="text-yellow-200">'optimized'</span>;</p>
           <br />
-          <p className="pl-4"><span className="text-purple-400">public function</span> <span className="text-blue-400">run</span>()</p>
-          <p className="pl-4">{'{'}</p>
+          <p className="pl-4"><span className="text-purple-400">public function</span> <span className="text-blue-400">run</span>() {'{'}</p>
           <p className="pl-8"><span className="text-purple-400">return</span> <span className="text-blue-400">$this</span>-{'>'}status;</p>
           <p className="pl-4">{'}'}</p>
           <p>{'}'}</p>
@@ -244,8 +244,42 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
   };
 
   useEffect(() => {
+    // Update indicator position
+    if (navRef.current) {
+      const items = navRef.current.querySelectorAll('li')
+      const activeItem = Array.from(items).find(item => item.textContent?.includes(activeSection))
+      if (activeItem) {
+        setIndicatorStyle({
+          left: activeItem.offsetLeft,
+          width: activeItem.offsetWidth,
+          opacity: 1
+        })
+      } else {
+        setIndicatorStyle(prev => ({ ...prev, opacity: 0 }))
+      }
+    }
+  }, [activeSection, isScrolled]) // Re-run on scroll because header width might change
+
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
+      
+      if (isScrollingRef.current) return;
+
+      // Simple Scroll Spy
+      const sections = ['inicio', 'conocimientos']
+      const scrollPosition = window.scrollY + 200
+
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const { offsetTop, offsetHeight } = element
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section === 'inicio' ? 'Inicio' : 'Conocimientos')
+          }
+        }
+      }
+      if (window.scrollY < 100) setActiveSection('Inicio')
     }
     const handleClickOutside = (event: MouseEvent) => {
       if (langRef.current && !langRef.current.contains(event.target as Node)) {
@@ -261,14 +295,14 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
   }, [])
 
   const navLinks = [
-    { name: 'Inicio', href: '#' },
+    { name: 'Inicio', href: '#inicio' },
     { name: 'Conocimientos', href: '#conocimientos' },
     { name: 'Trabajos', href: '#' },
     { name: 'Trayectoria', href: '#' }
   ]
 
   return (
-    <div className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-[#F8FAFC] text-[#1E293B]'} font-sans selection:bg-[#582CFF]/30`}>
+    <div id="inicio" className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-[#F8FAFC] text-[#1E293B]'} font-sans selection:bg-[#582CFF]/30 scroll-smooth`}>
       {/* Background radial gradient */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] transition-opacity duration-1000 ${isDark ? 'bg-[#582CFF]/10' : 'bg-[#582CFF]/5'} blur-[120px] rounded-full`}></div>
@@ -296,28 +330,68 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
               </span>
             </div>
 
-            {/* Desktop Links (Hidden on small/tablet/medium laptop) */}
-            <ul className="hidden xl:flex items-center gap-2 text-[13px] font-semibold">
-              {navLinks.map((link) => (
-                <li key={link.name} className={`
-                  relative flex items-center gap-1.5 px-4 py-2 cursor-pointer transition-all group
-                  ${isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#64748B] hover:text-black'}
-                  ${link.name === 'Inicio' ? (isDark ? 'bg-white/10 text-white' : 'bg-black/5 text-black') + ' rounded-full px-5' : ''}
-                `}>
-                  {link.name === 'Conocimientos' ? (
-                    <a href={link.href}>{link.name}</a>
-                  ) : (
-                    link.name
-                  )}
-                  {link.name === 'Trabajos' && isScrolled && (
-                    <span className="absolute top-1 right-1 flex h-2 w-2">
-                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                       <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
+            {/* Desktop Links */}
+            <div className="relative hidden xl:block">
+              <ul ref={navRef} className="flex items-center gap-2 text-[13px] font-semibold relative z-10">
+                {navLinks.map((link) => {
+                  const isActive = activeSection === link.name;
+                  return (
+                    <li 
+                      key={link.name} 
+                      onClick={(e) => {
+                        if (link.href.startsWith('#')) {
+                          e.preventDefault();
+                          const targetId = link.href.substring(1);
+                          const target = document.getElementById(targetId);
+                          if (target) {
+                            isScrollingRef.current = true;
+                            setActiveSection(link.name);
+                            
+                            // More robust scroll calculation
+                            const offset = targetId === 'inicio' ? 0 : 100;
+                            const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+                            
+                            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                            
+                            // Reset ref after scroll finishes (approx)
+                            setTimeout(() => {
+                              isScrollingRef.current = false;
+                            }, 800);
+                          }
+                        }
+                      }}
+                      className={`
+                        relative flex items-center gap-1.5 px-5 py-2 cursor-pointer transition-all duration-300 group
+                        ${isActive 
+                          ? 'text-white' 
+                          : (isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#64748B] hover:text-black')}
+                      `}
+                    >
+                      <a href={link.href} className="pointer-events-none">
+                        {link.name}
+                      </a>
+                      {link.name === 'Trabajos' && isScrolled && (
+                        <span className="absolute top-1 right-1 flex h-2 w-2">
+                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                           <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+              
+              {/* Moving Highlight Indicator - Smooth Cubic Bezier (Fast start, slow settle) */}
+              <div 
+                className={`absolute top-0 h-full transition-[left,width] duration-500 rounded-full pointer-events-none ${isDark ? 'bg-[#582CFF]' : 'bg-[#582CFF]'}`}
+                style={{
+                  left: `${indicatorStyle.left}px`,
+                  width: `${indicatorStyle.width}px`,
+                  opacity: indicatorStyle.opacity,
+                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
+                }}
+              />
+            </div>
 
             {/* Actions */}
             <div className="flex items-center gap-3 flex-shrink-0">
@@ -532,7 +606,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
         <div className={`mt-24 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
 
         {/* Conocimientos Section (Self-Contained Refactor) */}
-        <section id="conocimientos" className={`mt-32 max-w-7xl mx-auto px-6 lg:px-12 py-16 rounded-[2.5rem] border transition-all duration-500 relative group overflow-hidden ${isDark ? 'border-white/5 shadow-2xl' : 'border-black/[0.03] shadow-sm'} animate-in fade-in slide-in-from-bottom-12 duration-1000`}>
+        <section id="conocimientos" className={`mt-32 max-w-7xl mx-auto px-6 lg:px-12 py-10 rounded-[2.5rem] border transition-all duration-500 relative group overflow-hidden ${isDark ? 'border-white/5 shadow-2xl' : 'border-black/[0.03] shadow-sm'} animate-in fade-in slide-in-from-bottom-12 duration-1000`}>
           {/* Snake Border Animation Layers */}
           <div className="absolute inset-[-100%] aspect-square animate-border-spin opacity-50 z-0 pointer-events-none flex items-center justify-center" 
                style={{ 
@@ -541,12 +615,12 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
           />
           <div className={`absolute inset-[2px] rounded-[2.4rem] z-[1] transition-colors duration-500 ${isDark ? 'bg-[#050505]' : 'bg-[#F8FAFC]'}`} />
 
-          <div className="relative z-10 flex flex-col lg:flex-row gap-16">
+          <div className="relative z-10 flex flex-col lg:flex-row gap-12">
             {/* Left Column: Tech Configuration & Selector */}
             <div className="w-full lg:w-[35%] flex flex-col">
-              <div className="mb-10">
+              <div className="mb-8">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-4">
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Skills Core</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Conocimientos</span>
                 </div>
                 <h2 className={`text-4xl font-black tracking-tighter mb-4 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
                   Stack Tecnológico
@@ -582,14 +656,14 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
             </div>
 
             {/* Right Column: Dynamic Terminal & Preview Area */}
-            <div className="w-full lg:w-[65%] flex flex-col gap-8">
+            <div className="w-full lg:w-[65%] flex flex-col gap-6">
               {/* Terminal Window with Anti-Breakage Constraints */}
               <div className={`
                 w-full rounded-2xl border overflow-hidden transition-all duration-500
                 ${isDark ? 'bg-[#0B0E14] border-white/10 shadow-2xl' : 'bg-[#0D0D0E] border-black/20 shadow-xl'}
               `}>
                 {/* Terminal Header */}
-                <div className="flex items-center justify-between px-6 py-4 bg-white/5 border-b border-white/5">
+                <div className="flex items-center justify-between px-5 py-3 bg-white/5 border-b border-white/5">
                   <div className="flex gap-1.5">
                     <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
                     <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
@@ -624,11 +698,11 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                   </div>
                 </div>
 
-                {/* Code Body with Auto-Scroll */}
-                <div className="relative p-6 md:p-10 font-mono text-xs md:text-sm leading-relaxed overflow-x-auto custom-scrollbar min-h-[300px]">
+                {/* Code Body with Auto-Scroll and Fixed Height - Increased to 340px to avoid scroll */}
+                <div className="relative p-5 md:p-8 font-mono text-xs md:text-sm leading-relaxed overflow-x-auto overflow-y-auto custom-scrollbar h-[340px]">
                   <div className="flex animate-in fade-in zoom-in-95 duration-500 text-white/90">
                     <div className="flex flex-col text-white/20 select-none mr-6 text-right w-4">
-                      {Array.from({length: 10}).map((_, i) => (
+                      {Array.from({length: Math.max(10, technologies[activeTab].raw.split('\n').length)}).map((_, i) => (
                         <span key={i}>{i + 1}</span>
                       ))}
                     </div>
@@ -639,9 +713,9 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                 </div>
               </div>
 
-              {/* Integrated Visual Preview Card */}
+              {/* Integrated Visual Preview Card - Tightened gap and padding to align with left column bottom */}
               <div className={`
-                w-full p-8 rounded-2xl border transition-all duration-700 flex flex-col md:flex-row items-center gap-8
+                w-full p-5 rounded-2xl border transition-all duration-700 flex flex-col md:flex-row items-center gap-5
                 ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-black/[0.05] shadow-sm'}
               `}>
                 <div className="w-24 h-24 flex-shrink-0 flex items-center justify-center rounded-2xl bg-[#582CFF]/5 border border-[#582CFF]/10 overflow-hidden relative group">
