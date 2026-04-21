@@ -1,7 +1,82 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download, Copy } from 'lucide-react'
+import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download, Copy, ChevronLeft, ChevronRight } from 'lucide-react'
 import { GiPenguin } from 'react-icons/gi'
 import luisPhoto from './assets/Luis.jpeg'
+
+
+interface Project {
+  title: string;
+  company: string;
+  desc: string;
+  tags: string[];
+  icons: string[];
+  images?: string[];
+}
+
+interface ProjectCardProps {
+  project: Project;
+  isDark: boolean;
+  onOpenGallery: (project: Project) => void;
+}
+
+const ProjectCard = ({ project, isDark, onOpenGallery }: ProjectCardProps) => {
+  const hasImages = project.images && project.images.length > 0;
+
+  return (
+    <div 
+      onClick={() => onOpenGallery(project)}
+      className={`
+        group relative p-8 rounded-3xl border transition-all duration-500 overflow-hidden flex flex-col h-full cursor-pointer
+        ${isDark 
+          ? 'bg-white/[0.03] border-white/10 hover:bg-white/[0.06] hover:border-white/20' 
+          : 'bg-white border-black/[0.05] hover:shadow-2xl hover:shadow-[#582CFF]/10'}
+        backdrop-blur-xl hover:-translate-y-2
+      `}
+    >
+      {/* Corner Thumbnail Preview - More Rectangular */}
+      {hasImages && (
+        <div className="absolute top-6 right-6 w-32 h-20 rounded-xl overflow-hidden border-2 border-[#582CFF]/20 shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 z-20">
+          <img 
+            src={project.images![0]} 
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[#582CFF]/10 group-hover:opacity-0 transition-opacity"></div>
+        </div>
+      )}
+
+      {/* Background Glow */}
+      <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#582CFF]/10 blur-[80px] rounded-full group-hover:bg-[#582CFF]/20 transition-all duration-700"></div>
+
+      <div className="relative z-10 flex-1 flex flex-col">
+        <div className="flex items-center justify-between mb-6">
+          <button 
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#582CFF] text-white text-[11px] font-black uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#582CFF]/30"
+          >
+            Ver
+          </button>
+        </div>
+
+        <h3 className={`text-xl font-black mb-1 tracking-tight pr-16 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+          {project.title}
+        </h3>
+        <p className={`${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'} font-bold text-[10px] uppercase tracking-widest mb-4`}>
+          {project.company}
+        </p>
+        
+        <p className={`text-xs leading-relaxed mb-6 pr-10 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+          {project.desc}
+        </p>
+
+        <div className="flex flex-wrap items-center gap-3 mt-auto pt-6 border-t border-white/5">
+          {project.icons.map((icon, i) => (
+            <i key={i} className={`${icon} text-lg ${isDark ? 'text-white/40 group-hover:text-[#582CFF]' : 'text-black/40 group-hover:text-[#582CFF]'} transition-colors duration-300`}></i>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -12,9 +87,23 @@ function App() {
   const [activeTab, setActiveTab] = useState('react')
   const [copiedTab, setCopiedTab] = useState<string | null>(null)
   const [activeSection, setActiveSection] = useState('Inicio')
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [currentModalImage, setCurrentModalImage] = useState<number>(0)
   const isScrollingRef = useRef(false)
   const scrollTimeoutRef = useRef<number | null>(null)
   const langRef = useRef<HTMLDivElement>(null)
+
+  // Lock scroll when modal is open
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedProject])
 
   // Configuration object for Technology Stack
   const technologies: Record<string, { name: string; icon: string; color: string; ext: string; desc: string; code: React.ReactNode; raw: string }> = {
@@ -763,73 +852,137 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                 company: "Alcaldía de Mariño",
                 desc: "Plataforma centralizada para la gestión comunitaria, optimizando flujos de trabajo dinámicos y la comunicación directa con los ciudadanos.",
                 tags: ["Laravel", "React", "Tailwind", "PostgreSQL"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-postgresql-plain"]
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-postgresql-plain"],
+                images: ["/foto.webp", "/foto 1.webp"]
               },
               {
                 title: "Planificación Estratégica",
                 company: "Alcaldía de Mariño",
                 desc: "Sistema de gestión de proyectos con visualización avanzada mediante Diagramas de Gantt, permitiendo el seguimiento en tiempo real de metas institucionales.",
-                tags: ["Laravel", "React", "Tailwind", "PostgreSQL"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-postgresql-plain"]
+                tags: ["Laravel", "React", "Tailwind", "SQLite"],
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
+                images: ["/foto 2.webp", "/foto 3.webp"]
               },
               {
                 title: "Reporte de Incidencias",
                 company: "Alcaldía de Mariño",
                 desc: "Herramienta de reporte ciudadano con geolocalización avanzada y sistema de control de acceso basado en roles (RBAC) para una respuesta eficiente.",
-                tags: ["Laravel", "React", "Tailwind", "PostgreSQL"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-postgresql-plain"]
+                tags: ["Laravel", "React", "Tailwind", "SQLite"],
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-sqlite-plain"]
               }
             ].map((project, index) => (
-              <div 
-                key={index}
-                className={`
-                  group relative p-8 rounded-[2rem] border transition-all duration-500 overflow-hidden
-                  ${isDark 
-                    ? 'bg-white/[0.03] border-white/10 hover:bg-white/[0.06] hover:border-white/20' 
-                    : 'bg-white border-black/[0.05] hover:shadow-2xl hover:shadow-[#582CFF]/10'}
-                  backdrop-blur-xl hover:-translate-y-2
-                `}
-              >
-                {/* Background Glow */}
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#582CFF]/10 blur-[80px] rounded-full group-hover:bg-[#582CFF]/20 transition-all duration-700"></div>
-
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                      </span>
-                      <span className="text-[10px] font-bold text-green-500 uppercase tracking-wider">Sistema Interno / Producción</span>
-                    </div>
-                  </div>
-
-                  <h3 className={`text-2xl font-black mb-1 tracking-tight ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
-                    {project.title}
-                  </h3>
-                  <p className="text-[#582CFF] font-bold text-xs uppercase tracking-widest mb-4">
-                    {project.company}
-                  </p>
-                  
-                  <p className={`text-sm leading-relaxed mb-8 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-                    {project.desc}
-                  </p>
-
-                  <div className="flex flex-wrap items-center gap-4 mt-auto pt-6 border-t border-white/5">
-                    {project.icons.map((icon, i) => (
-                      <i key={i} className={`${icon} text-xl ${isDark ? 'text-white/40 group-hover:text-[#582CFF]' : 'text-black/40 group-hover:text-[#582CFF]'} transition-colors duration-300`}></i>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <ProjectCard 
+                key={index} 
+                project={project} 
+                isDark={isDark} 
+                onOpenGallery={(p) => {
+                  setSelectedProject(p)
+                  setCurrentModalImage(0)
+                }}
+              />
             ))}
           </div>
         </section>
-
-
       </main>
+
+      {/* Modal Gallery - Moved to root level for correct stacking context */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8 lg:p-12 animate-in fade-in duration-300">
+          {/* Backdrop Blur */}
+          <div 
+            className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
+            onClick={() => setSelectedProject(null)}
+          ></div>
+
+          {/* Modal Content */}
+          <div className={`relative w-full max-w-6xl max-h-full flex flex-col items-center gap-6 animate-in zoom-in-95 duration-300 z-[10000]`}>
+            {/* Close Button - More secure positioning */}
+            <button 
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-0 right-0 sm:-top-12 sm:right-0 p-3 rounded-full bg-black/50 sm:bg-white/10 border border-white/20 text-white hover:bg-red-500 hover:border-red-500 transition-all z-[10010] active:scale-90"
+            >
+              <X className="w-6 h-6 sm:w-8 sm:h-8" />
+            </button>
+
+            {/* Gallery Title */}
+            <div className="text-center mb-2 relative z-[10010]">
+              <h3 className="text-2xl sm:text-5xl font-black text-white tracking-tighter mb-2">
+                {selectedProject.title}
+              </h3>
+              <p className="text-[#582CFF] font-bold text-[10px] uppercase tracking-[0.4em]">
+                {selectedProject.company}
+              </p>
+            </div>
+
+            {/* Image Container */}
+            <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(88,44,255,0.2)] bg-[#050505]">
+              <div 
+                className="flex h-full transition-transform duration-500 ease-out" 
+                style={{ transform: `translateX(-${(currentModalImage as number) * 100}%)` }}
+              >
+                {selectedProject.images?.map((img, idx) => (
+                  <div key={idx} className="min-w-full h-full flex items-center justify-center p-4 sm:p-8">
+                    <img 
+                      src={img} 
+                      alt={`${selectedProject.title} ${idx + 1}`}
+                      className="max-w-full max-h-full object-contain shadow-2xl rounded-xl"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Navigation Controls */}
+              {selectedProject.images && selectedProject.images.length > 1 && (
+                <>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (selectedProject.images) {
+                        const len = selectedProject.images.length;
+                        setCurrentModalImage((prev: number) => (prev - 1 + len) % len);
+                      }
+                    }}
+                    className="absolute left-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-black/60 text-white border border-white/10 hover:bg-[#582CFF] hover:border-[#582CFF] transition-all z-[10020] shadow-2xl"
+                  >
+                    <ChevronLeft className="w-8 h-8" />
+                  </button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (selectedProject.images) {
+                        const len = selectedProject.images.length;
+                        setCurrentModalImage((prev: number) => (prev + 1) % len);
+                      }
+                    }}
+                    className="absolute right-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-black/60 text-white border border-white/10 hover:bg-[#582CFF] hover:border-[#582CFF] transition-all z-[10020] shadow-2xl"
+                  >
+                    <ChevronRight className="w-8 h-8" />
+                  </button>
+
+                  {/* Dots indicator */}
+                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 z-[10020]">
+                    {selectedProject.images.map((_, i) => (
+                      <div 
+                        key={i}
+                        className={`h-2 rounded-full transition-all duration-500 ${i === currentModalImage ? 'bg-[#582CFF] w-10' : 'bg-white/20 w-3'}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+            
+            {/* Technical Icons in Modal */}
+            <div className="flex gap-10 px-10 py-5 rounded-full bg-white/5 border border-white/10 backdrop-blur-2xl">
+              {selectedProject.icons.map((icon, i) => (
+                <i key={i} className={`${icon} text-4xl text-white/40 hover:text-[#582CFF] hover:scale-125 transition-all cursor-pointer`}></i>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 export default App
