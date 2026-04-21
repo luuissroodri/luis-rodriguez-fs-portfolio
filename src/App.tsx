@@ -12,10 +12,9 @@ function App() {
   const [activeTab, setActiveTab] = useState('react')
   const [copiedTab, setCopiedTab] = useState<string | null>(null)
   const [activeSection, setActiveSection] = useState('Inicio')
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 })
   const isScrollingRef = useRef(false)
+  const scrollTimeoutRef = useRef<number | null>(null)
   const langRef = useRef<HTMLDivElement>(null)
-  const navRef = useRef<HTMLUListElement>(null)
 
   // Configuration object for Technology Stack
   const technologies: Record<string, { name: string; icon: string; color: string; ext: string; desc: string; code: React.ReactNode; raw: string }> = {
@@ -244,23 +243,6 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
   };
 
   useEffect(() => {
-    // Update indicator position
-    if (navRef.current) {
-      const items = navRef.current.querySelectorAll('li')
-      const activeItem = Array.from(items).find(item => item.textContent?.includes(activeSection))
-      if (activeItem) {
-        setIndicatorStyle({
-          left: activeItem.offsetLeft,
-          width: activeItem.offsetWidth,
-          opacity: 1
-        })
-      } else {
-        setIndicatorStyle(prev => ({ ...prev, opacity: 0 }))
-      }
-    }
-  }, [activeSection, isScrolled]) // Re-run on scroll because header width might change
-
-  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
       
@@ -331,8 +313,8 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
             </div>
 
             {/* Desktop Links */}
-            <div className="relative hidden xl:block">
-              <ul ref={navRef} className="flex items-center gap-2 text-[13px] font-semibold relative z-10">
+            <div className="hidden xl:block">
+              <ul className="flex items-center gap-2 text-[13px] font-semibold">
                 {navLinks.map((link) => {
                   const isActive = activeSection === link.name;
                   return (
@@ -344,53 +326,43 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                           const targetId = link.href.substring(1);
                           const target = document.getElementById(targetId);
                           if (target) {
+                            // 1. Block Scroll Spy immediately
                             isScrollingRef.current = true;
+                            
+                            // 2. Clear any pending scroll-lock resets
+                            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+                            
+                            // 3. Set priority state
                             setActiveSection(link.name);
                             
-                            // More robust scroll calculation
+                            // 4. Perform smooth scroll
                             const offset = targetId === 'inicio' ? 0 : 100;
                             const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
-                            
                             window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                             
-                            // Reset ref after scroll finishes (approx)
-                            setTimeout(() => {
+                            // 5. Unlock Scroll Spy after animation (approx 1000ms for safety)
+                            scrollTimeoutRef.current = setTimeout(() => {
                               isScrollingRef.current = false;
-                            }, 800);
+                            }, 1000);
                           }
                         }
                       }}
                       className={`
-                        relative flex items-center gap-1.5 px-5 py-2 cursor-pointer transition-all duration-300 group
+                        relative px-4 py-2 cursor-pointer transition-all duration-300
                         ${isActive 
-                          ? 'text-white' 
+                          ? 'text-[#8E54FF] font-bold' 
                           : (isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#64748B] hover:text-black')}
                       `}
                     >
-                      <a href={link.href} className="pointer-events-none">
+                      <a href={link.href} className="pointer-events-none relative">
                         {link.name}
+                        {/* Smooth Underline Transition */}
+                        <div className={`absolute -bottom-1 left-0 h-[2.5px] bg-[#8E54FF] transition-all duration-500 ease-out ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
                       </a>
-                      {link.name === 'Trabajos' && isScrolled && (
-                        <span className="absolute top-1 right-1 flex h-2 w-2">
-                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                           <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                        </span>
-                      )}
                     </li>
                   );
                 })}
               </ul>
-              
-              {/* Moving Highlight Indicator - Smooth Cubic Bezier (Fast start, slow settle) */}
-              <div 
-                className={`absolute top-0 h-full transition-[left,width] duration-500 rounded-full pointer-events-none ${isDark ? 'bg-[#582CFF]' : 'bg-[#582CFF]'}`}
-                style={{
-                  left: `${indicatorStyle.left}px`,
-                  width: `${indicatorStyle.width}px`,
-                  opacity: indicatorStyle.opacity,
-                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
-                }}
-              />
             </div>
 
             {/* Actions */}
@@ -491,20 +463,20 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
             {/* Left Column: Content */}
             <div className="flex-1 text-left order-2 lg:order-1">
               {/* Badge */}
-              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ${isDark ? 'bg-[#582CFF]/10 border-[#582CFF]/20 text-[#582CFF]' : 'bg-[#582CFF]/5 border-[#582CFF]/10 text-[#582CFF]'}`}>
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6 animate-entrance ${isDark ? 'bg-[#582CFF]/10 border-[#582CFF]/20 text-[#582CFF]' : 'bg-[#582CFF]/5 border-[#582CFF]/10 text-[#582CFF]'}`}>
                 <span className="text-[11px] font-bold uppercase tracking-[0.15em]">Desarrollador Full Stack</span>
               </div>
 
-              <h1 className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] mb-6 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+              <h1 className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] mb-6 animate-entrance" style={{ animationDelay: '150ms' }}>
                 Sistemas Robustos.<br />
                 <span className={`italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent`}>Arquitectura de Vanguardia.</span>
               </h1>
 
-              <p className={`text-base md:text-lg max-w-xl mb-8 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+              <p className={`text-base md:text-lg max-w-xl mb-8 leading-relaxed animate-entrance ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`} style={{ animationDelay: '300ms' }}>
                 Ingeniero de Sistemas enfocado en desarrollo web. Transformo problemas complejos de UX en soluciones UI escalables, mediante código limpio y arquitecturas robustas.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
+              <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-entrance" style={{ animationDelay: '450ms' }}>
                 <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30px_rgba(88,44,255,0.25)] active:scale-95 text-white">
                   Ver Proyectos
                 </button>
@@ -515,7 +487,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
               </div>
 
               {/* Availability Indicator */}
-              <div className="flex items-center gap-3 animate-in fade-in duration-700 delay-500">
+              <div className="flex items-center gap-3 animate-entrance" style={{ animationDelay: '600ms' }}>
                 <div className="relative flex h-2.5 w-2.5">
                   <div className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></div>
                   <div className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></div>

@@ -1,10 +1,18 @@
 @import "tailwindcss";
 
-@keyframes border-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes entrance-hero {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+    filter: blur(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
 }
 
-.animate-border-spin {
-  animation: border-spin 10s linear infinite;
+.animate-entrance {
+  animation: entrance-hero 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
