@@ -11,6 +11,7 @@ interface Project {
   tags: string[];
   icons: string[];
   images?: string[];
+  achievements?: string[];
 }
 
 interface ProjectCardProps {
@@ -49,29 +50,36 @@ const ProjectCard = ({ project, isDark, onOpenGallery }: ProjectCardProps) => {
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#582CFF]/10 blur-[80px] rounded-full group-hover:bg-[#582CFF]/20 transition-all duration-700"></div>
 
       <div className="relative z-10 flex-1 flex flex-col">
-        <div className="flex items-center justify-between mb-6">
+        {/* Header Group: Identification */}
+        <div className="mb-8">
+          <h3 className={`text-2xl font-black mb-1 tracking-tight pr-16 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+            {project.title}
+          </h3>
+          <p className={`${isDark ? 'text-[#582CFF]' : 'text-[#582CFF]'} font-bold text-[10px] uppercase tracking-[0.3em]`}>
+            {project.company}
+          </p>
+        </div>
+        
+        {/* Body Group: Content */}
+        <div className="mb-10">
+          <p className={`text-xs leading-relaxed pr-10 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+            {project.desc}
+          </p>
+        </div>
+
+        {/* Footer Group: Tech & Action */}
+        <div className="mt-auto flex items-center justify-between pt-6 border-t border-white/5">
+          <div className="flex flex-wrap items-center gap-4">
+            {project.icons.map((icon, i) => (
+              <i key={i} className={`${icon} text-lg ${isDark ? 'text-white/30 group-hover:text-[#582CFF]' : 'text-black/30 group-hover:text-[#582CFF]'} transition-colors duration-300`}></i>
+            ))}
+          </div>
+          
           <button 
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#582CFF] text-white text-[11px] font-black uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#582CFF]/30"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#582CFF] text-white text-[10px] font-black uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#582CFF]/30"
           >
             Ver
           </button>
-        </div>
-
-        <h3 className={`text-xl font-black mb-1 tracking-tight pr-16 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
-          {project.title}
-        </h3>
-        <p className={`${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'} font-bold text-[10px] uppercase tracking-widest mb-4`}>
-          {project.company}
-        </p>
-        
-        <p className={`text-xs leading-relaxed mb-6 pr-10 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-          {project.desc}
-        </p>
-
-        <div className="flex flex-wrap items-center gap-3 mt-auto pt-6 border-t border-white/5">
-          {project.icons.map((icon, i) => (
-            <i key={i} className={`${icon} text-lg ${isDark ? 'text-white/40 group-hover:text-[#582CFF]' : 'text-black/40 group-hover:text-[#582CFF]'} transition-colors duration-300`}></i>
-          ))}
         </div>
       </div>
     </div>
@@ -89,6 +97,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('Inicio')
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [currentModalImage, setCurrentModalImage] = useState<number>(0)
+  const [showDetails, setShowDetails] = useState(false)
   const isScrollingRef = useRef(false)
   const scrollTimeoutRef = useRef<number | null>(null)
   const langRef = useRef<HTMLDivElement>(null)
@@ -853,7 +862,12 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                 desc: "Plataforma centralizada para la gestión comunitaria, optimizando flujos de trabajo dinámicos y la comunicación directa con los ciudadanos.",
                 tags: ["Laravel", "React", "Tailwind", "PostgreSQL"],
                 icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-postgresql-plain"],
-                images: ["/foto.webp", "/foto 1.webp"]
+                images: ["/foto.webp", "/foto 1.webp"],
+                achievements: [
+                  "Optimización del 40% en tiempos de respuesta administrativa.",
+                  "Implementación de flujos de aprobación en tiempo real.",
+                  "Sistema de notificaciones push para reportes comunitarios."
+                ]
               },
               {
                 title: "Planificación Estratégica",
@@ -861,14 +875,24 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                 desc: "Sistema de gestión de proyectos con visualización avanzada mediante Diagramas de Gantt, permitiendo el seguimiento en tiempo real de metas institucionales.",
                 tags: ["Laravel", "React", "Tailwind", "SQLite"],
                 icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
-                images: ["/foto 2.webp", "/foto 3.webp"]
+                images: ["/foto 2.webp", "/foto 3.webp"],
+                achievements: [
+                  "Integración completa de Diagramas de Gantt dinámicos.",
+                  "Seguimiento automatizado de KPIs municipales.",
+                  "Generación de reportes PDF de alta fidelidad."
+                ]
               },
               {
                 title: "Reporte de Incidencias",
                 company: "Alcaldía de Mariño",
                 desc: "Herramienta de reporte ciudadano con geolocalización avanzada y sistema de control de acceso basado en roles (RBAC) para una respuesta eficiente.",
                 tags: ["Laravel", "React", "Tailwind", "SQLite"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-sqlite-plain"]
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
+                achievements: [
+                  "Geolocalización precisa de incidencias urbanas.",
+                  "Arquitectura RBAC para múltiples dependencias.",
+                  "Reducción del 30% en el tiempo de atención ciudadana."
+                ]
               }
             ].map((project, index) => (
               <ProjectCard 
@@ -878,6 +902,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                 onOpenGallery={(p) => {
                   setSelectedProject(p)
                   setCurrentModalImage(0)
+                  setShowDetails(false)
                 }}
               />
             ))}
@@ -885,43 +910,40 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
         </section>
       </main>
 
-      {/* Modal Gallery - Moved to root level for correct stacking context */}
+      {/* Modal Gallery - Presentation to Detail Transition */}
       {selectedProject && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8 lg:p-12 animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 lg:p-8 animate-in fade-in duration-300">
           {/* Backdrop Blur */}
           <div 
-            className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
+            className={`absolute inset-0 backdrop-blur-xl ${isDark ? 'bg-black/95' : 'bg-slate-900/80'}`}
             onClick={() => setSelectedProject(null)}
           ></div>
 
-          {/* Modal Content */}
-          <div className={`relative w-full max-w-6xl max-h-full flex flex-col items-center gap-6 animate-in zoom-in-95 duration-300 z-[10000]`}>
-            {/* Close Button - More secure positioning */}
+          {/* Modal Container */}
+          <div className={`relative w-full max-w-6xl aspect-[16/10] sm:aspect-video rounded-3xl overflow-hidden border transition-all duration-700 ease-in-out z-[70] animate-in zoom-in-95 flex flex-col sm:flex-row
+            ${isDark 
+              ? 'bg-[#050505] border-white/10 shadow-[0_0_80px_rgba(88,44,255,0.15)]' 
+              : 'bg-white border-black/10 shadow-[0_0_80px_rgba(88,44,255,0.1)]'}`}>
+            
+            {/* Close Button - Minimalist and Integrated */}
             <button 
               onClick={() => setSelectedProject(null)}
-              className="absolute top-0 right-0 sm:-top-12 sm:right-0 p-3 rounded-full bg-black/50 sm:bg-white/10 border border-white/20 text-white hover:bg-red-500 hover:border-red-500 transition-all z-[10010] active:scale-90"
+              className={`absolute top-4 right-4 p-2 rounded-full border transition-all z-[100] active:scale-90
+                ${isDark 
+                  ? 'bg-white/5 border-white/10 text-white/50 hover:bg-red-500/20 hover:text-red-500 hover:border-red-500/50' 
+                  : 'bg-black/5 border-black/10 text-black/50 hover:bg-red-500/10 hover:text-red-600 hover:border-red-500/30'}`}
             >
-              <X className="w-6 h-6 sm:w-8 sm:h-8" />
+              <X className="w-5 h-5" />
             </button>
 
-            {/* Gallery Title */}
-            <div className="text-center mb-2 relative z-[10010]">
-              <h3 className="text-2xl sm:text-5xl font-black text-white tracking-tighter mb-2">
-                {selectedProject.title}
-              </h3>
-              <p className="text-[#582CFF] font-bold text-[10px] uppercase tracking-[0.4em]">
-                {selectedProject.company}
-              </p>
-            </div>
-
-            {/* Image Container */}
-            <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(88,44,255,0.2)] bg-[#050505]">
+            {/* Left Side: Image Carousel (Shrinks when details show) */}
+            <div className={`relative h-full transition-all duration-700 ease-in-out flex-shrink-0 ${showDetails ? 'w-full sm:w-[60%]' : 'w-full'}`}>
               <div 
                 className="flex h-full transition-transform duration-500 ease-out" 
                 style={{ transform: `translateX(-${(currentModalImage as number) * 100}%)` }}
               >
                 {selectedProject.images?.map((img, idx) => (
-                  <div key={idx} className="min-w-full h-full flex items-center justify-center p-4 sm:p-8">
+                  <div key={idx} className="min-w-full h-full flex items-center justify-center p-6 sm:p-12">
                     <img 
                       src={img} 
                       alt={`${selectedProject.title} ${idx + 1}`}
@@ -929,55 +951,103 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                     />
                   </div>
                 ))}
+                {!selectedProject.images && (
+                   <div className="min-w-full h-full flex items-center justify-center">
+                      <span className={`font-black uppercase tracking-widest text-4xl ${isDark ? 'text-white/10' : 'text-black/5'}`}>Confidencial</span>
+                   </div>
+                )}
               </div>
 
               {/* Navigation Controls */}
-              {selectedProject.images && selectedProject.images.length > 1 && (
+              {!showDetails && selectedProject.images && selectedProject.images.length > 0 && (
                 <>
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (selectedProject.images) {
-                        const len = selectedProject.images.length;
-                        setCurrentModalImage((prev: number) => (prev - 1 + len) % len);
-                      }
+                      const len = selectedProject.images!.length;
+                      setCurrentModalImage((prev: number) => (prev - 1 + len) % len);
                     }}
-                    className="absolute left-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-black/60 text-white border border-white/10 hover:bg-[#582CFF] hover:border-[#582CFF] transition-all z-[10020] shadow-2xl"
+                    className={`absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full border transition-all z-[80]
+                      ${isDark ? 'bg-black/40 text-white border-white/10 hover:bg-[#582CFF]' : 'bg-white/60 text-black border-black/10 hover:bg-[#582CFF] hover:text-white'}`}
                   >
-                    <ChevronLeft className="w-8 h-8" />
+                    <ChevronLeft className="w-6 h-6" />
                   </button>
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (selectedProject.images) {
-                        const len = selectedProject.images.length;
+                      const len = selectedProject.images!.length;
+                      if (currentModalImage === len - 1) {
+                        setShowDetails(true);
+                      } else {
                         setCurrentModalImage((prev: number) => (prev + 1) % len);
                       }
                     }}
-                    className="absolute right-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-black/60 text-white border border-white/10 hover:bg-[#582CFF] hover:border-[#582CFF] transition-all z-[10020] shadow-2xl"
+                    className={`absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full border transition-all z-[80]
+                      ${isDark ? 'bg-black/40 text-white border-white/10 hover:bg-[#582CFF]' : 'bg-white/60 text-black border-black/10 hover:bg-[#582CFF] hover:text-white'}`}
                   >
-                    <ChevronRight className="w-8 h-8" />
+                    <ChevronRight className="w-6 h-6" />
                   </button>
-
-                  {/* Dots indicator */}
-                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 z-[10020]">
-                    {selectedProject.images.map((_, i) => (
-                      <div 
-                        key={i}
-                        className={`h-2 rounded-full transition-all duration-500 ${i === currentModalImage ? 'bg-[#582CFF] w-10' : 'bg-white/20 w-3'}`}
-                      />
-                    ))}
-                  </div>
                 </>
               )}
+
+              {/* Dots indicator */}
+              {!showDetails && selectedProject.images && selectedProject.images.length > 1 && (
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-[80]">
+                  {selectedProject.images.map((_, i) => (
+                    <div 
+                      key={i}
+                      className={`h-1 rounded-full transition-all duration-500 ${i === currentModalImage ? 'bg-[#582CFF] w-6' : (isDark ? 'bg-white/20 w-2' : 'bg-black/10 w-2')}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-            
-            {/* Technical Icons in Modal */}
-            <div className="flex gap-10 px-10 py-5 rounded-full bg-white/5 border border-white/10 backdrop-blur-2xl">
-              {selectedProject.icons.map((icon, i) => (
-                <i key={i} className={`${icon} text-4xl text-white/40 hover:text-[#582CFF] hover:scale-125 transition-all cursor-pointer`}></i>
-              ))}
-            </div>
+
+            {/* Right Side: Achievements Chat (Slides in) */}
+            {showDetails && (
+              <div className={`flex-1 h-full p-6 sm:p-10 flex flex-col animate-in slide-in-from-right duration-700 overflow-hidden border-l
+                ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-slate-50 border-black/5'}`}>
+                <div className="mb-8">
+                  <h3 className={`text-xl sm:text-2xl font-black tracking-tighter mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    Logros del Proyecto
+                  </h3>
+                  <p className="text-[#582CFF] font-bold text-[10px] uppercase tracking-[0.3em]">
+                    {selectedProject.company}
+                  </p>
+                </div>
+
+                <div className="flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+                  {selectedProject.achievements?.map((ach, idx) => (
+                    <div 
+                      key={idx} 
+                      className={`p-4 rounded-2xl border shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-500
+                        ${isDark 
+                          ? 'bg-white/[0.03] border-[#582CFF]/20 shadow-[#582CFF]/5' 
+                          : 'bg-white border-[#582CFF]/10 shadow-[#582CFF]/5'}`}
+                      style={{ animationDelay: `${idx * 200}ms`, animationFillMode: 'both' }}
+                    >
+                      <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-slate-600'}`}>
+                        {ach}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex items-center justify-between">
+                   <div className="flex gap-4">
+                      {selectedProject.icons.map((icon, i) => (
+                        <i key={i} className={`${icon} text-xl ${isDark ? 'text-white/20' : 'text-black/20'}`}></i>
+                      ))}
+                   </div>
+                   <button 
+                      onClick={() => setShowDetails(false)}
+                      className="text-[11px] font-black text-[#582CFF] uppercase tracking-widest hover:scale-110 active:scale-95 transition-all underline decoration-2 underline-offset-8"
+                   >
+                      Regresar a Galería
+                   </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
