@@ -248,16 +248,31 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
       
       if (isScrollingRef.current) return;
 
-      // Simple Scroll Spy
-      const sections = ['inicio', 'conocimientos']
-      const scrollPosition = window.scrollY + 200
+      // Precise Scroll Spy
+      const sections = [
+        { id: 'inicio', name: 'Inicio' },
+        { id: 'conocimientos', name: 'Conocimientos' },
+        { id: 'trabajos', name: 'Trabajos' }
+      ]
+      
+      const scrollPosition = window.scrollY + 300 // Higher threshold for earlier detection
 
-      for (const section of sections) {
-        const element = document.getElementById(section)
+      // Check if we are at the bottom of the page
+      const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
+      if (isBottom) {
+        setActiveSection('Trabajos')
+        return
+      }
+
+      // Find the current section
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i]
+        const element = document.getElementById(section.id)
         if (element) {
-          const { offsetTop, offsetHeight } = element
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section === 'inicio' ? 'Inicio' : 'Conocimientos')
+          const { offsetTop } = element
+          if (scrollPosition >= offsetTop) {
+            setActiveSection(section.name)
+            break
           }
         }
       }
@@ -279,7 +294,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
   const navLinks = [
     { name: 'Inicio', href: '#inicio' },
     { name: 'Conocimientos', href: '#conocimientos' },
-    { name: 'Trabajos', href: '#' },
+    { name: 'Trabajos', href: '#trabajos' },
     { name: 'Trayectoria', href: '#' }
   ]
 
@@ -358,6 +373,14 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                         {link.name}
                         {/* Smooth Underline Transition */}
                         <div className={`absolute -bottom-1 left-0 h-[2.5px] bg-[#8E54FF] transition-all duration-500 ease-out ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
+                        
+                        {/* Pulsing Notification Dot */}
+                        {link.name === 'Trabajos' && isScrolled && (
+                          <span className="absolute -top-1.5 -right-1.5 flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                          </span>
+                        )}
                       </a>
                     </li>
                   );
@@ -575,10 +598,10 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
         </div>
 
         {/* Bottom Separator */}
-        <div className={`mt-24 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
+        <div className={`mt-16 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
 
         {/* Conocimientos Section (Self-Contained Refactor) */}
-        <section id="conocimientos" className={`mt-32 max-w-7xl mx-auto px-6 lg:px-12 py-10 rounded-[2.5rem] border transition-all duration-500 relative group overflow-hidden ${isDark ? 'border-white/5 shadow-2xl' : 'border-black/[0.03] shadow-sm'} animate-in fade-in slide-in-from-bottom-12 duration-1000`}>
+        <section id="conocimientos" className={`mt-16 max-w-7xl mx-auto px-6 lg:px-12 py-10 rounded-[2.5rem] border transition-all duration-500 relative group overflow-hidden ${isDark ? 'border-white/5 shadow-2xl' : 'border-black/[0.03] shadow-sm'} animate-in fade-in slide-in-from-bottom-12 duration-1000`}>
           {/* Snake Border Animation Layers */}
           <div className="absolute inset-[-100%] aspect-square animate-border-spin opacity-50 z-0 pointer-events-none flex items-center justify-center" 
                style={{ 
@@ -598,7 +621,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                   Stack Tecnológico
                 </h2>
                 <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-                  Infraestructura robusta construida con herramientas líderes de la industria para garantizar escalabilidad y rendimiento extremo.
+                  Uso estas herramientas como diseñador IoT para crear infraestructura robusta y continua con herramientas líderes de la industria.
                 </p>
               </div>
 
@@ -707,22 +730,103 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                   </p>
                 </div>
               </div>
+
+
             </div>
+          </div>
+
+
+        </section>
+
+        {/* Bottom Separator */}
+        <div className={`mt-16 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
+
+        {/* Trabajos Section */}
+        <section id="trabajos" className="mt-16 max-w-7xl mx-auto px-6 lg:px-12 py-20 relative">
+          <div className="mb-20 max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-6">
+              <span className="text-[10px] font-bold uppercase tracking-widest">Trabajos</span>
+            </div>
+            <h2 className={`text-4xl md:text-6xl font-black tracking-tighter mb-8 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+              Arquitectura de <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">Sistemas Reales.</span>
+            </h2>
+            <p className={`text-base md:text-lg leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+              Debido a la naturaleza interna de estos sistemas gubernamentales y empresariales, el acceso público está restringido, pero aquí detallo la arquitectura y el impacto de las soluciones desarrolladas.
+            </p>
+          </div>
+
+          {/* Projects Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              {
+                title: "Plataforma Autogobierno",
+                company: "Alcaldía de Mariño",
+                desc: "Plataforma centralizada para la gestión comunitaria, optimizando flujos de trabajo dinámicos y la comunicación directa con los ciudadanos.",
+                tags: ["Laravel", "React", "Tailwind", "PostgreSQL"],
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-postgresql-plain"]
+              },
+              {
+                title: "Planificación Estratégica",
+                company: "Alcaldía de Mariño",
+                desc: "Sistema de gestión de proyectos con visualización avanzada mediante Diagramas de Gantt, permitiendo el seguimiento en tiempo real de metas institucionales.",
+                tags: ["Laravel", "React", "Tailwind", "PostgreSQL"],
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-postgresql-plain"]
+              },
+              {
+                title: "Reporte de Incidencias",
+                company: "Alcaldía de Mariño",
+                desc: "Herramienta de reporte ciudadano con geolocalización avanzada y sistema de control de acceso basado en roles (RBAC) para una respuesta eficiente.",
+                tags: ["Laravel", "React", "Tailwind", "PostgreSQL"],
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-postgresql-plain"]
+              }
+            ].map((project, index) => (
+              <div 
+                key={index}
+                className={`
+                  group relative p-8 rounded-[2rem] border transition-all duration-500 overflow-hidden
+                  ${isDark 
+                    ? 'bg-white/[0.03] border-white/10 hover:bg-white/[0.06] hover:border-white/20' 
+                    : 'bg-white border-black/[0.05] hover:shadow-2xl hover:shadow-[#582CFF]/10'}
+                  backdrop-blur-xl hover:-translate-y-2
+                `}
+              >
+                {/* Background Glow */}
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#582CFF]/10 blur-[80px] rounded-full group-hover:bg-[#582CFF]/20 transition-all duration-700"></div>
+
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                      </span>
+                      <span className="text-[10px] font-bold text-green-500 uppercase tracking-wider">Sistema Interno / Producción</span>
+                    </div>
+                  </div>
+
+                  <h3 className={`text-2xl font-black mb-1 tracking-tight ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+                    {project.title}
+                  </h3>
+                  <p className="text-[#582CFF] font-bold text-xs uppercase tracking-widest mb-4">
+                    {project.company}
+                  </p>
+                  
+                  <p className={`text-sm leading-relaxed mb-8 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+                    {project.desc}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-4 mt-auto pt-6 border-t border-white/5">
+                    {project.icons.map((icon, i) => (
+                      <i key={i} className={`${icon} text-xl ${isDark ? 'text-white/40 group-hover:text-[#582CFF]' : 'text-black/40 group-hover:text-[#582CFF]'} transition-colors duration-300`}></i>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* Clients section (moved down out of immediate view) */}
-        <div className="mt-64 pb-24 animate-in fade-in duration-1000 delay-1000">
-          <p className={`text-[10px] font-bold uppercase tracking-[0.3em] mb-10 text-center ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-            Colaborando con Tech Leaders
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
-            <span className="text-lg font-black tracking-tighter">METAVR</span>
-            <span className="text-lg font-black tracking-tighter">DATACORE</span>
-            <span className="text-lg font-black tracking-tighter">CLOUDSTRAT</span>
-            <span className="text-lg font-black tracking-tighter">NEXUS AI</span>
-          </div>
-        </div>
+
       </main>
     </div>
   )
