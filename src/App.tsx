@@ -1018,6 +1018,21 @@ git push origin feature/optimization`,
                 ]
               },
               {
+                title: "XINABIS",
+                company: "Embarcación Isidoro",
+                desc: "Gestión integral para la embarcación Isidoro: finanzas, incidencias y seguridad avanzada con RBAC.",
+                tags: ["Laravel", "React", "TypeScript", "Tailwind", "PostgreSQL"],
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-postgresql-plain"],
+                images: ["/x1.webp", "/x2.webp", "/x3.webp", "/x4.webp"],
+                year: "2026",
+                role: "Desarrollador Full Stack",
+                achievements: [
+                  "Pionero nacional en gestión web marítima, logrando trazabilidad y transparencia absoluta.",
+                  "Seguridad de alto nivel mediante arquitectura RBAC y autenticación de dos factores (2FA).",
+                  "Control total de ingresos, egresos e incidencias con respaldo fotográfico, eliminando procesos manuales."
+                ]
+              },
+              {
                 title: "Planificación Estratégica",
                 company: "Alcaldía de Mariño",
                 desc: "Arquitectura de un sistema de seguimiento departamental con visualización de datos mediante Diagramas de Gantt y métricas de cumplimiento de alto nivel.",
@@ -1030,21 +1045,6 @@ git push origin feature/optimization`,
                   "Desarrollo de una herramienta de visualización de datos mediante Diagramas de Gantt para la planificación estratégica municipal.",
                   "Arquitectura de seguimiento con métricas de cumplimiento y regulación de porcentajes de avance departamental.",
                   "Mejora en un 40% en el seguimiento de actividades de todos los departamentos del ente gubernamental."
-                ]
-              },
-              {
-                title: "Gestión de Incidencias y Auditoría",
-                company: "Alcaldía de Mariño",
-                desc: "Plataforma centralizada para la gestión de servicios y auditoría ciudadana, integrando geolocalización avanzada y trazabilidad estricta mediante RBAC.",
-                tags: ["Laravel", "React", "TypeScript", "Tailwind", "SQLite"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
-                images: ["/luis.jpeg"],
-                year: "2026",
-                role: "Desarrollador Full Stack",
-                achievements: [
-                  "Diseño de una plataforma centralizada para la gestión comunitaria con geolocalización avanzada y evidencias multimedia.",
-                  "Implementación de arquitectura RBAC con logs de auditoría estricta para garantizar un flujo de resolución transparente.",
-                  "Reducción del 30% en el tiempo de atención ciudadana mediante la optimización de la trazabilidad entre operadores."
                 ]
               }
             ].map((project, index) => (
