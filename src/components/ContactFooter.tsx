@@ -5,7 +5,7 @@ import { BsFileEarmarkPdfFill } from 'react-icons/bs';
 
 const ContactFooter: React.FC<{ isDark: boolean }> = ({ isDark }) => {
   return (
-    <footer className={`relative overflow-hidden pt-24 pb-12 ${isDark ? 'bg-[#050505]' : 'bg-[#FFFDFE]'}`}>
+    <footer id="contacto" className={`relative overflow-hidden pt-24 pb-12 ${isDark ? 'bg-[#050505]' : 'bg-[#FFFDFE]'}`}>
       {/* Radial Gradient Background */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#582CFF]/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
       
@@ -13,19 +13,22 @@ const ContactFooter: React.FC<{ isDark: boolean }> = ({ isDark }) => {
         
         {/* Upper Section: Impact CTA */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-24">
-          <div className="max-w-3xl">
-            <h2 className={`text-5xl md:text-7xl font-black tracking-tighter leading-[1.1] ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
-              Construyamos el futuro de la <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">infraestructura.</span>
+          <div className="max-w-2xl">
+            <h2 className={`text-4xl md:text-6xl font-black tracking-tighter leading-tight ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+              Arquitectura de sistemas <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">escalables.</span>
             </h2>
+            <p className={`mt-6 text-base md:text-lg font-medium leading-relaxed max-w-lg ${isDark ? 'text-white/50' : 'text-black/50'}`}>
+              ¿Tienes un desafío técnico o quieres construir algo? Hablemos con un clic.
+            </p>
             <div className="mt-10">
               <a 
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=luuissroodri@gmail.com&su=Interesado%20en%20contactar%20contigo%20tras%20ver%20tu%20portafolio&body=Hola%20Luis%2C%0A%0AHe%20visto%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20hablar%20contigo%20sobre%20un%20proyecto%20o%20colaboraci%C3%B3n.%0A%0AUn%20saludo."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-[#582CFF] hover:bg-[#4a24d9] text-white px-8 py-5 rounded-2xl font-black text-sm tracking-widest transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(88,44,255,0.3)]"
+                className="inline-flex items-center gap-3 bg-[#582CFF] hover:bg-[#4a24d9] text-white px-10 py-5 rounded-full font-black text-sm tracking-widest transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(88,44,255,0.3)] group"
               >
-                ESTABLECER CONTACTO
-                <Mail className="w-5 h-5" />
+                CONTACTAR
+                <Mail className="w-5 h-5 transition-transform group-hover:translate-x-1" />
               </a>
             </div>
           </div>

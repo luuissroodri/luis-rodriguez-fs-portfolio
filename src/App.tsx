@@ -512,7 +512,7 @@ git push origin feature/optimization`,
       // Priority overrides
       const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
       if (isBottom) {
-        setActiveSection('Trayectoria');
+        setActiveSection('Contacto');
       } else if (window.scrollY < 100) {
         setActiveSection('Inicio');
       }
@@ -668,12 +668,18 @@ git push origin feature/optimization`,
               {/* Theme Toggle Button */}
               <button 
                 onClick={() => setIsDark(!isDark)}
-                className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 active:scale-90 border ${isDark ? 'bg-[#1E1E1E]/80 border-white/5 hover:bg-white/10 text-yellow-400' : 'bg-black/5 border-black/5 hover:bg-black/10 text-orange-600'}`}
+                className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-500 active:scale-90 border cursor-pointer group/theme ${isDark ? 'bg-[#1E1E1E]/80 border-white/5 hover:bg-white/10 hover:border-white/20 text-yellow-400' : 'bg-white border-black/5 hover:bg-black/10 hover:border-black/10 text-orange-600 shadow-sm'}`}
               >
-                {isDark ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
+                {isDark ? <Sun className="w-5 h-5 transition-transform group-hover/theme:rotate-90" /> : <Moon className="w-5 h-5 transition-transform group-hover/theme:-rotate-12" />}
               </button>
               
-              <button className={`${isScrolled ? 'hidden sm:block' : 'block'} bg-[#582CFF] hover:bg-[#4a24d9] rounded-full px-6 py-2.5 text-[13px] font-bold transition-all active:scale-95 text-white whitespace-nowrap`}>
+              <button 
+                onClick={() => {
+                  const target = document.getElementById('contacto');
+                  if (target) target.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={`${isScrolled ? 'hidden sm:block' : 'block'} group flex items-center gap-2 bg-[#582CFF] hover:bg-[#4a24d9] rounded-full px-6 py-2.5 text-[13px] font-bold transition-all active:scale-95 text-white whitespace-nowrap shadow-lg shadow-[#582CFF]/20`}
+              >
                 Contactar
               </button>
 
