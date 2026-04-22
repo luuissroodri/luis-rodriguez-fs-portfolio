@@ -127,7 +127,15 @@ function App() {
   const [showDetails, setShowDetails] = useState(false)
   const isScrollingRef = useRef(false)
   const scrollTimeoutRef = useRef<number | null>(null)
+  const [isFlash, setIsFlash] = useState(false)
   const langRef = useRef<HTMLDivElement>(null)
+
+  // Trigger flash animation on theme change
+  useEffect(() => {
+    setIsFlash(true)
+    const timer = setTimeout(() => setIsFlash(false), 800)
+    return () => clearTimeout(timer)
+  }, [isDark])
 
   // Lock scroll when modal is open
   useEffect(() => {
@@ -547,6 +555,15 @@ git push origin feature/optimization`,
         .light-syntax .text-yellow-200 { color: #84cc16; }
         .light-syntax .text-green-400 { color: #16a34a; }
         .light-syntax .text-red-400 { color: #dc2626; }
+        
+        @keyframes quick-flash {
+          0% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.05); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        .animate-quick-flash {
+          animation: quick-flash 0.4s ease-in-out 2;
+        }
       `}</style>
       <div id="inicio" className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-white text-black'} font-sans selection:bg-[#582CFF]/30 scroll-smooth`}>
       {/* Background radial gradient */}
@@ -758,7 +775,7 @@ git push origin feature/optimization`,
                 <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30px_rgba(88,44,255,0.25)] active:scale-95 text-white">
                   Ver Proyectos
                 </button>
-                <button className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-bold border transition-all active:scale-95 ${isDark ? 'border-white/10 hover:bg-white/5 text-white' : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-900 shadow-sm'}`}>
+                <button className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-bold border transition-all active:scale-95 ${isDark ? 'border-white/10 hover:bg-white/5 text-white' : 'border-black/20 bg-transparent hover:bg-black/5 text-black'} ${isFlash ? 'animate-quick-flash border-[#582CFF]/50 text-[#582CFF]' : ''}`}>
                   Descargar CV
                   <Download className="w-4 h-4" />
                 </button>
