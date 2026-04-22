@@ -92,7 +92,7 @@ const ExperienceTimeline: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                           {exp.period}
                         </span>
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-white/5' : 'bg-black/5'}`}>
-                           {React.cloneElement(exp.icon as React.ReactElement, { className: "w-4 h-4 text-[#582CFF]" })}
+                           {React.cloneElement(exp.icon as React.ReactElement<any>, { className: "w-4 h-4 text-[#582CFF]" })}
                         </div>
                       </div>
 

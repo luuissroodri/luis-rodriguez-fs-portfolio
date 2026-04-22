@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, ArrowUpRight, FileText, Shield, Scale, Download } from 'lucide-react';
+import { Mail, ArrowUpRight, Shield, Scale, Download } from 'lucide-react';
 import { FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa';
 import { BsFileEarmarkPdfFill } from 'react-icons/bs';
 

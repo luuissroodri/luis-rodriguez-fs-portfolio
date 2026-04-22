@@ -23,9 +23,10 @@ interface ProjectCardProps {
   isDark: boolean;
   index: number;
   onOpenGallery: (project: Project) => void;
+  t: any;
 }
 
-const ProjectCard = ({ project, isDark, index, onOpenGallery }: ProjectCardProps) => {
+const ProjectCard = ({ project, isDark, index, onOpenGallery, t }: ProjectCardProps) => {
   const hasImages = project.images && project.images.length > 0;
   const mainImage = hasImages ? project.images![0] : luisPhoto;
 
@@ -83,11 +84,11 @@ const ProjectCard = ({ project, isDark, index, onOpenGallery }: ProjectCardProps
         <div className={`mt-auto border-t pt-6 ${isDark ? 'border-white/10' : 'border-[#582CFF]/20'}`}>
           <div className="space-y-3">
             <div className={`flex justify-between items-center py-1.5 border-b ${isDark ? 'border-white/5' : 'border-slate-100'}`}>
-              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-slate-400'}`}>Año</span>
+              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-slate-400'}`}>{t.projects.year}</span>
               <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{project.year}</span>
             </div>
             <div className="flex justify-between items-center py-1.5">
-              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-slate-400'}`}>Rol</span>
+              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-slate-400'}`}>{t.projects.role}</span>
               <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{project.role}</span>
             </div>
           </div>
@@ -99,19 +100,146 @@ const ProjectCard = ({ project, isDark, index, onOpenGallery }: ProjectCardProps
             onClick={() => onOpenGallery(project)}
             className="group/btn flex items-center gap-2 px-8 py-3 rounded-xl bg-[#582CFF] text-white text-[11px] font-black uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#582CFF]/25"
           >
-            Explorar Proyecto
+            {t.projects.explore}
             <ChevronRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
           </button>
           
           <div className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] cursor-not-allowed ${isDark ? 'text-zinc-500' : 'text-slate-400'}`}>
             <Lock className="w-3 h-3" />
-            Repo Privado
+            {t.projects.private}
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+const translations = {
+  ES: {
+    nav: { home: 'Inicio', skills: 'Conocimientos', works: 'Trabajos', timeline: 'Trayectoria', contact: 'Contactar', contactNow: 'Contactar ahora' },
+    hero: { role: 'Desarrollador Full Stack', title1: 'Sistemas Robustos.', title2: 'Arquitectura de Vanguardia.', desc: 'Ingeniero de Sistemas enfocado en desarrollo web. Transformo problemas complejos de UX en soluciones UI escalables, mediante código limpio y arquitecturas robustas.', view: 'Ver Proyectos', cv: 'Descargar CV', availability: 'Disponible para proyectos' },
+    metrics: [
+      { title: '6+', subtitle: 'MESES DE EXPERIENCIA', status: 'system_status: active' },
+      { title: '100%', subtitle: 'ENFOQUE PIXEL-PERFECT', status: 'ux_latency: <100ms' },
+      { title: 'Robusta', subtitle: 'APIS & ARQUITECTURA', status: 'uptime: 99.9%' },
+      { title: '10+', subtitle: 'SISTEMAS DESPLEGADOS', status: 'deployments: success' }
+    ],
+    stack: { badge: 'Conocimientos', title: 'Stack Tecnológico', desc: 'Uso estas herramientas como diseñador IoT para crear infraestructura robusta y continua con herramientas líderes de la industria.', copy: 'Copy to clipboard', copied: '¡Copiado!', status: 'Status: Production Ready' },
+    projects: { badge: 'Trabajos', title: 'Arquitectura de', titleAccent: 'Sistemas Reales.', desc: 'Debido a la naturaleza interna de estos sistemas gubernamentales y empresariales, el acceso público está restringido, pero aquí detallo la arquitectura e impacto de las soluciones desarrolladas.', explore: 'Explorar Proyecto', private: 'Repo Privado', year: 'Año', role: 'Rol', highlights: 'Logros del Proyecto', back: 'Regresar a Galería', close: 'CERRAR VISTA' },
+    common: { confidential: 'Confidencial' },
+    tech: {
+      react: 'Gestión de estado reactivo y ciclo de vida de componentes para interfaces dinámicas.',
+      html: 'Arquitectura semántica y SEO-friendly, garantizando accesibilidad y estructura robusta.',
+      css: 'Diseños de alta fidelidad con efectos de cristal (glassmorphism) y animaciones fluidas.',
+      js: 'Lógica de cliente asíncrona, optimización de algoritmos y manipulación avanzada del DOM.',
+      typescript: 'Tipado estático para JavaScript, mejorando la mantenibilidad del código y previniendo errores en desarrollo.',
+      tailwind: 'Maquetado eficiente basado en utilidades, permitiendo iteraciones de diseño ultra-rápidas.',
+      figma: 'Diseño de interfaces (UI/UX), prototipado de alta fidelidad y colaboración en el flujo creativo.',
+      laravel: 'Estructuras de backend escalables con Eloquent ORM y diseño de APIs RESTful.',
+      php: 'Desarrollo de lógica robusta en el servidor con arquitecturas limpias y patrones de diseño.',
+      postgresql: 'Modelado de datos avanzado, soporte JSONB e indexación para alto rendimiento.',
+      sqlite: 'Base de datos ligera y autónoma, ideal para aplicaciones locales, desarrollo rápido y almacenamiento integrado.',
+      ubuntu: 'Administración de servidores Linux, automatización de tareas y gestión de entornos de desarrollo.',
+      docker: 'Containerización de aplicaciones, orquestación y despliegue consistente en diferentes entornos.',
+      git: 'Control de versiones distribuido, colaboración en equipo y gestión de ramas.'
+    }
+  },
+  EN: {
+    nav: { home: 'Home', skills: 'Skills', works: 'Works', timeline: 'Trajectory', contact: 'Contact', contactNow: 'Contact Now' },
+    hero: { role: 'Full Stack Developer', title1: 'Robust Systems.', title2: 'Cutting-Edge Architecture.', desc: 'Systems Engineer focused on web development. I transform complex UX problems into scalable UI solutions, using clean code and robust architectures.', view: 'View Projects', cv: 'Download CV', availability: 'Available for projects' },
+    metrics: [
+      { title: '6+', subtitle: 'MONTHS OF EXPERIENCE', status: 'system_status: active' },
+      { title: '100%', subtitle: 'PIXEL-PERFECT FOCUS', status: 'ux_latency: <100ms' },
+      { title: 'Robust', subtitle: 'APIS & ARCHITECTURE', status: 'uptime: 99.9%' },
+      { title: '10+', subtitle: 'DEPLOYED SYSTEMS', status: 'deployments: success' }
+    ],
+    stack: { badge: 'Expertise', title: 'Tech Stack', desc: 'I leverage these tools as an IoT designer to build robust, continuous infrastructure using industry-leading technologies.', copy: 'Copy to clipboard', copied: 'Copied!', status: 'Status: Production Ready' },
+    projects: { badge: 'Works', title: 'Real-World', titleAccent: 'Systems Architecture.', desc: 'Due to the internal nature of these governmental and corporate systems, public access is restricted, but here I detail the architecture and impact of the solutions developed.', explore: 'Explore Project', private: 'Private Repo', year: 'Year', role: 'Role', highlights: 'Project Highlights', back: 'Back to Gallery', close: 'CLOSE VIEW' },
+    common: { confidential: 'Confidential' },
+    tech: {
+      react: 'Reactive state management and component lifecycle for dynamic interfaces.',
+      html: 'Semantic and SEO-friendly architecture, ensuring accessibility and robust structure.',
+      css: 'High-fidelity designs with glassmorphism effects and fluid animations.',
+      js: 'Asynchronous client logic, algorithm optimization, and advanced DOM manipulation.',
+      typescript: 'Static typing for JavaScript, improving code maintainability and preventing development errors.',
+      tailwind: 'Efficient utility-based layout, allowing ultra-fast design iterations.',
+      figma: 'Interface design (UI/UX), high-fidelity prototyping, and creative workflow collaboration.',
+      laravel: 'Scalable backend structures with Eloquent ORM and RESTful API design.',
+      php: 'Robust server-side logic development with clean architectures and design patterns.',
+      postgresql: 'Advanced data modeling, JSONB support, and indexing for high performance.',
+      sqlite: 'Lightweight and autonomous database, ideal for local apps, rapid development, and embedded storage.',
+      ubuntu: 'Linux server administration, task automation, and development environment management.',
+      docker: 'Application containerization, orchestration, and consistent deployment across different environments.',
+      git: 'Distributed version control, team collaboration, and branch management.'
+    }
+  }
+};
+
+const getProjectData = (lang: string) => [
+  {
+    title: lang === 'ES' ? "Plataforma Autogobierno" : "Self-Government Platform",
+    company: "Alcaldía de Mariño",
+    desc: lang === 'ES' 
+      ? "Plataforma centralizada para la gestión comunitaria, optimizando flujos de trabajo dinámicos y la comunicación directa con los ciudadanos."
+      : "Centralized community management platform, optimizing dynamic workflows and direct citizen communication.",
+    tags: ["Laravel", "React", "TypeScript", "Tailwind", "PostgreSQL"],
+    icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-postgresql-plain"],
+    images: ["/foto.webp", "/foto 1.webp"],
+    year: "2026",
+    role: lang === 'ES' ? "Desarrollador Full Stack" : "Full Stack Developer",
+    achievements: lang === 'ES' ? [
+      "Primer municipio del país en implementar un sistema integral de ayudas automatizadas para la comunidad.",
+      "Implementación de flujos de aprobación en tiempo real y gestión transparente de recursos.",
+      "Optimización del 60% en tiempos de respuesta administrativa mediante la automatización de procesos."
+    ] : [
+      "First municipality in the country to implement an automated comprehensive community aid system.",
+      "Implementation of real-time approval flows and transparent resource management.",
+      "60% optimization in administrative response times through process automation."
+    ]
+  },
+  {
+    title: "XINABIS",
+    company: lang === 'ES' ? "Embarcación Isidoro" : "Isidoro Vessel",
+    desc: lang === 'ES'
+      ? "Gestión integral para la embarcación Isidoro: finanzas, incidencias y seguridad avanzada con RBAC."
+      : "Comprehensive management for the Isidoro vessel: finance, incidents, and advanced security with RBAC.",
+    tags: ["Laravel", "React", "TypeScript", "Tailwind", "PostgreSQL"],
+    icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-postgresql-plain"],
+    images: ["/x1.webp", "/x2.webp", "/x3.webp", "/x4.webp"],
+    year: "2026",
+    role: lang === 'ES' ? "Desarrollador Full Stack" : "Full Stack Developer",
+    achievements: lang === 'ES' ? [
+      "Pionero nacional en gestión web marítima, logrando trazabilidad y transparencia absoluta.",
+      "Seguridad de alto nivel mediante arquitectura RBAC y autenticación de dos factores (2FA).",
+      "Control total de ingresos, egresos e incidencias con respaldo fotográfico, eliminando procesos manuales."
+    ] : [
+      "National pioneer in maritime web management, achieving absolute traceability and transparency.",
+      "High-level security via RBAC architecture and two-factor authentication (2FA).",
+      "Total control of income, expenses, and incidents with photographic backup, eliminating manual processes."
+    ]
+  },
+  {
+    title: lang === 'ES' ? "Planificación Estratégica" : "Strategic Planning",
+    company: "Alcaldía de Mariño",
+    desc: lang === 'ES'
+      ? "Arquitectura de un sistema de seguimiento departamental con visualización de datos mediante Diagramas de Gantt y métricas de cumplimiento de alto nivel."
+      : "Architecture of a departmental tracking system with data visualization via Gantt charts and high-level compliance metrics.",
+    tags: ["Laravel", "React", "TypeScript", "Tailwind", "SQLite"],
+    icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
+    images: ["/foto 2.webp", "/foto 3.webp"],
+    year: "2026",
+    role: lang === 'ES' ? "Desarrollador Full Stack" : "Full Stack Developer",
+    achievements: lang === 'ES' ? [
+      "Desarrollo de una herramienta de visualización de datos mediante Diagramas de Gantt para la planificación estratégica municipal.",
+      "Arquitectura de seguimiento con métricas de cumplimiento y regulación de porcentajes de avance departamental.",
+      "Mejora en un 40% en el seguimiento de actividades de todos los departamentos del ente gubernamental."
+    ] : [
+      "Development of a data visualization tool using Gantt charts for municipal strategic planning.",
+      "Tracking architecture with compliance metrics and departmental progress percentage regulation.",
+      "40% improvement in activity tracking for all government departments."
+    ]
+  }
+];
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -129,6 +257,8 @@ function App() {
   const scrollTimeoutRef = useRef<number | null>(null)
   const [isFlash, setIsFlash] = useState(false)
   const langRef = useRef<HTMLDivElement>(null)
+  const t = translations[lang as 'ES' | 'EN'];
+  const projects = getProjectData(lang);
 
   // Trigger flash animation on theme change
   useEffect(() => {
@@ -156,7 +286,7 @@ function App() {
       icon: 'devicon-react-original',
       color: '#61DAFB',
       ext: 'tsx',
-      desc: 'Gestión de estado reactivo y ciclo de vida de componentes para interfaces dinámicas.',
+      desc: t.tech.react,
       raw: `const [isLive, setIsLive] = useState(true);
 
 useEffect(() => {
@@ -181,7 +311,7 @@ return <InteractivePanel status={isLive} />;`,
       icon: 'devicon-html5-plain',
       color: '#E34F26',
       ext: 'html',
-      desc: 'Arquitectura semántica y SEO-friendly, garantizando accesibilidad y estructura robusta.',
+      desc: t.tech.html,
       raw: `<section class="hero-container">
   <div class="glass-morphism">
     <h1>Sistemas Robustos</h1>
@@ -204,7 +334,7 @@ return <InteractivePanel status={isLive} />;`,
       icon: 'devicon-css3-plain',
       color: '#1572B6',
       ext: 'css',
-      desc: 'Diseños de alta fidelidad con efectos de cristal (glassmorphism) y animaciones fluidas.',
+      desc: t.tech.css,
       raw: `.glass-card {
   backdrop-filter: blur(12px);
   background: rgba(255, 255, 255, 0.1);
@@ -227,7 +357,7 @@ return <InteractivePanel status={isLive} />;`,
       icon: 'devicon-javascript-plain',
       color: '#F7DF1E',
       ext: 'js',
-      desc: 'Lógica de cliente asíncrona, optimización de algoritmos y manipulación avanzada del DOM.',
+      desc: t.tech.js,
       raw: `async function fetchData() {
   const res = await fetch('/api/v1/projects');
   const data = await res.json();
@@ -254,7 +384,7 @@ return <InteractivePanel status={isLive} />;`,
       icon: 'devicon-typescript-plain',
       color: '#3178C6',
       ext: 'ts',
-      desc: 'Tipado estático para JavaScript, mejorando la mantenibilidad del código y previniendo errores en desarrollo.',
+      desc: t.tech.typescript,
       raw: `interface User {
   id: number;
   role: 'admin' | 'dev';
@@ -281,7 +411,7 @@ const systemStatus = (u: User): string => {
       icon: 'devicon-tailwindcss-plain',
       color: '#06B6D4',
       ext: 'html',
-      desc: 'Maquetado eficiente basado en utilidades, permitiendo iteraciones de diseño ultra-rápidas.',
+      desc: t.tech.tailwind,
       raw: `<div className="flex flex-col lg:flex-row items-center
   gap-8 p-12 bg-[#582CFF] rounded-3xl
   shadow-2xl hover:scale-105 transition-all">
@@ -305,7 +435,7 @@ const systemStatus = (u: User): string => {
       icon: 'devicon-figma-plain',
       color: '#F24E1E',
       ext: 'fig',
-      desc: 'Diseño de interfaces (UI/UX), prototipado de alta fidelidad y colaboración en el flujo creativo.',
+      desc: t.tech.figma,
       raw: `/* Figma Design Tokens */
 :root {
   --primary-glow: #582CFF;
@@ -330,7 +460,7 @@ const systemStatus = (u: User): string => {
       icon: 'devicon-laravel-plain',
       color: '#FF2D20',
       ext: 'php',
-      desc: 'Estructuras de backend escalables con Eloquent ORM y diseño de APIs RESTful.',
+      desc: t.tech.laravel,
       raw: `public function index()
 {
   return Project::query()
@@ -355,7 +485,7 @@ const systemStatus = (u: User): string => {
       icon: 'devicon-php-plain',
       color: '#777BB4',
       ext: 'php',
-      desc: 'Desarrollo de lógica robusta en el servidor con arquitecturas limpias y patrones de diseño.',
+      desc: t.tech.php,
       raw: `namespace App\Core;
 
 class SystemEngine {
@@ -384,7 +514,7 @@ class SystemEngine {
       icon: 'devicon-postgresql-plain',
       color: '#336791',
       ext: 'sql',
-      desc: 'Modelado de datos avanzado, soporte JSONB e indexación para alto rendimiento.',
+      desc: t.tech.postgresql,
       raw: `CREATE TABLE analytics (
   id SERIAL PRIMARY KEY,
   event_data JSONB,
@@ -409,7 +539,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
       icon: 'devicon-sqlite-plain',
       color: '#003B57',
       ext: 'sqlite',
-      desc: 'Base de datos ligera y autónoma, ideal para aplicaciones locales, desarrollo rápido y almacenamiento integrado.',
+      desc: t.tech.sqlite,
       raw: `CREATE TABLE local_storage (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   key TEXT UNIQUE,
@@ -434,7 +564,7 @@ PRAGMA foreign_keys = ON;`,
       icon: 'devicon-ubuntu-plain',
       color: '#E95420',
       ext: 'sh',
-      desc: 'Administración de servidores Linux, automatización de tareas y gestión de entornos de desarrollo.',
+      desc: t.tech.ubuntu,
       raw: `sudo apt update && sudo apt upgrade -y
 ls -la /var/www/html
 systemctl status nginx`,
@@ -451,7 +581,7 @@ systemctl status nginx`,
       icon: 'devicon-docker-plain',
       color: '#2496ED',
       ext: 'dockerfile',
-      desc: 'Containerización de aplicaciones, orquestación y despliegue consistente en diferentes entornos.',
+      desc: t.tech.docker,
       raw: `FROM node:18-alpine
 WORKDIR /app
 COPY . .
@@ -472,7 +602,7 @@ CMD ["npm", "start"]`,
       icon: 'devicon-git-plain',
       color: '#F05032',
       ext: 'git',
-      desc: 'Control de versiones distribuido, colaboración en equipo y gestión de ramas.',
+      desc: t.tech.git,
       raw: `git checkout -b feature/optimization
 git add .
 git commit -m "feat: enhance system performance"
@@ -539,10 +669,10 @@ git push origin feature/optimization`,
   }, [])
 
   const navLinks = [
-    { name: 'Inicio', href: '#inicio' },
-    { name: 'Conocimientos', href: '#conocimientos' },
-    { name: 'Trabajos', href: '#trabajos' },
-    { name: 'Trayectoria', href: '#trayectoria' }
+    { name: 'Inicio', label: t.nav.home, href: '#inicio' },
+    { name: 'Conocimientos', label: t.nav.skills, href: '#conocimientos' },
+    { name: 'Trabajos', label: t.nav.works, href: '#trabajos' },
+    { name: 'Trayectoria', label: t.nav.timeline, href: '#trayectoria' }
   ]
 
   return (
@@ -636,7 +766,7 @@ git push origin feature/optimization`,
                       `}
                     >
                       <a href={link.href} className="pointer-events-none relative">
-                        {link.name}
+                        {link.label}
                         {/* Smooth Underline Transition */}
                         <div className={`absolute -bottom-1 left-0 h-[2.5px] bg-[#8E54FF] transition-all duration-500 ease-out ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
                         
@@ -707,7 +837,7 @@ git push origin feature/optimization`,
                 }}
                 className={`${isScrolled ? 'hidden sm:block' : 'block'} group flex items-center gap-2 bg-[#582CFF] hover:bg-[#4a24d9] rounded-full px-6 py-2.5 text-[13px] font-bold transition-all active:scale-95 text-white whitespace-nowrap shadow-lg shadow-[#582CFF]/20`}
               >
-                Contactar
+                {t.nav.contact}
               </button>
 
               {/* Mobile Toggle */}
@@ -727,9 +857,9 @@ git push origin feature/optimization`,
             <div className={`${isDark ? 'bg-[#0F0F10]/95 border-white/10' : 'bg-white/95 border-black/10'} backdrop-blur-2xl border rounded-3xl p-4 shadow-[0_25px_60px_rgba(0,0,0,0.3)]`}>
               <ul className="flex flex-col gap-1">
                 {navLinks.map((link) => (
-                  <li key={link.name} className={`flex items-center justify-between p-4 rounded-2xl transition-all cursor-pointer group ${isDark ? 'hover:bg-white/5' : 'hover:bg-black/5'}`}>
+                    <li key={link.name} className={`flex items-center justify-between p-4 rounded-2xl transition-all cursor-pointer group ${isDark ? 'hover:bg-white/5' : 'hover:bg-black/5'}`}>
                     <div className="flex items-center gap-3">
-                      <span className={`text-base font-semibold transition-colors ${isDark ? 'text-[#94A3B8] group-hover:text-white' : 'text-[#64748B] group-hover:text-black'}`}>{link.name}</span>
+                      <span className={`text-base font-semibold transition-colors ${isDark ? 'text-[#94A3B8] group-hover:text-white' : 'text-[#64748B] group-hover:text-black'}`}>{link.label}</span>
                       {link.name === 'Trabajos' && isScrolled && (
                         <span className="flex h-2 w-2">
                            <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-500 opacity-75"></span>
@@ -742,7 +872,7 @@ git push origin feature/optimization`,
                 ))}
                 <li className="mt-2 pt-4 border-t border-white/5 px-2 pb-2">
                   <button className="w-full bg-[#582CFF] py-3.5 rounded-2xl font-bold shadow-lg shadow-[#582CFF]/20 active:scale-[0.98] transition-all text-sm text-white">
-                    Contactar ahora
+                    {t.nav.contactNow}
                   </button>
                 </li>
               </ul>
@@ -759,24 +889,24 @@ git push origin feature/optimization`,
             <div className="flex-1 text-left order-2 lg:order-1">
               {/* Badge */}
               <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6 animate-entrance ${isDark ? 'bg-[#582CFF]/10 border-[#582CFF]/20 text-[#582CFF]' : 'bg-[#582CFF]/5 border-[#582CFF]/10 text-[#582CFF]'}`}>
-                <span className="text-[11px] font-bold uppercase tracking-[0.15em]">Desarrollador Full Stack</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.15em]">{t.hero.role}</span>
               </div>
 
               <h1 className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] mb-6 animate-entrance" style={{ animationDelay: '150ms' }}>
-                Sistemas Robustos.<br />
-                <span className={`italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent`}>Arquitectura de Vanguardia.</span>
+                {t.hero.title1}<br />
+                <span className={`italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent`}>{t.hero.title2}</span>
               </h1>
 
               <p className={`text-base md:text-lg max-w-xl mb-8 leading-relaxed animate-entrance ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`} style={{ animationDelay: '300ms' }}>
-                Ingeniero de Sistemas enfocado en desarrollo web. Transformo problemas complejos de UX en soluciones UI escalables, mediante código limpio y arquitecturas robustas.
+                {t.hero.desc}
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-entrance" style={{ animationDelay: '450ms' }}>
-                <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30px_rgba(88,44,255,0.25)] active:scale-95 text-white">
-                  Ver Proyectos
+                <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30_rgba(88,44,255,0.25)] active:scale-95 text-white">
+                  {t.hero.view}
                 </button>
                 <button className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-bold border transition-all active:scale-95 ${isDark ? 'border-white/10 hover:bg-white/5 text-white' : 'border-black/20 bg-transparent hover:bg-black/5 text-black'} ${isFlash ? 'animate-quick-flash border-[#582CFF]/50 text-[#582CFF]' : ''}`}>
-                  Descargar CV
+                  {t.hero.cv}
                   <Download className="w-4 h-4" />
                 </button>
               </div>
@@ -788,7 +918,7 @@ git push origin feature/optimization`,
                   <div className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></div>
                 </div>
                 <span className={`text-[11px] font-bold tracking-widest uppercase ${isDark ? 'text-green-500/80' : 'text-green-700'}`}>
-                  Disponible para proyectos
+                  {t.hero.availability}
                 </span>
               </div>
             </div>
@@ -842,12 +972,7 @@ git push origin feature/optimization`,
         {/* Technical Metrics Section */}
         <div className={`mt-24 pt-12 border-t transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-            {[
-              { title: '6+', subtitle: 'MESES DE EXPERIENCIA', status: 'system_status: active' },
-              { title: '100%', subtitle: 'ENFOQUE PIXEL-PERFECT', status: 'ux_latency: <100ms' },
-              { title: 'Robusta', subtitle: 'APIS & ARQUITECTURA', status: 'uptime: 99.9%' },
-              { title: '10+', subtitle: 'SISTEMAS DESPLEGADOS', status: 'deployments: success' }
-            ].map((metric, i) => (
+            {t.metrics.map((metric: any, i: number) => (
               <div key={i} className="flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
                 <span className={`text-4xl md:text-5xl font-black tracking-tighter ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
                   {metric.title}
@@ -887,13 +1012,13 @@ git push origin feature/optimization`,
             <div className="w-full lg:w-[35%] flex flex-col lg:justify-between">
               <div className="mb-8">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-4">
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Conocimientos</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">{t.stack.badge}</span>
                 </div>
                 <h2 className={`text-4xl font-black tracking-tighter mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  Stack Tecnológico
+                  {t.stack.title}
                 </h2>
                 <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-slate-600'}`}>
-                  Uso estas herramientas como diseñador IoT para crear infraestructura robusta y continua con herramientas líderes de la industria.
+                  {t.stack.desc}
                 </p>
               </div>
 
@@ -963,7 +1088,7 @@ git push origin feature/optimization`,
                       {/* Tooltip - Positioned below to avoid overflow-hidden clipping from top */}
                       <div className="absolute top-full right-0 mt-3 opacity-0 group-hover/copy:opacity-100 pointer-events-none transition-all duration-300 translate-y-1 group-hover/copy:translate-y-0 z-50">
                         <div className="bg-[#0F172A] text-[10px] font-black text-white px-3 py-2 rounded-lg border border-white/10 shadow-2xl backdrop-blur-xl whitespace-nowrap uppercase tracking-[0.2em]">
-                          {copiedTab === activeTab ? '¡Copiado!' : 'Copy to clipboard'}
+                          {copiedTab === activeTab ? t.stack.copied : t.stack.copy}
                         </div>
                       </div>
                     </div>
@@ -1002,7 +1127,7 @@ git push origin feature/optimization`,
                   <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
                     <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-                      Status: Production Ready
+                      {t.stack.status}
                     </span>
                   </div>
                   <p className={`text-sm font-medium leading-relaxed max-w-xl ${isDark ? 'text-white/70' : 'text-[#1E293B]/80'}`}>
@@ -1029,68 +1154,23 @@ git push origin feature/optimization`,
           <div className="py-20">
             <div className="mb-20 max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-8">
-                <span className="text-xs font-bold uppercase tracking-widest">Trabajos</span>
+                <span className="text-xs font-bold uppercase tracking-widest">{t.projects.badge}</span>
               </div>
               <h2 className={`text-5xl md:text-7xl font-black tracking-tighter mb-8 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
-                Arquitectura de <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">Sistemas Reales.</span>
+                {t.projects.title} <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">{t.projects.titleAccent}</span>
               </h2>
               <p className={`text-lg md:text-xl leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-                Debido a la naturaleza interna de estos sistemas gubernamentales y empresariales, el acceso público está restringido, pero aquí detallo la arquitectura e impacto de las soluciones desarrolladas.
+                {t.projects.desc}
               </p>
             </div>
 
-            {[
-              {
-                title: "Plataforma Autogobierno",
-                company: "Alcaldía de Mariño",
-                desc: "Plataforma centralizada para la gestión comunitaria, optimizando flujos de trabajo dinámicos y la comunicación directa con los ciudadanos.",
-                tags: ["Laravel", "React", "TypeScript", "Tailwind", "PostgreSQL"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-postgresql-plain"],
-                images: ["/foto.webp", "/foto 1.webp"],
-                year: "2026",
-                role: "Desarrollador Full Stack",
-                achievements: [
-                  "Primer municipio del país en implementar un sistema integral de ayudas automatizadas para la comunidad.",
-                  "Implementación de flujos de aprobación en tiempo real y gestión transparente de recursos.",
-                  "Optimización del 60% en tiempos de respuesta administrativa mediante la automatización de procesos."
-                ]
-              },
-              {
-                title: "XINABIS",
-                company: "Embarcación Isidoro",
-                desc: "Gestión integral para la embarcación Isidoro: finanzas, incidencias y seguridad avanzada con RBAC.",
-                tags: ["Laravel", "React", "TypeScript", "Tailwind", "PostgreSQL"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-postgresql-plain"],
-                images: ["/x1.webp", "/x2.webp", "/x3.webp", "/x4.webp"],
-                year: "2026",
-                role: "Desarrollador Full Stack",
-                achievements: [
-                  "Pionero nacional en gestión web marítima, logrando trazabilidad y transparencia absoluta.",
-                  "Seguridad de alto nivel mediante arquitectura RBAC y autenticación de dos factores (2FA).",
-                  "Control total de ingresos, egresos e incidencias con respaldo fotográfico, eliminando procesos manuales."
-                ]
-              },
-              {
-                title: "Planificación Estratégica",
-                company: "Alcaldía de Mariño",
-                desc: "Arquitectura de un sistema de seguimiento departamental con visualización de datos mediante Diagramas de Gantt y métricas de cumplimiento de alto nivel.",
-                tags: ["Laravel", "React", "TypeScript", "Tailwind", "SQLite"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
-                images: ["/foto 2.webp", "/foto 3.webp"],
-                year: "2026",
-                role: "Desarrollador Full Stack",
-                achievements: [
-                  "Desarrollo de una herramienta de visualización de datos mediante Diagramas de Gantt para la planificación estratégica municipal.",
-                  "Arquitectura de seguimiento con métricas de cumplimiento y regulación de porcentajes de avance departamental.",
-                  "Mejora en un 40% en el seguimiento de actividades de todos los departamentos del ente gubernamental."
-                ]
-              }
-            ].map((project, index) => (
+            {projects.map((project, index) => (
               <ProjectCard 
                 key={index} 
                 project={project} 
                 isDark={isDark} 
                 index={index}
+                t={t}
                 onOpenGallery={(p) => {
                   setSelectedProject(p)
                   setCurrentModalImage(0)
@@ -1104,10 +1184,10 @@ git push origin feature/optimization`,
           <hr className={`opacity-10 ${isDark ? 'border-white' : 'border-[#582CFF] !opacity-20'}`} />
         </section>
 
-        <ExperienceTimeline isDark={isDark} />
+        <ExperienceTimeline isDark={isDark} lang={lang} />
       </main>
 
-      <ContactFooter isDark={isDark} />
+      <ContactFooter isDark={isDark} lang={lang} />
 
       {/* Modal Gallery - Presentation to Detail Transition */}
       {selectedProject && (
@@ -1152,7 +1232,7 @@ git push origin feature/optimization`,
                 ))}
                 {!selectedProject.images && (
                    <div className="min-w-full h-full flex items-center justify-center">
-                      <span className={`font-black uppercase tracking-widest text-4xl ${isDark ? 'text-white/10' : 'text-black/5'}`}>Confidencial</span>
+                      <span className={`font-black uppercase tracking-widest text-4xl ${isDark ? 'text-white/10' : 'text-black/5'}`}>{t.common.confidential}</span>
                    </div>
                 )}
               </div>
@@ -1208,7 +1288,7 @@ git push origin feature/optimization`,
                 ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-[#F8FAFC] border-[#582CFF]/20'}`}>
                 <div className="mb-8">
                   <h3 className={`text-xl sm:text-2xl font-black tracking-tighter mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                    Logros del Proyecto
+                    {t.projects.highlights}
                   </h3>
                   <p className="text-[#582CFF] font-bold text-[10px] uppercase tracking-[0.3em]">
                     {selectedProject.company}
@@ -1257,7 +1337,7 @@ git push origin feature/optimization`,
                           : 'bg-black/5 border-black/10 text-black hover:bg-black/10 hover:border-[#582CFF]/50'}`}
                    >
                       <ChevronLeft className="w-4 h-4" />
-                      Regresar a Galería
+                      {t.projects.back}
                    </button>
                 </div>
               </div>
