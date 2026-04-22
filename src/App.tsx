@@ -117,7 +117,7 @@ const ProjectCard = ({ project, isDark, index, onOpenGallery, t }: ProjectCardPr
 const translations = {
   ES: {
     nav: { home: 'Inicio', skills: 'Conocimientos', works: 'Trabajos', timeline: 'Trayectoria', contact: 'Contactar', contactNow: 'Contactar ahora' },
-    hero: { role: 'Desarrollador Full Stack', title1: 'Sistemas Robustos.', title2: 'Arquitectura de Vanguardia.', desc: 'Ingeniero de Sistemas enfocado en desarrollo web. Transformo problemas complejos de UX en soluciones UI escalables, mediante código limpio y arquitecturas robustas.', techList: 'Tecnologías y Desarrollo: React.js, Laravel (PHP), TypeScript, Inertia.js, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, PostgreSQL y SQL', view: 'Ver Proyectos', cv: 'Descargar CV', availability: 'Disponible para proyectos' },
+    hero: { role: 'Desarrollador Full Stack', title1: 'Sistemas Robustos.', title2: 'Arquitectura de Vanguardia.', desc: 'Ingeniero de Sistemas enfocado en desarrollo web. Transformo problemas complejos de UX en soluciones UI escalables, mediante código limpio y arquitecturas robustas.', view: 'Ver Proyectos', cv: 'Descargar CV', cvPath: '/CV Luis Rodriguez Es.pdf', availability: 'Disponible para proyectos' },
     metrics: [
       { title: '6+', subtitle: 'MESES DE EXPERIENCIA', status: 'system_status: active' },
       { title: '100%', subtitle: 'ENFOQUE PIXEL-PERFECT', status: 'ux_latency: <100ms' },
@@ -146,7 +146,7 @@ const translations = {
   },
   EN: {
     nav: { home: 'Home', skills: 'Skills', works: 'Works', timeline: 'Trajectory', contact: 'Contact', contactNow: 'Contact Now' },
-    hero: { role: 'Full Stack Developer', title1: 'Robust Systems.', title2: 'Cutting-Edge Architecture.', desc: 'Systems Engineer focused on web development. I transform complex UX problems into scalable UI solutions, using clean code and robust architectures.', techList: 'Technologies and Development: React.js, Laravel (PHP), TypeScript, Inertia.js, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, PostgreSQL, and SQL', view: 'View Projects', cv: 'Download CV', availability: 'Available for projects' },
+    hero: { role: 'Full Stack Developer', title1: 'Robust Systems.', title2: 'Cutting-Edge Architecture.', desc: 'Systems Engineer focused on web development. I transform complex UX problems into scalable UI solutions, using clean code and robust architectures.', view: 'View Projects', cv: 'Download CV', cvPath: '/CV Luis Rodriguez En.pdf', availability: 'Available for projects' },
     metrics: [
       { title: '6+', subtitle: 'MONTHS OF EXPERIENCE', status: 'system_status: active' },
       { title: '100%', subtitle: 'PIXEL-PERFECT FOCUS', status: 'ux_latency: <100ms' },
@@ -695,20 +695,20 @@ git push origin feature/optimization`,
           animation: quick-flash 0.4s ease-in-out 2;
         }
       `}</style>
-      <div id="inicio" className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-white text-black'} font-sans selection:bg-[#582CFF]/30 scroll-smooth`}>
+      <div id="inicio" className={`min-h-[200vh] overflow-x-hidden transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-white text-black'} font-sans selection:bg-[#582CFF]/30 scroll-smooth`}>
       {/* Background radial gradient */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] transition-opacity duration-1000 ${isDark ? 'bg-[#582CFF]/10' : 'bg-[#582CFF]/5'} blur-[120px] rounded-full`}></div>
         <div className={`absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] transition-opacity duration-1000 ${isDark ? 'bg-[#8E54FF]/10' : 'bg-[#8E54FF]/5'} blur-[120px] rounded-full`}></div>
       </div>
 
-      <header className={`fixed top-0 inset-x-0 z-50 flex justify-center transition-all duration-500 ease-in-out ${isScrolled ? 'pt-4' : 'pt-8'}`}>
+      <header className={`fixed top-0 inset-x-0 z-50 flex justify-center transition-all duration-500 ease-in-out ${isScrolled ? 'pt-4' : 'pt-4 md:pt-8'}`}>
         <div className="relative flex flex-col items-center w-full px-4 sm:px-6 lg:px-8">
           <nav className={`
             flex items-center justify-between transition-all duration-500 ease-in-out
             ${isScrolled 
               ? `px-4 py-2.5 w-full max-w-5xl ${isDark ? 'bg-[#0F0F10]/95 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]' : 'bg-white/90 border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.05)]'} backdrop-blur-2xl border` 
-              : `px-6 py-4 w-full max-w-6xl ${isDark ? 'bg-[#0F0F10]/60 border-white/5' : 'bg-white/70 border-slate-100'} backdrop-blur-md border`} 
+              : `px-4 py-2.5 md:px-6 md:py-4 w-full max-w-6xl ${isDark ? 'bg-[#0F0F10]/60 border-white/5' : 'bg-white/70 border-slate-100'} backdrop-blur-md border`} 
             rounded-full
           `}>
             {/* Logo */}
@@ -835,7 +835,7 @@ git push origin feature/optimization`,
                   const target = document.getElementById('contacto');
                   if (target) target.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className={`${isScrolled ? 'hidden sm:block' : 'block'} group flex items-center gap-2 bg-[#582CFF] hover:bg-[#4a24d9] rounded-full px-6 py-2.5 text-[13px] font-bold transition-all active:scale-95 text-white whitespace-nowrap shadow-lg shadow-[#582CFF]/20`}
+                className="hidden xl:block group flex items-center gap-2 bg-[#582CFF] hover:bg-[#4a24d9] rounded-full px-6 py-2.5 text-[13px] font-bold transition-all active:scale-95 text-white whitespace-nowrap shadow-lg shadow-[#582CFF]/20"
               >
                 {t.nav.contact}
               </button>
@@ -937,20 +937,30 @@ git push origin feature/optimization`,
                 {t.hero.desc}
               </p>
 
-              <div className="mb-8 animate-entrance" style={{ animationDelay: '350ms' }}>
-                <span className={`text-[10px] font-black uppercase tracking-[0.2em] opacity-60 ${isDark ? 'text-[#582CFF]' : 'text-[#4a24d9]'}`}>
-                  {t.hero.techList}
-                </span>
-              </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-entrance" style={{ animationDelay: '450ms' }}>
-                <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30_rgba(88,44,255,0.25)] active:scale-95 text-white">
+                <button 
+                  onClick={() => {
+                    const target = document.getElementById('trabajos');
+                    if (target) {
+                      const offset = 100;
+                      const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+                      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                    }
+                  }}
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30_rgba(88,44,255,0.25)] active:scale-95 text-white"
+                >
                   {t.hero.view}
                 </button>
-                <button className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-bold border transition-all active:scale-95 ${isDark ? 'border-white/10 hover:bg-white/5 text-white' : 'border-black/20 bg-transparent hover:bg-black/5 text-black'} ${isFlash ? 'animate-quick-flash border-[#582CFF]/50 text-[#582CFF]' : ''}`}>
+                <a 
+                  href={t.hero.cvPath}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-bold border transition-all active:scale-95 ${isDark ? 'border-white/10 hover:bg-white/5 text-white' : 'border-black/20 bg-transparent hover:bg-black/5 text-black'} ${isFlash ? 'animate-quick-flash border-[#582CFF]/50 text-[#582CFF]' : ''}`}
+                >
                   {t.hero.cv}
                   <Download className="w-4 h-4" />
-                </button>
+                </a>
               </div>
 
               {/* Availability Indicator */}

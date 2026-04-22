@@ -13,6 +13,7 @@ const ContactFooter: React.FC<{ isDark: boolean, lang: string }> = ({ isDark, la
       social: 'Social',
       resources: 'Recursos',
       downloadCv: 'Descargar CV',
+      cvPath: '/CV Luis Rodriguez Es.pdf',
       portfolioPdf: 'Portafolio PDF',
       legal: 'Legal',
       privacy: 'Privacidad',
@@ -28,6 +29,7 @@ const ContactFooter: React.FC<{ isDark: boolean, lang: string }> = ({ isDark, la
       social: 'Social',
       resources: 'Resources',
       downloadCv: 'Download CV',
+      cvPath: '/CV Luis Rodriguez En.pdf',
       portfolioPdf: 'Portfolio PDF',
       legal: 'Legal',
       privacy: 'Privacy',
@@ -104,7 +106,12 @@ const ContactFooter: React.FC<{ isDark: boolean, lang: string }> = ({ isDark, la
               <span className={`text-[10px] font-black tracking-[0.3em] uppercase ${isDark ? 'text-white/30' : 'text-black/30'}`}>{t.resources}</span>
               <ul className="space-y-4">
                 <li>
-                  <a href="#" className={`flex items-center gap-3 text-sm font-bold transition-all hover:text-[#FF4B4B] group ${isDark ? 'text-white/60' : 'text-black/60'}`}>
+                  <a 
+                    href={t.cvPath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-3 text-sm font-bold transition-all hover:text-[#FF4B4B] group ${isDark ? 'text-white/60' : 'text-black/60'}`}
+                  >
                     <div className={`p-2 rounded-lg ${isDark ? 'bg-white/5' : 'bg-black/5'} group-hover:bg-[#FF4B4B]/10 transition-colors`}>
                       <BsFileEarmarkPdfFill className="w-4 h-4" />
                     </div>
