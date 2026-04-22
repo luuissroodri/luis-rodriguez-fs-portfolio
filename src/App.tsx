@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download, Copy, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download, Copy, ChevronLeft, ChevronRight, Lock } from 'lucide-react'
 import { GiPenguin } from 'react-icons/gi'
 import luisPhoto from './assets/Luis.jpeg'
 
@@ -12,74 +12,99 @@ interface Project {
   icons: string[];
   images?: string[];
   achievements?: string[];
+  year: string;
+  role: string;
 }
 
 interface ProjectCardProps {
   project: Project;
   isDark: boolean;
+  index: number;
   onOpenGallery: (project: Project) => void;
 }
 
-const ProjectCard = ({ project, isDark, onOpenGallery }: ProjectCardProps) => {
+const ProjectCard = ({ project, isDark, index, onOpenGallery }: ProjectCardProps) => {
   const hasImages = project.images && project.images.length > 0;
+  const mainImage = hasImages ? project.images![0] : luisPhoto;
 
   return (
     <div 
       onClick={() => onOpenGallery(project)}
       className={`
-        group relative p-8 rounded-3xl border transition-all duration-500 overflow-hidden flex flex-col h-full cursor-pointer
-        ${isDark 
-          ? 'bg-white/[0.03] border-white/10 hover:bg-white/[0.06] hover:border-white/20' 
-          : 'bg-white border-black/[0.05] hover:shadow-2xl hover:shadow-[#582CFF]/10'}
-        backdrop-blur-xl hover:-translate-y-2
+        group relative w-full flex flex-col lg:flex-row gap-12 py-12 transition-all duration-700 cursor-pointer
+        ${index !== 0 ? (isDark ? 'border-t border-white/10' : 'border-t border-black/5') : ''}
+        hover:opacity-80
       `}
     >
-      {/* Corner Thumbnail Preview - More Rectangular */}
-      {hasImages && (
-        <div className="absolute top-6 right-6 w-32 h-20 rounded-xl overflow-hidden border-2 border-[#582CFF]/20 shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 z-20">
+      {/* Left Column: Image & Technologies */}
+      <div className="w-full lg:w-[50%] flex flex-col gap-6">
+        {/* The Capture - Full visibility */}
+        <div className="aspect-video rounded-[24px] overflow-hidden bg-zinc-900/10 dark:bg-white/5 border border-white/5 shadow-sm transition-all duration-700 group-hover:shadow-2xl">
           <img 
-            src={project.images![0]} 
+            src={mainImage} 
             alt={project.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-[#582CFF]/10 group-hover:opacity-0 transition-opacity"></div>
         </div>
-      )}
 
-      {/* Background Glow */}
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#582CFF]/10 blur-[80px] rounded-full group-hover:bg-[#582CFF]/20 transition-all duration-700"></div>
+        {/* Technologies - Now dynamically from project data */}
+        <div className="flex items-center gap-5 px-1">
+          {project.icons.map((icon, i) => (
+            <i 
+              key={i} 
+              className={`${icon} text-xl opacity-40 group-hover:opacity-100 transition-all duration-500 hover:scale-110`}
+              style={{ transitionDelay: `${i * 75}ms` }}
+            ></i>
+          ))}
+        </div>
+      </div>
 
-      <div className="relative z-10 flex-1 flex flex-col">
-        {/* Header Group: Identification */}
-        <div className="mb-8">
-          <h3 className={`text-2xl font-black mb-1 tracking-tight pr-16 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
-            {project.title}
-          </h3>
-          <p className={`${isDark ? 'text-[#582CFF]' : 'text-[#582CFF]'} font-bold text-[10px] uppercase tracking-[0.3em]`}>
+      {/* Right Column: Content Section */}
+      <div className="w-full lg:w-[50%] flex flex-col pt-1">
+        {/* Company Badge */}
+        <div className="flex items-center gap-3 mb-4">
+          <span className={`text-[9px] font-black uppercase tracking-[0.3em] ${isDark ? 'text-[#582CFF]' : 'text-[#582CFF]'}`}>
             {project.company}
-          </p>
-        </div>
-        
-        {/* Body Group: Content */}
-        <div className="mb-10">
-          <p className={`text-xs leading-relaxed pr-10 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-            {project.desc}
-          </p>
+          </span>
+          <div className={`h-[1px] w-6 ${isDark ? 'bg-white/20' : 'bg-black/10'}`}></div>
         </div>
 
-        {/* Footer Group: Tech & Action */}
-        <div className="mt-auto flex items-center justify-between pt-6 border-t border-white/5">
-          <div className="flex flex-wrap items-center gap-4">
-            {project.icons.map((icon, i) => (
-              <i key={i} className={`${icon} text-lg ${isDark ? 'text-white/30 group-hover:text-[#582CFF]' : 'text-black/30 group-hover:text-[#582CFF]'} transition-colors duration-300`}></i>
-            ))}
+        <h3 className={`text-3xl lg:text-4xl font-black mb-4 tracking-tighter leading-tight ${isDark ? 'text-white' : 'text-black'}`}>
+          {project.title}
+        </h3>
+        
+        <p className={`text-base leading-relaxed mb-8 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+          {project.desc}
+        </p>
+
+        {/* PROJECT INFO Table - Minimalist */}
+        <div className={`mt-auto border-t pt-6 ${isDark ? 'border-white/10' : 'border-black/10'}`}>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center py-1.5 border-b border-white/5">
+              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-black/40'}`}>Año</span>
+              <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-black'}`}>{project.year}</span>
+            </div>
+            <div className="flex justify-between items-center py-1.5">
+              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-black/40'}`}>Rol</span>
+              <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-black'}`}>{project.role}</span>
+            </div>
           </div>
-          
+        </div>
+
+        {/* Action Links - Differentiated Styles */}
+        <div className="flex items-center gap-6 mt-10">
           <button 
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#582CFF] text-white text-[10px] font-black uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#582CFF]/30"
+            onClick={() => onOpenGallery(project)}
+            className="group/btn flex items-center gap-2 px-8 py-3 rounded-xl bg-[#582CFF] text-white text-[11px] font-black uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#582CFF]/25"
           >
-            Ver
+            Explorar Proyecto
+            <ChevronRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
           </button>
+          
+          <div className="flex items-center gap-2 text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] cursor-not-allowed">
+            <Lock className="w-3 h-3" />
+            Repo Privado
+          </div>
         </div>
       </div>
     </div>
@@ -187,6 +212,60 @@ return <InteractivePanel status={isLive} />;`,
         </>
       )
     },
+    js: {
+      name: 'JavaScript',
+      icon: 'devicon-javascript-plain',
+      color: '#F7DF1E',
+      ext: 'js',
+      desc: 'Lógica de cliente asíncrona, optimización de algoritmos y manipulación avanzada del DOM.',
+      raw: `async function fetchData() {
+  const res = await fetch('/api/v1/projects');
+  const data = await res.json();
+
+  if (data.status === 'success') {
+    return data.projects.filter(p => p.active);
+  }
+}`,
+      code: (
+        <>
+          <p><span className="text-purple-400">async function</span> <span className="text-blue-400">fetchData</span>() {'{'}</p>
+          <p className="pl-4"><span className="text-purple-400">const</span> res = <span className="text-purple-400">await</span> <span className="text-blue-400">fetch</span>(<span className="text-yellow-200">'/api/v1/projects'</span>);</p>
+          <p className="pl-4"><span className="text-purple-400">const</span> data = <span className="text-purple-400">await</span> res.<span className="text-blue-400">json</span>();</p>
+          <br />
+          <p className="pl-4"><span className="text-purple-400">if</span> (data.status === <span className="text-yellow-200">'success'</span>) {'{'}</p>
+          <p className="pl-8"><span className="text-purple-400">return</span> data.projects.<span className="text-blue-400">filter</span>(p ={'>'} p.active);</p>
+          <p className="pl-4">{'}'}</p>
+          <p>{'}'}</p>
+        </>
+      )
+    },
+    typescript: {
+      name: 'TypeScript',
+      icon: 'devicon-typescript-plain',
+      color: '#3178C6',
+      ext: 'ts',
+      desc: 'Tipado estático para JavaScript, mejorando la mantenibilidad del código y previniendo errores en desarrollo.',
+      raw: `interface User {
+  id: number;
+  role: 'admin' | 'dev';
+}
+
+const systemStatus = (u: User): string => {
+  return \`Active: \${u.role}\`;
+};`,
+      code: (
+        <>
+          <p><span className="text-purple-400">interface</span> <span className="text-red-400">User</span> {'{'}</p>
+          <p className="pl-4">id: <span className="text-blue-300">number</span>;</p>
+          <p className="pl-4">role: <span className="text-yellow-200">'admin'</span> | <span className="text-yellow-200">'dev'</span>;</p>
+          <p>{'}'}</p>
+          <br />
+          <p><span className="text-purple-400">const</span> <span className="text-blue-400">systemStatus</span> = (u: <span className="text-red-400">User</span>): <span className="text-blue-300">string</span> ={'>'} {'{'}</p>
+          <p className="pl-4"><span className="text-purple-400">return</span> <span className="text-yellow-200">`Active: ${'{'}u.role{'}'}`</span>;</p>
+          <p>{'}'};</p>
+        </>
+      )
+    },
     tailwind: {
       name: 'Tailwind',
       icon: 'devicon-tailwindcss-plain',
@@ -211,29 +290,27 @@ return <InteractivePanel status={isLive} />;`,
         </>
       )
     },
-    js: {
-      name: 'JavaScript',
-      icon: 'devicon-javascript-plain',
-      color: '#F7DF1E',
-      ext: 'js',
-      desc: 'Lógica de cliente asíncrona, optimización de algoritmos y manipulación avanzada del DOM.',
-      raw: `async function fetchData() {
-  const res = await fetch('/api/v1/projects');
-  const data = await res.json();
-
-  if (data.status === 'success') {
-    return data.projects.filter(p => p.active);
-  }
+    figma: {
+      name: 'Figma',
+      icon: 'devicon-figma-plain',
+      color: '#F24E1E',
+      ext: 'fig',
+      desc: 'Diseño de interfaces (UI/UX), prototipado de alta fidelidad y colaboración en el flujo creativo.',
+      raw: `/* Figma Design Tokens */
+:root {
+  --primary-glow: #582CFF;
+  --glass-blur: 12px;
+  --card-radius: 24px;
+  --transition: 0.5s ease;
 }`,
       code: (
         <>
-          <p><span className="text-purple-400">async function</span> <span className="text-blue-400">fetchData</span>() {'{'}</p>
-          <p className="pl-4"><span className="text-purple-400">const</span> res = <span className="text-purple-400">await</span> <span className="text-blue-400">fetch</span>(<span className="text-yellow-200">'/api/v1/projects'</span>);</p>
-          <p className="pl-4"><span className="text-purple-400">const</span> data = <span className="text-purple-400">await</span> res.<span className="text-blue-400">json</span>();</p>
-          <br />
-          <p className="pl-4"><span className="text-purple-400">if</span> (data.status === <span className="text-yellow-200">'success'</span>) {'{'}</p>
-          <p className="pl-8"><span className="text-purple-400">return</span> data.projects.<span className="text-blue-400">filter</span>(p ={'>'} p.active);</p>
-          <p className="pl-4">{'}'}</p>
+          <p><span className="text-white/30">/* Figma Design Tokens */</span></p>
+          <p><span className="text-yellow-400">:root</span> {'{'}</p>
+          <p className="pl-4"><span className="text-blue-300">--primary-glow</span>: <span className="text-orange-400">#582CFF</span>;</p>
+          <p className="pl-4"><span className="text-blue-300">--glass-blur</span>: 12px;</p>
+          <p className="pl-4"><span className="text-blue-300">--card-radius</span>: 24px;</p>
+          <p className="pl-4"><span className="text-blue-300">--transition</span>: 0.5s ease;</p>
           <p>{'}'}</p>
         </>
       )
@@ -292,27 +369,6 @@ class SystemEngine {
         </>
       )
     },
-    sql: {
-      name: 'MySQL',
-      icon: 'devicon-mysql-plain',
-      color: '#4479A1',
-      ext: 'sql',
-      desc: 'Consultas optimizadas para bases de datos relacionales y gestión eficiente de la información.',
-      raw: `SELECT * FROM users
-WHERE active = 1
-AND role = 'admin'
-ORDER BY created_at DESC
-LIMIT 10;`,
-      code: (
-        <>
-          <p><span className="text-purple-400">SELECT</span> * <span className="text-purple-400">FROM</span> users</p>
-          <p><span className="text-purple-400">WHERE</span> active = <span className="text-orange-400">1</span></p>
-          <p><span className="text-purple-400">AND</span> role = <span className="text-yellow-200">'admin'</span></p>
-          <p><span className="text-purple-400">ORDER BY</span> created_at <span className="text-purple-400">DESC</span></p>
-          <p><span className="text-purple-400">LIMIT</span> <span className="text-orange-400">10</span>;</p>
-        </>
-      )
-    },
     postgresql: {
       name: 'PostgreSQL',
       icon: 'devicon-postgresql-plain',
@@ -335,6 +391,88 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
           <p>);</p>
           <br />
           <p><span className="text-purple-400">CREATE INDEX</span> idx_data <span className="text-purple-400">ON</span> analytics <span className="text-purple-400">USING GIN</span>(event_data);</p>
+        </>
+      )
+    },
+    sqlite: {
+      name: 'SQLite',
+      icon: 'devicon-sqlite-plain',
+      color: '#003B57',
+      ext: 'sqlite',
+      desc: 'Base de datos ligera y autónoma, ideal para aplicaciones locales, desarrollo rápido y almacenamiento integrado.',
+      raw: `CREATE TABLE local_storage (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  key TEXT UNIQUE,
+  value BLOB
+);
+
+PRAGMA foreign_keys = ON;`,
+      code: (
+        <>
+          <p><span className="text-purple-400">CREATE TABLE</span> local_storage (</p>
+          <p className="pl-4">id <span className="text-purple-400">INTEGER PRIMARY KEY AUTOINCREMENT</span>,</p>
+          <p className="pl-4">key <span className="text-purple-400">TEXT UNIQUE</span>,</p>
+          <p className="pl-4">value <span className="text-purple-400">BLOB</span></p>
+          <p>);</p>
+          <br />
+          <p><span className="text-purple-400">PRAGMA</span> foreign_keys = <span className="text-orange-400">ON</span>;</p>
+        </>
+      )
+    },
+    ubuntu: {
+      name: 'Ubuntu',
+      icon: 'devicon-ubuntu-plain',
+      color: '#E95420',
+      ext: 'sh',
+      desc: 'Administración de servidores Linux, automatización de tareas y gestión de entornos de desarrollo.',
+      raw: `sudo apt update && sudo apt upgrade -y
+ls -la /var/www/html
+systemctl status nginx`,
+      code: (
+        <>
+          <p><span className="text-purple-400">sudo</span> apt update {'&&'} <span className="text-purple-400">sudo</span> apt upgrade <span className="text-blue-300">-y</span></p>
+          <p><span className="text-purple-400">ls</span> <span className="text-blue-300">-la</span> /var/www/html</p>
+          <p><span className="text-purple-400">systemctl</span> status nginx</p>
+        </>
+      )
+    },
+    docker: {
+      name: 'Docker',
+      icon: 'devicon-docker-plain',
+      color: '#2496ED',
+      ext: 'dockerfile',
+      desc: 'Containerización de aplicaciones, orquestación y despliegue consistente en diferentes entornos.',
+      raw: `FROM node:18-alpine
+WORKDIR /app
+COPY . .
+RUN npm install
+CMD ["npm", "start"]`,
+      code: (
+        <>
+          <p><span className="text-purple-400">FROM</span> node:18-alpine</p>
+          <p><span className="text-purple-400">WORKDIR</span> /app</p>
+          <p><span className="text-purple-400">COPY</span> . .</p>
+          <p><span className="text-purple-400">RUN</span> npm install</p>
+          <p><span className="text-purple-400">CMD</span> [<span className="text-yellow-200">"npm"</span>, <span className="text-yellow-200">"start"</span>]</p>
+        </>
+      )
+    },
+    git: {
+      name: 'Git',
+      icon: 'devicon-git-plain',
+      color: '#F05032',
+      ext: 'git',
+      desc: 'Control de versiones distribuido, colaboración en equipo y gestión de ramas.',
+      raw: `git checkout -b feature/optimization
+git add .
+git commit -m "feat: enhance system performance"
+git push origin feature/optimization`,
+      code: (
+        <>
+          <p><span className="text-purple-400">git</span> checkout <span className="text-blue-300">-b</span> feature/optimization</p>
+          <p><span className="text-purple-400">git</span> add .</p>
+          <p><span className="text-purple-400">git</span> commit <span className="text-blue-300">-m</span> <span className="text-yellow-200">"feat: enhance system performance"</span></p>
+          <p><span className="text-purple-400">git</span> push origin feature/optimization</p>
         </>
       )
     }
@@ -397,7 +535,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
   ]
 
   return (
-    <div id="inicio" className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-[#F8FAFC] text-[#1E293B]'} font-sans selection:bg-[#582CFF]/30 scroll-smooth`}>
+    <div id="inicio" className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-[#FFFDFE] text-[#1E293B]'} font-sans selection:bg-[#582CFF]/30 scroll-smooth`}>
       {/* Background radial gradient */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] transition-opacity duration-1000 ${isDark ? 'bg-[#582CFF]/10' : 'bg-[#582CFF]/5'} blur-[120px] rounded-full`}></div>
@@ -706,11 +844,11 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                  background: `conic-gradient(from 0deg, transparent 0 348deg, ${isDark ? '#582CFF' : '#8E54FF'} 360deg)` 
                }}
           />
-          <div className={`absolute inset-[2px] rounded-[2.4rem] z-[1] transition-colors duration-500 ${isDark ? 'bg-[#050505]' : 'bg-[#F8FAFC]'}`} />
+          <div className={`absolute inset-[2px] rounded-[2.4rem] z-[1] transition-colors duration-500 ${isDark ? 'bg-[#050505]' : 'bg-[#FFFDFE]'}`} />
 
           <div className="relative z-10 flex flex-col lg:flex-row gap-12">
             {/* Left Column: Tech Configuration & Selector */}
-            <div className="w-full lg:w-[35%] flex flex-col">
+            <div className="w-full lg:w-[35%] flex flex-col lg:justify-between">
               <div className="mb-8">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-4">
                   <span className="text-[10px] font-bold uppercase tracking-widest">Conocimientos</span>
@@ -724,7 +862,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
               </div>
 
               {/* Responsive Grid for Icons */}
-              <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 gap-2 lg:mb-2">
                 {Object.keys(technologies).map((key) => {
                   const tech = technologies[key];
                   return (
@@ -732,14 +870,20 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                       key={key}
                       onClick={() => setActiveTab(key)}
                       className={`
-                        group relative aspect-square flex flex-col items-center justify-center rounded-2xl border transition-all duration-500 active:scale-95
+                        group relative aspect-square flex flex-col items-center justify-center rounded-2xl border transition-all duration-500 active:scale-90 cursor-pointer
                         ${activeTab === key 
-                          ? (isDark ? 'bg-[#582CFF]/20 border-[#582CFF]/40 ring-1 ring-[#582CFF]/30' : 'bg-white border-[#582CFF]/30 shadow-lg shadow-[#582CFF]/5') 
-                          : (isDark ? 'bg-[#151515] border-white/5 hover:border-white/10' : 'bg-white border-black/[0.05] hover:border-black/[0.1] shadow-sm')}
+                          ? (isDark ? 'bg-[#582CFF]/20 border-[#582CFF]/40 ring-2 ring-[#582CFF]/30' : 'bg-white border-[#582CFF]/30 shadow-xl shadow-[#582CFF]/10 ring-2 ring-[#582CFF]/20') 
+                          : (isDark ? 'bg-[#151515] border-white/5 hover:border-[#582CFF]/40 hover:bg-[#582CFF]/5 hover:ring-2 hover:ring-[#582CFF]/20' : 'bg-white border-black/[0.05] hover:border-[#582CFF]/30 hover:shadow-lg hover:ring-2 hover:ring-[#582CFF]/10')}
                       `}
                     >
-                      <i className={`${tech.icon} text-2xl transition-all duration-500 ${activeTab === key ? 'colored scale-110' : 'grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100'}`}></i>
-                      <span className={`text-[9px] font-black mt-2 uppercase tracking-tight transition-colors ${activeTab === key ? (isDark ? 'text-white' : 'text-black') : 'text-gray-500/60'}`}>
+                      <i className={`${tech.icon} text-xl transition-all duration-500 
+                        ${activeTab === key 
+                          ? 'colored scale-150' 
+                          : 'grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110'}`}></i>
+                      <span className={`
+                        text-[8px] font-black uppercase tracking-tight transition-all duration-300 overflow-hidden
+                        ${activeTab === key ? 'h-0 opacity-0 mt-0' : 'h-auto opacity-100 mt-1.5 text-gray-500/60'}
+                      `}>
                         {tech.name}
                       </span>
                     </button>
@@ -836,33 +980,37 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
 
         </section>
 
-        {/* Bottom Separator */}
-        <div className={`mt-16 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
 
         {/* Trabajos Section */}
-        <section id="trabajos" className="mt-16 max-w-7xl mx-auto px-6 lg:px-12 py-20 relative">
-          <div className="mb-20 max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-6">
-              <span className="text-[10px] font-bold uppercase tracking-widest">Trabajos</span>
-            </div>
-            <h2 className={`text-4xl md:text-6xl font-black tracking-tighter mb-8 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
-              Arquitectura de <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">Sistemas Reales.</span>
-            </h2>
-            <p className={`text-base md:text-lg leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
-              Debido a la naturaleza interna de estos sistemas gubernamentales y empresariales, el acceso público está restringido, pero aquí detallo la arquitectura y el impacto de las soluciones desarrolladas.
-            </p>
-          </div>
+        <section id="trabajos" className="mt-16 max-w-7xl mx-auto px-6 lg:px-12 relative">
+          
+          {/* Section Entrance Separator */}
+          <hr className={`opacity-10 ${isDark ? 'border-white' : 'border-black'}`} />
 
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Unified Content Area - Balanced between Section HRs */}
+          <div className="py-20">
+            <div className="mb-20 max-w-4xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-8">
+                <span className="text-xs font-bold uppercase tracking-widest">Trabajos</span>
+              </div>
+              <h2 className={`text-5xl md:text-7xl font-black tracking-tighter mb-8 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+                Arquitectura de <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">Sistemas Reales.</span>
+              </h2>
+              <p className={`text-lg md:text-xl leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+                Debido a la naturaleza interna de estos sistemas gubernamentales y empresariales, el acceso público está restringido, pero aquí detallo la arquitectura e impacto de las soluciones desarrolladas.
+              </p>
+            </div>
+
             {[
               {
                 title: "Plataforma Autogobierno",
                 company: "Alcaldía de Mariño",
                 desc: "Plataforma centralizada para la gestión comunitaria, optimizando flujos de trabajo dinámicos y la comunicación directa con los ciudadanos.",
-                tags: ["Laravel", "React", "Tailwind", "PostgreSQL"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-postgresql-plain"],
+                tags: ["Laravel", "React", "TypeScript", "Tailwind", "PostgreSQL"],
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-postgresql-plain"],
                 images: ["/foto.webp", "/foto 1.webp"],
+                year: "2026",
+                role: "Desarrollador Full Stack",
                 achievements: [
                   "Optimización del 40% en tiempos de respuesta administrativa.",
                   "Implementación de flujos de aprobación en tiempo real.",
@@ -873,9 +1021,11 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                 title: "Planificación Estratégica",
                 company: "Alcaldía de Mariño",
                 desc: "Sistema de gestión de proyectos con visualización avanzada mediante Diagramas de Gantt, permitiendo el seguimiento en tiempo real de metas institucionales.",
-                tags: ["Laravel", "React", "Tailwind", "SQLite"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
+                tags: ["Laravel", "React", "TypeScript", "Tailwind", "SQLite"],
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
                 images: ["/foto 2.webp", "/foto 3.webp"],
+                year: "2026",
+                role: "Desarrollador Full Stack",
                 achievements: [
                   "Integración completa de Diagramas de Gantt dinámicos.",
                   "Seguimiento automatizado de KPIs municipales.",
@@ -886,8 +1036,11 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                 title: "Reporte de Incidencias",
                 company: "Alcaldía de Mariño",
                 desc: "Herramienta de reporte ciudadano con geolocalización avanzada y sistema de control de acceso basado en roles (RBAC) para una respuesta eficiente.",
-                tags: ["Laravel", "React", "Tailwind", "SQLite"],
-                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
+                tags: ["Laravel", "React", "TypeScript", "Tailwind", "SQLite"],
+                icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
+                images: ["/luis.jpeg"],
+                year: "2026",
+                role: "Desarrollador Full Stack",
                 achievements: [
                   "Geolocalización precisa de incidencias urbanas.",
                   "Arquitectura RBAC para múltiples dependencias.",
@@ -899,6 +1052,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                 key={index} 
                 project={project} 
                 isDark={isDark} 
+                index={index}
                 onOpenGallery={(p) => {
                   setSelectedProject(p)
                   setCurrentModalImage(0)
@@ -907,6 +1061,9 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
               />
             ))}
           </div>
+
+          {/* Section Bottom Boundary */}
+          <hr className={`opacity-10 ${isDark ? 'border-white' : 'border-black'}`} />
         </section>
       </main>
 
@@ -920,7 +1077,7 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
           ></div>
 
           {/* Modal Container */}
-          <div className={`relative w-full max-w-6xl aspect-[16/10] sm:aspect-video rounded-3xl overflow-hidden border transition-all duration-700 ease-in-out z-[70] animate-in zoom-in-95 flex flex-col sm:flex-row
+          <div className={`relative w-full max-w-6xl aspect-[16/10] sm:aspect-video rounded-3xl overflow-hidden border transition-all duration-700 ease-in-out z-[70] animate-in fade-in zoom-in-95 duration-500 slide-in-from-bottom-8 flex flex-col sm:flex-row
             ${isDark 
               ? 'bg-[#050505] border-white/10 shadow-[0_0_80px_rgba(88,44,255,0.15)]' 
               : 'bg-white border-black/10 shadow-[0_0_80px_rgba(88,44,255,0.1)]'}`}>
@@ -982,10 +1139,10 @@ CREATE INDEX idx_data ON analytics USING GIN(event_data);`,
                         setCurrentModalImage((prev: number) => (prev + 1) % len);
                       }
                     }}
-                    className={`absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full border transition-all z-[80]
-                      ${isDark ? 'bg-black/40 text-white border-white/10 hover:bg-[#582CFF]' : 'bg-white/60 text-black border-black/10 hover:bg-[#582CFF] hover:text-white'}`}
+                    className={`absolute right-4 top-1/2 -translate-y-1/2 p-4 rounded-full border transition-all z-[80] shadow-[0_0_30px_rgba(88,44,255,0.3)] animate-pulse
+                      ${isDark ? 'bg-[#582CFF] text-white border-white/20' : 'bg-[#582CFF] text-white border-black/10'}`}
                   >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="w-8 h-8" />
                   </button>
                 </>
               )}
