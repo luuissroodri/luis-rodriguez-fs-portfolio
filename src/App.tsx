@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download, Copy, ChevronLeft, ChevronRight, Lock, Sparkles } from 'lucide-react'
 import { GiPenguin } from 'react-icons/gi'
 import luisPhoto from './assets/Luis.jpeg'
+import ExperienceTimeline from './components/ExperienceTimeline'
 
 
 interface Project {
@@ -488,31 +489,32 @@ git push origin feature/optimization`,
       const sections = [
         { id: 'inicio', name: 'Inicio' },
         { id: 'conocimientos', name: 'Conocimientos' },
-        { id: 'trabajos', name: 'Trabajos' }
+        { id: 'trabajos', name: 'Trabajos' },
+        { id: 'trayectoria', name: 'Trayectoria' }
       ]
       
-      const scrollPosition = window.scrollY + 300 // Higher threshold for earlier detection
-
-      // Check if we are at the bottom of the page
-      const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
-      if (isBottom) {
-        setActiveSection('Trabajos')
-        return
-      }
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
 
       // Find the current section
       for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i]
-        const element = document.getElementById(section.id)
+        const section = sections[i];
+        const element = document.getElementById(section.id);
         if (element) {
-          const { offsetTop } = element
+          const { offsetTop } = element;
           if (scrollPosition >= offsetTop) {
-            setActiveSection(section.name)
-            break
+            setActiveSection(section.name);
+            break;
           }
         }
       }
-      if (window.scrollY < 100) setActiveSection('Inicio')
+
+      // Priority overrides
+      const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+      if (isBottom) {
+        setActiveSection('Trayectoria');
+      } else if (window.scrollY < 100) {
+        setActiveSection('Inicio');
+      }
     }
     const handleClickOutside = (event: MouseEvent) => {
       if (langRef.current && !langRef.current.contains(event.target as Node)) {
@@ -531,7 +533,7 @@ git push origin feature/optimization`,
     { name: 'Inicio', href: '#inicio' },
     { name: 'Conocimientos', href: '#conocimientos' },
     { name: 'Trabajos', href: '#trabajos' },
-    { name: 'Trayectoria', href: '#' }
+    { name: 'Trayectoria', href: '#trayectoria' }
   ]
 
   return (
@@ -1065,6 +1067,8 @@ git push origin feature/optimization`,
           {/* Section Bottom Boundary */}
           <hr className={`opacity-10 ${isDark ? 'border-white' : 'border-black'}`} />
         </section>
+
+        <ExperienceTimeline isDark={isDark} />
       </main>
 
       {/* Modal Gallery - Presentation to Detail Transition */}
