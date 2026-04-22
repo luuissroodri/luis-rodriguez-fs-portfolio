@@ -34,14 +34,14 @@ const ProjectCard = ({ project, isDark, index, onOpenGallery }: ProjectCardProps
       onClick={() => onOpenGallery(project)}
       className={`
         group relative w-full flex flex-col lg:flex-row gap-12 py-12 transition-all duration-700 cursor-pointer
-        ${index !== 0 ? (isDark ? 'border-t border-white/10' : 'border-t border-black/5') : ''}
-        hover:opacity-80
+        ${index !== 0 ? (isDark ? 'border-t border-white/10' : 'border-t border-slate-200') : ''}
+        hover:opacity-90
       `}
     >
       {/* Left Column: Image & Technologies */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {/* The Capture - Full visibility */}
-        <div className="aspect-video rounded-[24px] overflow-hidden bg-zinc-900/10 dark:bg-white/5 border border-white/5 shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+        <div className={`aspect-video rounded-[24px] overflow-hidden border shadow-sm transition-all duration-700 group-hover:shadow-2xl ${isDark ? 'bg-zinc-900/10 border-white/5' : 'bg-[#F8FAFC] border-[#582CFF]/20 shadow-xl shadow-[#582CFF]/5'}`}>
           <img 
             src={mainImage} 
             alt={project.title}
@@ -54,7 +54,7 @@ const ProjectCard = ({ project, isDark, index, onOpenGallery }: ProjectCardProps
           {project.icons.map((icon, i) => (
             <i 
               key={i} 
-              className={`${icon} text-xl opacity-40 group-hover:opacity-100 transition-all duration-500 hover:scale-110`}
+              className={`${icon} text-xl transition-all duration-500 hover:scale-110 ${isDark ? 'opacity-40 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-100 text-slate-600 group-hover:text-[#582CFF]'}`}
               style={{ transitionDelay: `${i * 75}ms` }}
             ></i>
           ))}
@@ -65,30 +65,30 @@ const ProjectCard = ({ project, isDark, index, onOpenGallery }: ProjectCardProps
       <div className="w-full lg:w-[50%] flex flex-col pt-1">
         {/* Company Badge */}
         <div className="flex items-center gap-3 mb-4">
-          <span className={`text-[9px] font-black uppercase tracking-[0.3em] ${isDark ? 'text-[#582CFF]' : 'text-[#582CFF]'}`}>
+          <span className={`text-[9px] font-black uppercase tracking-[0.3em] text-[#582CFF]`}>
             {project.company}
           </span>
-          <div className={`h-[1px] w-6 ${isDark ? 'bg-white/20' : 'bg-black/10'}`}></div>
+          <div className={`h-[1px] w-6 ${isDark ? 'bg-white/20' : 'bg-slate-200'}`}></div>
         </div>
 
-        <h3 className={`text-3xl lg:text-4xl font-black mb-4 tracking-tighter leading-tight ${isDark ? 'text-white' : 'text-black'}`}>
+        <h3 className={`text-3xl lg:text-4xl font-black mb-4 tracking-tighter leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
           {project.title}
         </h3>
         
-        <p className={`text-base leading-relaxed mb-8 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+        <p className={`text-base leading-relaxed mb-8 ${isDark ? 'text-[#94A3B8]' : 'text-slate-600'}`}>
           {project.desc}
         </p>
 
         {/* PROJECT INFO Table - Minimalist */}
-        <div className={`mt-auto border-t pt-6 ${isDark ? 'border-white/10' : 'border-black/10'}`}>
+        <div className={`mt-auto border-t pt-6 ${isDark ? 'border-white/10' : 'border-[#582CFF]/20'}`}>
           <div className="space-y-3">
-            <div className="flex justify-between items-center py-1.5 border-b border-white/5">
-              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-black/40'}`}>Año</span>
-              <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-black'}`}>{project.year}</span>
+            <div className={`flex justify-between items-center py-1.5 border-b ${isDark ? 'border-white/5' : 'border-slate-100'}`}>
+              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-slate-400'}`}>Año</span>
+              <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{project.year}</span>
             </div>
             <div className="flex justify-between items-center py-1.5">
-              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-black/40'}`}>Rol</span>
-              <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-black'}`}>{project.role}</span>
+              <span className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-slate-400'}`}>Rol</span>
+              <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{project.role}</span>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ const ProjectCard = ({ project, isDark, index, onOpenGallery }: ProjectCardProps
             <ChevronRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
           </button>
           
-          <div className="flex items-center gap-2 text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] cursor-not-allowed">
+          <div className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] cursor-not-allowed ${isDark ? 'text-zinc-500' : 'text-slate-400'}`}>
             <Lock className="w-3 h-3" />
             Repo Privado
           </div>
@@ -538,7 +538,17 @@ git push origin feature/optimization`,
   ]
 
   return (
-    <div id="inicio" className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-[#FFFDFE] text-[#1E293B]'} font-sans selection:bg-[#582CFF]/30 scroll-smooth`}>
+    <>
+      <style>{`
+        .light-syntax .text-purple-400 { color: #9333ea; }
+        .light-syntax .text-blue-400 { color: #2563eb; }
+        .light-syntax .text-blue-300 { color: #0284c7; }
+        .light-syntax .text-orange-400 { color: #ea580c; }
+        .light-syntax .text-yellow-200 { color: #84cc16; }
+        .light-syntax .text-green-400 { color: #16a34a; }
+        .light-syntax .text-red-400 { color: #dc2626; }
+      `}</style>
+      <div id="inicio" className={`min-h-[200vh] transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-white text-black'} font-sans selection:bg-[#582CFF]/30 scroll-smooth`}>
       {/* Background radial gradient */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] transition-opacity duration-1000 ${isDark ? 'bg-[#582CFF]/10' : 'bg-[#582CFF]/5'} blur-[120px] rounded-full`}></div>
@@ -550,8 +560,8 @@ git push origin feature/optimization`,
           <nav className={`
             flex items-center justify-between transition-all duration-500 ease-in-out
             ${isScrolled 
-              ? `px-4 py-2.5 w-full max-w-5xl ${isDark ? 'bg-[#0F0F10]/95 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]' : 'bg-white/70 border-black/[0.03] shadow-[0_20px_40px_rgba(88,44,255,0.05)]'} backdrop-blur-xl border` 
-              : `px-6 py-4 w-full max-w-6xl ${isDark ? 'bg-[#0F0F10]/60 border-white/5' : 'bg-white/60 border-black/[0.01]'} backdrop-blur-md border`} 
+              ? `px-4 py-2.5 w-full max-w-5xl ${isDark ? 'bg-[#0F0F10]/95 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]' : 'bg-white/90 border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.05)]'} backdrop-blur-2xl border` 
+              : `px-6 py-4 w-full max-w-6xl ${isDark ? 'bg-[#0F0F10]/60 border-white/5' : 'bg-white/70 border-slate-100'} backdrop-blur-md border`} 
             rounded-full
           `}>
             {/* Logo */}
@@ -748,7 +758,7 @@ git push origin feature/optimization`,
                 <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30px_rgba(88,44,255,0.25)] active:scale-95 text-white">
                   Ver Proyectos
                 </button>
-                <button className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-bold border transition-all active:scale-95 ${isDark ? 'border-white/10 hover:bg-white/5' : 'border-black/10 hover:bg-black/5 text-inherit font-bold'}`}>
+                <button className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-bold border transition-all active:scale-95 ${isDark ? 'border-white/10 hover:bg-white/5 text-white' : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-900 shadow-sm'}`}>
                   Descargar CV
                   <Download className="w-4 h-4" />
                 </button>
@@ -760,7 +770,7 @@ git push origin feature/optimization`,
                   <div className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></div>
                   <div className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></div>
                 </div>
-                <span className={`text-[11px] font-bold tracking-widest uppercase ${isDark ? 'text-green-500/80' : 'text-green-600'}`}>
+                <span className={`text-[11px] font-bold tracking-widest uppercase ${isDark ? 'text-green-500/80' : 'text-green-700'}`}>
                   Disponible para proyectos
                 </span>
               </div>
@@ -843,17 +853,17 @@ git push origin feature/optimization`,
         </div>
 
         {/* Bottom Separator */}
-        <div className={`mt-16 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-black/[0.05]'}`}></div>
+        <div className={`mt-16 border-b transition-all duration-500 ${isDark ? 'border-white/5' : 'border-[#582CFF]/20'}`}></div>
 
         {/* Conocimientos Section (Self-Contained Refactor) */}
-        <section id="conocimientos" className={`mt-16 max-w-7xl mx-auto px-6 lg:px-12 py-10 rounded-[2.5rem] border transition-all duration-500 relative group overflow-hidden ${isDark ? 'border-white/5 shadow-2xl' : 'border-black/[0.03] shadow-sm'} animate-in fade-in slide-in-from-bottom-12 duration-1000`}>
+        <section id="conocimientos" className={`mt-16 max-w-7xl mx-auto px-6 lg:px-12 py-10 rounded-[2.5rem] border transition-all duration-500 relative group overflow-hidden ${isDark ? 'border-white/5 shadow-2xl' : 'bg-[#F8FAFC] border-[#582CFF]/20 shadow-xl shadow-[#582CFF]/5'} animate-in fade-in slide-in-from-bottom-12 duration-1000`}>
           {/* Snake Border Animation Layers */}
           <div className="absolute inset-[-100%] aspect-square animate-border-spin opacity-50 z-0 pointer-events-none flex items-center justify-center" 
                style={{ 
-                 background: `conic-gradient(from 0deg, transparent 0 348deg, ${isDark ? '#582CFF' : '#8E54FF'} 360deg)` 
+                 background: `conic-gradient(from 0deg, transparent 0 348deg, ${isDark ? '#582CFF' : '#582CFF'} 360deg)` 
                }}
           />
-          <div className={`absolute inset-[2px] rounded-[2.4rem] z-[1] transition-colors duration-500 ${isDark ? 'bg-[#050505]' : 'bg-[#FFFDFE]'}`} />
+          <div className={`absolute inset-[2px] rounded-[2.4rem] z-[1] transition-colors duration-500 ${isDark ? 'bg-[#050505]' : 'bg-white'}`} />
 
           <div className="relative z-10 flex flex-col lg:flex-row gap-12">
             {/* Left Column: Tech Configuration & Selector */}
@@ -862,10 +872,10 @@ git push origin feature/optimization`,
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-4">
                   <span className="text-[10px] font-bold uppercase tracking-widest">Conocimientos</span>
                 </div>
-                <h2 className={`text-4xl font-black tracking-tighter mb-4 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+                <h2 className={`text-4xl font-black tracking-tighter mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Stack Tecnológico
                 </h2>
-                <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+                <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-slate-600'}`}>
                   Uso estas herramientas como diseñador IoT para crear infraestructura robusta y continua con herramientas líderes de la industria.
                 </p>
               </div>
@@ -881,8 +891,8 @@ git push origin feature/optimization`,
                       className={`
                         group relative aspect-square flex flex-col items-center justify-center rounded-2xl border transition-all duration-500 active:scale-90 cursor-pointer
                         ${activeTab === key 
-                          ? (isDark ? 'bg-[#582CFF]/20 border-[#582CFF]/40 ring-2 ring-[#582CFF]/30' : 'bg-white border-[#582CFF]/30 shadow-xl shadow-[#582CFF]/10 ring-2 ring-[#582CFF]/20') 
-                          : (isDark ? 'bg-[#151515] border-white/5 hover:border-[#582CFF]/40 hover:bg-[#582CFF]/5 hover:ring-2 hover:ring-[#582CFF]/20' : 'bg-white border-black/[0.05] hover:border-[#582CFF]/30 hover:shadow-lg hover:ring-2 hover:ring-[#582CFF]/10')}
+                          ? (isDark ? 'bg-[#582CFF]/20 border-[#582CFF]/40 ring-2 ring-[#582CFF]/30' : 'bg-white border-[#582CFF] shadow-xl shadow-[#582CFF]/10 ring-2 ring-[#582CFF]/20') 
+                          : (isDark ? 'bg-[#151515] border-white/5 hover:border-[#582CFF]/40 hover:bg-[#582CFF]/5 hover:ring-2 hover:ring-[#582CFF]/20' : 'bg-slate-50 border-slate-200 hover:border-[#582CFF]/30 hover:bg-white hover:shadow-lg hover:ring-2 hover:ring-[#582CFF]/10')}
                       `}
                     >
                       <i className={`${tech.icon} text-xl transition-all duration-500 
@@ -906,10 +916,10 @@ git push origin feature/optimization`,
               {/* Terminal Window with Anti-Breakage Constraints */}
               <div className={`
                 w-full rounded-2xl border overflow-hidden transition-all duration-500
-                ${isDark ? 'bg-[#0B0E14] border-white/10 shadow-2xl' : 'bg-[#0D0D0E] border-black/20 shadow-xl'}
+                ${isDark ? 'bg-[#0B0E14] border-white/10 shadow-2xl' : 'bg-slate-50 border-slate-200 shadow-xl shadow-slate-200/50'}
               `}>
                 {/* Terminal Header */}
-                <div className="flex items-center justify-between px-5 py-3 bg-white/5 border-b border-white/5">
+                <div className={`flex items-center justify-between px-5 py-3 border-b transition-colors duration-500 ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
                   <div className="flex gap-1.5">
                     <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
                     <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
@@ -926,7 +936,9 @@ git push origin feature/optimization`,
                         className={`p-2.5 rounded-xl border transition-all duration-300 active:scale-90 ${
                           copiedTab === activeTab 
                             ? 'bg-green-500/20 border-green-500/40 text-green-400' 
-                            : 'bg-white/10 border-white/20 text-white/70 hover:bg-[#582CFF] hover:border-[#582CFF] hover:text-white shadow-lg'
+                            : isDark 
+                              ? 'bg-white/10 border-white/20 text-white/70 hover:bg-[#582CFF] hover:border-[#582CFF] hover:text-white shadow-lg'
+                              : 'bg-white border-[#582CFF]/20 text-[#582CFF] hover:bg-[#582CFF] hover:text-white shadow-md shadow-[#582CFF]/10'
                         }`}
                       >
                         {copiedTab === activeTab ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -938,17 +950,17 @@ git push origin feature/optimization`,
                         </div>
                       </div>
                     </div>
-                    <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">
+                    <span className={`text-[10px] font-mono uppercase tracking-widest ${isDark ? 'text-white/30' : 'text-slate-400'}`}>
                       src/core/{activeTab}.{technologies[activeTab].ext}
                     </span>
                   </div>
                 </div>
 
                 {/* Code Body with Auto-Scroll and Fixed Height - Increased to 340px to avoid scroll */}
-                <div className="relative p-5 md:p-8 font-mono text-xs md:text-sm leading-relaxed overflow-x-auto overflow-y-auto custom-scrollbar h-[340px]">
-                  <div className="flex animate-in fade-in zoom-in-95 duration-500 text-white/90">
-                    <div className="flex flex-col text-white/20 select-none mr-6 text-right w-4">
-                      {Array.from({length: Math.max(10, technologies[activeTab].raw.split('\n').length)}).map((_, i) => (
+                <div className={`relative p-5 md:p-8 font-mono text-xs md:text-sm leading-relaxed overflow-x-auto overflow-y-auto custom-scrollbar h-[340px] transition-colors duration-500 ${!isDark ? 'light-syntax' : ''}`}>
+                  <div className={`flex animate-in fade-in zoom-in-95 duration-500 ${isDark ? 'text-white/90' : 'text-slate-800'}`}>
+                    <div className={`flex flex-col select-none mr-6 text-right w-4 ${isDark ? 'text-white/20' : 'text-slate-300'}`}>
+                      {Array.from({length: Math.max(10, (technologies[activeTab]?.raw?.split('\n')?.length || 10))}).map((_, i) => (
                         <span key={i}>{i + 1}</span>
                       ))}
                     </div>
@@ -962,7 +974,7 @@ git push origin feature/optimization`,
               {/* Integrated Visual Preview Card - Tightened gap and padding to align with left column bottom */}
               <div className={`
                 w-full p-5 rounded-2xl border transition-all duration-700 flex flex-col md:flex-row items-center gap-5
-                ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-black/[0.05] shadow-sm'}
+                ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-200 shadow-sm'}
               `}>
                 <div className="w-24 h-24 flex-shrink-0 flex items-center justify-center rounded-2xl bg-[#582CFF]/5 border border-[#582CFF]/10 overflow-hidden relative group">
                   <div className="absolute inset-0 bg-[#582CFF]/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -1072,7 +1084,7 @@ git push origin feature/optimization`,
           </div>
 
           {/* Section Bottom Boundary */}
-          <hr className={`opacity-10 ${isDark ? 'border-white' : 'border-black'}`} />
+          <hr className={`opacity-10 ${isDark ? 'border-white' : 'border-[#582CFF] !opacity-20'}`} />
         </section>
 
         <ExperienceTimeline isDark={isDark} />
@@ -1093,7 +1105,7 @@ git push origin feature/optimization`,
           <div className={`relative w-full max-w-6xl aspect-[16/10] sm:aspect-video rounded-3xl overflow-hidden border transition-all duration-700 ease-in-out z-[70] animate-in fade-in zoom-in-95 duration-500 slide-in-from-bottom-8 flex flex-col sm:flex-row
             ${isDark 
               ? 'bg-[#050505] border-white/10 shadow-[0_0_80px_rgba(88,44,255,0.15)]' 
-              : 'bg-white border-black/10 shadow-[0_0_80px_rgba(88,44,255,0.1)]'}`}>
+              : 'bg-white border-slate-200 shadow-[0_40px_100px_rgba(0,0,0,0.1)]'}`}>
             
             {/* Close Button - Minimalist and Integrated */}
             <button 
@@ -1101,7 +1113,7 @@ git push origin feature/optimization`,
               className={`absolute top-4 right-4 p-2 rounded-full border transition-all z-[100] active:scale-90
                 ${isDark 
                   ? 'bg-white/5 border-white/10 text-white/50 hover:bg-red-500/20 hover:text-red-500 hover:border-red-500/50' 
-                  : 'bg-black/5 border-black/10 text-black/50 hover:bg-red-500/10 hover:text-red-600 hover:border-red-500/30'}`}
+                  : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-red-500/10 hover:text-red-600 hover:border-red-500/30'}`}
             >
               <X className="w-5 h-5" />
             </button>
@@ -1138,7 +1150,7 @@ git push origin feature/optimization`,
                       setCurrentModalImage((prev: number) => (prev - 1 + len) % len);
                     }}
                     className={`absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full border transition-all z-[80]
-                      ${isDark ? 'bg-black/40 text-white border-white/10 hover:bg-[#582CFF]' : 'bg-white/60 text-black border-black/10 hover:bg-[#582CFF] hover:text-white'}`}
+                    ${isDark ? 'bg-black/40 text-white border-white/10 hover:bg-[#582CFF]' : 'bg-white border-slate-200 text-slate-900 shadow-xl shadow-slate-200/50 hover:bg-slate-50'}`}
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </button>
@@ -1153,7 +1165,7 @@ git push origin feature/optimization`,
                       }
                     }}
                     className={`absolute right-4 top-1/2 -translate-y-1/2 p-4 rounded-full border transition-all z-[80] shadow-[0_0_30px_rgba(88,44,255,0.3)] animate-pulse
-                      ${isDark ? 'bg-[#582CFF] text-white border-white/20' : 'bg-[#582CFF] text-white border-black/10'}`}
+                      ${isDark ? 'bg-[#582CFF] text-white border-white/20' : 'bg-[#582CFF] text-white border-transparent shadow-[0_15px_30px_rgba(88,44,255,0.3)]'}`}
                   >
                     <ChevronRight className="w-8 h-8" />
                   </button>
@@ -1176,7 +1188,7 @@ git push origin feature/optimization`,
             {/* Right Side: Achievements Chat (Slides in) */}
             {showDetails && (
               <div className={`flex-1 h-full p-6 sm:p-10 flex flex-col animate-in slide-in-from-right duration-700 overflow-hidden border-l
-                ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-slate-50 border-black/5'}`}>
+                ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-[#F8FAFC] border-[#582CFF]/20'}`}>
                 <div className="mb-8">
                   <h3 className={`text-xl sm:text-2xl font-black tracking-tighter mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     Logros del Proyecto
@@ -1193,7 +1205,7 @@ git push origin feature/optimization`,
                       className={`group/ach p-4 rounded-[16px] border transition-all duration-500 animate-in fade-in slide-in-from-right-8
                         ${isDark 
                           ? 'bg-white/[0.02] border-white/10 hover:border-[#582CFF]/50 hover:bg-[#582CFF]/5' 
-                          : 'bg-slate-50 border-black/5 hover:border-[#582CFF]/30 hover:bg-white'}`}
+                          : 'bg-white border-[#582CFF]/20 shadow-xl shadow-[#582CFF]/5 hover:shadow-2xl'}`}
                       style={{ animationDelay: `${idx * 150}ms`, animationFillMode: 'both' }}
                     >
                       <div className="flex gap-3">
@@ -1236,7 +1248,8 @@ git push origin feature/optimization`,
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
 

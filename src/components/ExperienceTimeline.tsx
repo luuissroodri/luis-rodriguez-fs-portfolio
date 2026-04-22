@@ -46,17 +46,17 @@ const ExperienceTimeline: React.FC<{ isDark: boolean }> = ({ isDark }) => {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-8">
             <span className="text-xs font-bold uppercase tracking-widest">Trayectoria</span>
           </div>
-          <h2 className={`text-5xl md:text-7xl font-black tracking-tighter mb-8 ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+          <h2 className={`text-5xl md:text-7xl font-black tracking-tighter mb-8 ${isDark ? 'text-white' : 'text-slate-900'}`}>
             Rastro de <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">Impacto.</span>
           </h2>
-          <p className={`text-lg md:text-xl leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+          <p className={`text-lg md:text-xl leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-slate-600'}`}>
             Evolución profesional a través de hitos académicos y proyectos tecnológicos de alto impacto.
           </p>
         </div>
 
         <div className="relative">
           {/* Central Vertical Line */}
-          <div className={`absolute left-4 md:left-1/2 top-0 bottom-0 w-[1px] ${isDark ? 'bg-white/10' : 'bg-black/10'} -translate-x-1/2`}></div>
+          <div className={`absolute left-4 md:left-1/2 top-0 bottom-0 w-[1px] ${isDark ? 'bg-white/10' : 'bg-[#582CFF]/20'} -translate-x-1/2`}></div>
 
           <div className="space-y-20">
             {experiences.map((exp, index) => (
@@ -80,7 +80,7 @@ const ExperienceTimeline: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     animate-in fade-in slide-in-from-bottom-12
                     ${isDark 
                       ? 'bg-[#0F0F10]/80 border-white/10 hover:border-[#582CFF]/50 hover:bg-[#0F0F10]' 
-                      : 'bg-white/80 border-black/5 shadow-sm hover:shadow-xl hover:border-[#582CFF]/30'}
+                      : 'bg-[#F8FAFC] border-[#582CFF]/20 shadow-xl shadow-[#582CFF]/5 hover:shadow-2xl'}
                   `} style={{ animationDelay: `${index * 200}ms`, animationFillMode: 'both' }}>
                     
                     {/* Hover Glow Effect */}
@@ -96,14 +96,14 @@ const ExperienceTimeline: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                         </div>
                       </div>
 
-                      <h3 className={`text-2xl md:text-3xl font-black tracking-tight mb-1 transition-colors duration-300 group-hover:text-[#582CFF] ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+                      <h3 className={`text-2xl md:text-3xl font-black tracking-tight mb-1 transition-colors duration-300 group-hover:text-[#582CFF] ${isDark ? 'text-white' : 'text-slate-900'}`}>
                         {exp.title}
                       </h3>
-                      <p className={`text-sm font-bold mb-6 tracking-wide ${isDark ? 'text-white/40' : 'text-black/40'}`}>
+                      <p className={`text-sm font-bold mb-6 tracking-wide ${isDark ? 'text-white/40' : 'text-slate-400'}`}>
                         {exp.institution}
                       </p>
                       
-                      <p className={`text-base leading-relaxed mb-8 ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
+                      <p className={`text-base leading-relaxed mb-8 ${isDark ? 'text-[#94A3B8]' : 'text-slate-600'}`}>
                         {exp.description}
                       </p>
 
@@ -125,7 +125,7 @@ const ExperienceTimeline: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                 </div>
 
                 {/* Date on the other side (Desktop only) */}
-                <div className={`hidden md:block w-[45%] text-sm font-black tracking-[0.3em] uppercase transition-all duration-700 ${index % 2 === 0 ? 'text-left pl-16' : 'text-right pr-16'} ${isDark ? 'text-white/10' : 'text-black/10'}`}>
+                <div className={`hidden md:block w-[45%] text-sm font-black tracking-[0.3em] uppercase transition-all duration-700 ${index % 2 === 0 ? 'text-left pl-16' : 'text-right pr-16'} ${isDark ? 'text-white/10' : 'text-slate-300'}`}>
                   {exp.period}
                 </div>
               </div>

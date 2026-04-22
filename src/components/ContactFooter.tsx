@@ -5,7 +5,7 @@ import { BsFileEarmarkPdfFill } from 'react-icons/bs';
 
 const ContactFooter: React.FC<{ isDark: boolean }> = ({ isDark }) => {
   return (
-    <footer id="contacto" className={`relative overflow-hidden pt-24 pb-12 ${isDark ? 'bg-[#050505]' : 'bg-[#FFFDFE]'}`}>
+    <footer id="contacto" className={`relative overflow-hidden pt-24 pb-12 ${isDark ? 'bg-[#050505]' : 'bg-slate-50'}`}>
       {/* Radial Gradient Background */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#582CFF]/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
       
@@ -14,10 +14,10 @@ const ContactFooter: React.FC<{ isDark: boolean }> = ({ isDark }) => {
         {/* Upper Section: Impact CTA */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-24">
           <div className="max-w-2xl">
-            <h2 className={`text-4xl md:text-6xl font-black tracking-tighter leading-tight ${isDark ? 'text-white' : 'text-[#1E293B]'}`}>
+            <h2 className={`text-4xl md:text-6xl font-black tracking-tighter leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Arquitectura de sistemas <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">escalables.</span>
             </h2>
-            <p className={`mt-6 text-base md:text-lg font-medium leading-relaxed max-w-lg ${isDark ? 'text-white/50' : 'text-black/50'}`}>
+            <p className={`mt-6 text-base md:text-lg font-medium leading-relaxed max-w-lg ${isDark ? 'text-white/50' : 'text-slate-600'}`}>
               ¿Tienes un desafío técnico o quieres construir algo? Hablemos con un clic.
             </p>
             <div className="mt-10">
@@ -110,20 +110,20 @@ const ContactFooter: React.FC<{ isDark: boolean }> = ({ isDark }) => {
         </div>
 
         {/* Bottom Bar */}
-        <div className={`pt-12 border-t flex flex-col md:flex-row items-center justify-between gap-8 ${isDark ? 'border-white/10' : 'border-black/5'}`}>
+        <div className={`pt-12 border-t flex flex-col md:flex-row items-center justify-between gap-8 ${isDark ? 'border-white/10' : 'border-slate-200'}`}>
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <span className={`text-[11px] font-black tracking-widest ${isDark ? 'text-white/40' : 'text-black/40'}`}>
+            <span className={`text-[11px] font-black tracking-widest ${isDark ? 'text-white/40' : 'text-slate-400'}`}>
               © 2026 LUIS RODRIGUEZ
             </span>
             <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${isDark ? 'bg-green-500/5 border-green-500/20' : 'bg-green-500/5 border-green-500/10'}`}>
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-[9px] font-black text-green-500 tracking-widest uppercase">
+              <span className="text-[9px] font-black text-green-700 tracking-widest uppercase">
                 Estado del sistema: Óptimo
               </span>
             </div>
           </div>
 
-          <div className={`text-[10px] font-bold tracking-widest uppercase ${isDark ? 'text-white/20' : 'text-black/20'}`}>
+          <div className={`text-[10px] font-bold tracking-widest uppercase ${isDark ? 'text-white/20' : 'text-slate-400'}`}>
             Construido con <span className="text-[#582CFF]">React</span> & <span className="text-[#8E54FF]">Tailwind CSS</span>
           </div>
         </div>
