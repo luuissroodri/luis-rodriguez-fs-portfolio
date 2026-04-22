@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download, Copy, ChevronLeft, ChevronRight, Lock } from 'lucide-react'
+import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download, Copy, ChevronLeft, ChevronRight, Lock, Sparkles } from 'lucide-react'
 import { GiPenguin } from 'react-icons/gi'
 import luisPhoto from './assets/Luis.jpeg'
 
@@ -1012,39 +1012,39 @@ git push origin feature/optimization`,
                 year: "2026",
                 role: "Desarrollador Full Stack",
                 achievements: [
-                  "Optimización del 40% en tiempos de respuesta administrativa.",
-                  "Implementación de flujos de aprobación en tiempo real.",
-                  "Sistema de notificaciones push para reportes comunitarios."
+                  "Primer municipio del país en implementar un sistema integral de ayudas automatizadas para la comunidad.",
+                  "Implementación de flujos de aprobación en tiempo real y gestión transparente de recursos.",
+                  "Optimización del 60% en tiempos de respuesta administrativa mediante la automatización de procesos."
                 ]
               },
               {
                 title: "Planificación Estratégica",
                 company: "Alcaldía de Mariño",
-                desc: "Sistema de gestión de proyectos con visualización avanzada mediante Diagramas de Gantt, permitiendo el seguimiento en tiempo real de metas institucionales.",
+                desc: "Arquitectura de un sistema de seguimiento departamental con visualización de datos mediante Diagramas de Gantt y métricas de cumplimiento de alto nivel.",
                 tags: ["Laravel", "React", "TypeScript", "Tailwind", "SQLite"],
                 icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
                 images: ["/foto 2.webp", "/foto 3.webp"],
                 year: "2026",
                 role: "Desarrollador Full Stack",
                 achievements: [
-                  "Integración completa de Diagramas de Gantt dinámicos.",
-                  "Seguimiento automatizado de KPIs municipales.",
-                  "Generación de reportes PDF de alta fidelidad."
+                  "Desarrollo de una herramienta de visualización de datos mediante Diagramas de Gantt para la planificación estratégica municipal.",
+                  "Arquitectura de seguimiento con métricas de cumplimiento y regulación de porcentajes de avance departamental.",
+                  "Mejora en un 40% en el seguimiento de actividades de todos los departamentos del ente gubernamental."
                 ]
               },
               {
-                title: "Reporte de Incidencias",
+                title: "Gestión de Incidencias y Auditoría",
                 company: "Alcaldía de Mariño",
-                desc: "Herramienta de reporte ciudadano con geolocalización avanzada y sistema de control de acceso basado en roles (RBAC) para una respuesta eficiente.",
+                desc: "Plataforma centralizada para la gestión de servicios y auditoría ciudadana, integrando geolocalización avanzada y trazabilidad estricta mediante RBAC.",
                 tags: ["Laravel", "React", "TypeScript", "Tailwind", "SQLite"],
                 icons: ["devicon-laravel-plain", "devicon-react-original", "devicon-typescript-plain", "devicon-tailwindcss-original", "devicon-sqlite-plain"],
                 images: ["/luis.jpeg"],
                 year: "2026",
                 role: "Desarrollador Full Stack",
                 achievements: [
-                  "Geolocalización precisa de incidencias urbanas.",
-                  "Arquitectura RBAC para múltiples dependencias.",
-                  "Reducción del 30% en el tiempo de atención ciudadana."
+                  "Diseño de una plataforma centralizada para la gestión comunitaria con geolocalización avanzada y evidencias multimedia.",
+                  "Implementación de arquitectura RBAC con logs de auditoría estricta para garantizar un flujo de resolución transparente.",
+                  "Reducción del 30% en el tiempo de atención ciudadana mediante la optimización de la trazabilidad entre operadores."
                 ]
               }
             ].map((project, index) => (
@@ -1173,24 +1173,35 @@ git push origin feature/optimization`,
                   </p>
                 </div>
 
-                <div className="flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+                <div className="flex-1 space-y-3 overflow-y-auto custom-scrollbar pr-2">
                   {selectedProject.achievements?.map((ach, idx) => (
                     <div 
                       key={idx} 
-                      className={`p-4 rounded-2xl border shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-500
+                      className={`group/ach p-4 rounded-[16px] border transition-all duration-500 animate-in fade-in slide-in-from-right-8
                         ${isDark 
-                          ? 'bg-white/[0.03] border-[#582CFF]/20 shadow-[#582CFF]/5' 
-                          : 'bg-white border-[#582CFF]/10 shadow-[#582CFF]/5'}`}
-                      style={{ animationDelay: `${idx * 200}ms`, animationFillMode: 'both' }}
+                          ? 'bg-white/[0.02] border-white/10 hover:border-[#582CFF]/50 hover:bg-[#582CFF]/5' 
+                          : 'bg-slate-50 border-black/5 hover:border-[#582CFF]/30 hover:bg-white'}`}
+                      style={{ animationDelay: `${idx * 150}ms`, animationFillMode: 'both' }}
                     >
-                      <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-slate-600'}`}>
-                        {ach}
-                      </p>
+                      <div className="flex gap-3">
+                        <div className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/ach:scale-110
+                          ${isDark ? 'bg-[#582CFF]/20 text-[#582CFF]' : 'bg-[#582CFF]/10 text-[#582CFF]'}`}>
+                          <Sparkles className="w-3.5 h-3.5" />
+                        </div>
+                        <div className="space-y-0.5">
+                          <p className={`text-[8px] font-black uppercase tracking-[0.2em] mb-0.5 ${isDark ? 'text-[#582CFF]' : 'text-[#582CFF]'}`}>
+                            Hito {idx + 1}
+                          </p>
+                          <p className={`text-xs sm:text-sm leading-relaxed tracking-tight ${isDark ? 'text-white/80' : 'text-slate-700'}`}>
+                            {ach}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-8 flex items-center justify-between">
+                <div className="mt-8 flex items-center justify-between border-t border-white/5 pt-6">
                    <div className="flex gap-4">
                       {selectedProject.icons.map((icon, i) => (
                         <i key={i} className={`${icon} text-xl ${isDark ? 'text-white/20' : 'text-black/20'}`}></i>
@@ -1198,8 +1209,12 @@ git push origin feature/optimization`,
                    </div>
                    <button 
                       onClick={() => setShowDetails(false)}
-                      className="text-[11px] font-black text-[#582CFF] uppercase tracking-widest hover:scale-110 active:scale-95 transition-all underline decoration-2 underline-offset-8"
+                      className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all active:scale-95 text-[10px] font-black uppercase tracking-widest
+                        ${isDark 
+                          ? 'bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-[#582CFF]/50 shadow-lg shadow-black/20' 
+                          : 'bg-black/5 border-black/10 text-black hover:bg-black/10 hover:border-[#582CFF]/50'}`}
                    >
+                      <ChevronLeft className="w-4 h-4" />
                       Regresar a Galería
                    </button>
                 </div>
