@@ -1,42 +1,67 @@
 import React from 'react';
 import { GraduationCap, Building2, Anchor, Activity } from 'lucide-react';
 
-const experiences = [
+const getExperiences = (lang: string) => [
   {
     period: "2022 - 2026",
-    title: "Ingeniero de Sistemas",
+    title: lang === 'ES' ? "Ingeniero de Sistemas" : "Systems Engineer",
     institution: "Universidad de Margarita (UNIMAR)",
-    description: "Defensa de tesis exitosa y formación académica integral enfocada en la resolución de problemas complejos mediante tecnología de vanguardia.",
+    description: lang === 'ES' 
+      ? "Defensa de tesis exitosa y formación académica integral enfocada en la resolución de problemas complejos mediante tecnología de vanguardia."
+      : "Successful thesis defense and comprehensive academic training focused on solving complex problems through cutting-edge technology.",
     icon: <GraduationCap className="w-5 h-5 text-white" />,
-    tags: ["Académico", "Ingeniería", "Investigación"]
+    tags: lang === 'ES' ? ["Académico", "Ingeniería", "Investigación"] : ["Academic", "Engineering", "Research"]
   },
   {
     period: "2026",
-    title: "Proyecto Autogobierno",
+    title: lang === 'ES' ? "Proyecto Autogobierno" : "Self-Government Project",
     institution: "Alcaldía de Mariño",
-    description: "Desarrollador Full Stack liderando la optimización de flujos comunitarios y la transformación digital de la comunicación ciudadana.",
+    description: lang === 'ES' 
+      ? "Desarrollador Full Stack liderando la optimización de flujos comunitarios y la transformación digital de la comunicación ciudadana."
+      : "Full Stack Developer leading community flow optimization and the digital transformation of citizen communication.",
     icon: <Building2 className="w-5 h-5 text-white" />,
     tags: ["Laravel", "React", "PostgreSQL"]
   },
   {
     period: "2026",
-    title: "Planificación Estratégica",
+    title: lang === 'ES' ? "Planificación Estratégica" : "Strategic Planning",
     institution: "Alcaldía de Mariño",
-    description: "Arquitectura de sistemas robustos para el seguimiento departamental, integrando visualizaciones de datos y métricas de cumplimiento crítico.",
+    description: lang === 'ES' 
+      ? "Arquitectura de sistemas robustos para el seguimiento departamental, integrando visualizaciones de datos y métricas de cumplimiento crítico."
+      : "Architecture of robust systems for departmental tracking, integrating data visualizations and critical compliance metrics.",
     icon: <Activity className="w-5 h-5 text-white" />,
-    tags: ["Sistemas", "Gantt", "Data Viz"]
+    tags: lang === 'ES' ? ["Sistemas", "Gantt", "Data Viz"] : ["Systems", "Gantt", "Data Viz"]
   },
   {
     period: "2026",
     title: "XINABIS",
-    institution: "Embarcación Isidoro",
-    description: "Desarrollo de un ecosistema de gestión integral marítima, con altos estándares de seguridad (RBAC/2FA) y trazabilidad financiera absoluta.",
+    institution: lang === 'ES' ? "Embarcación Isidoro" : "Isidoro Vessel",
+    description: lang === 'ES' 
+      ? "Desarrollo de un ecosistema de gestión integral marítima, con altos estándares de seguridad (RBAC/2FA) y trazabilidad financiera absoluta."
+      : "Development of a comprehensive maritime management ecosystem, with high security standards (RBAC/2FA) and absolute financial traceability.",
     icon: <Anchor className="w-5 h-5 text-white" />,
-    tags: ["RBAC", "2FA", "Finanzas"]
+    tags: lang === 'ES' ? ["RBAC", "2FA", "Finanzas"] : ["RBAC", "2FA", "Finance"]
   }
 ];
 
-const ExperienceTimeline: React.FC<{ isDark: boolean }> = ({ isDark }) => {
+const ExperienceTimeline: React.FC<{ isDark: boolean, lang: string }> = ({ isDark, lang }) => {
+  const t = {
+    ES: {
+      badge: 'Trayectoria',
+      title: 'Rastro de',
+      titleAccent: 'Impacto.',
+      desc: 'Evolución profesional a través de hitos académicos y proyectos tecnológicos de alto impacto.'
+    },
+    EN: {
+      badge: 'Trajectory',
+      title: 'Trace of',
+      titleAccent: 'Impact.',
+      desc: 'Professional evolution through academic milestones and high-impact technological projects.'
+    }
+  }[lang as 'ES' | 'EN'];
+
+  const experiences = getExperiences(lang);
+
   return (
     <section id="trayectoria" className="py-32 relative">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -44,13 +69,13 @@ const ExperienceTimeline: React.FC<{ isDark: boolean }> = ({ isDark }) => {
         {/* Section Header */}
         <div className="mb-24 max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#582CFF]/10 border border-[#582CFF]/20 text-[#582CFF] mb-8">
-            <span className="text-xs font-bold uppercase tracking-widest">Trayectoria</span>
+            <span className="text-xs font-bold uppercase tracking-widest">{t.badge}</span>
           </div>
           <h2 className={`text-5xl md:text-7xl font-black tracking-tighter mb-8 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            Rastro de <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">Impacto.</span>
+            {t.title} <span className="italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent">{t.titleAccent}</span>
           </h2>
           <p className={`text-lg md:text-xl leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-slate-600'}`}>
-            Evolución profesional a través de hitos académicos y proyectos tecnológicos de alto impacto.
+            {t.desc}
           </p>
         </div>
 
