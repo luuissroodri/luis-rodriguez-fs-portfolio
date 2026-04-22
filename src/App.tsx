@@ -3,6 +3,7 @@ import { Menu, X, ChevronDown, Languages, Sun, Moon, Check, Download, Copy, Chev
 import { GiPenguin } from 'react-icons/gi'
 import luisPhoto from './assets/Luis.jpeg'
 import ExperienceTimeline from './components/ExperienceTimeline'
+import ContactFooter from './components/ContactFooter'
 
 
 interface Project {
@@ -1070,6 +1071,8 @@ git push origin feature/optimization`,
 
         <ExperienceTimeline isDark={isDark} />
       </main>
+
+      <ContactFooter isDark={isDark} />
 
       {/* Modal Gallery - Presentation to Detail Transition */}
       {selectedProject && (
