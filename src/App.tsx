@@ -1251,7 +1251,7 @@ git push origin feature/optimization`,
           ></div>
 
           {/* Modal Container */}
-          <div className={`relative w-full max-w-6xl aspect-[16/10] sm:aspect-video rounded-3xl overflow-hidden border transition-all duration-700 ease-in-out z-[70] animate-in fade-in zoom-in-95 duration-500 slide-in-from-bottom-8 flex flex-col sm:flex-row
+          <div className={`relative w-full max-w-6xl h-[85vh] sm:h-auto sm:aspect-video rounded-3xl overflow-hidden border transition-all duration-700 ease-in-out z-[70] animate-in fade-in zoom-in-95 duration-500 slide-in-from-bottom-8 flex flex-col sm:flex-row
             ${isDark 
               ? 'bg-[#050505] border-white/10 shadow-[0_0_80px_rgba(88,44,255,0.15)]' 
               : 'bg-white border-slate-200 shadow-[0_40px_100px_rgba(0,0,0,0.1)]'}`}>
@@ -1268,7 +1268,7 @@ git push origin feature/optimization`,
             </button>
 
             {/* Left Side: Image Carousel (Shrinks when details show) */}
-            <div className={`relative h-full transition-all duration-700 ease-in-out flex-shrink-0 ${showDetails ? 'w-full sm:w-[60%]' : 'w-full'}`}>
+            <div className={`relative transition-all duration-700 ease-in-out flex-shrink-0 ${showDetails ? 'w-full h-[35%] sm:h-full sm:w-[60%]' : 'w-full h-full'}`}>
               <div 
                 className="flex h-full transition-transform duration-500 ease-out" 
                 style={{ transform: `translateX(-${(currentModalImage as number) * 100}%)` }}
@@ -1336,7 +1336,7 @@ git push origin feature/optimization`,
 
             {/* Right Side: Achievements Chat (Slides in) */}
             {showDetails && (
-              <div className={`flex-1 h-full p-6 sm:p-10 flex flex-col animate-in slide-in-from-right duration-700 overflow-hidden border-l
+              <div className={`flex-1 h-[65%] sm:h-full p-6 sm:p-10 flex flex-col animate-in slide-in-from-right duration-700 overflow-hidden border-t sm:border-t-0 sm:border-l
                 ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-[#F8FAFC] border-[#582CFF]/20'}`}>
                 <div className="mb-8">
                   <h3 className={`text-xl sm:text-2xl font-black tracking-tighter mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>
