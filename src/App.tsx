@@ -117,7 +117,7 @@ const ProjectCard = ({ project, isDark, index, onOpenGallery, t }: ProjectCardPr
 const translations = {
   ES: {
     nav: { home: 'Inicio', skills: 'Conocimientos', works: 'Trabajos', timeline: 'Trayectoria', contact: 'Contactar', contactNow: 'Contactar ahora' },
-    hero: { role: 'Desarrollador Full Stack', title1: 'Sistemas Robustos.', title2: 'Arquitectura de Vanguardia.', desc: 'Ingeniero de Sistemas enfocado en desarrollo web. Transformo problemas complejos de UX en soluciones UI escalables, mediante código limpio y arquitecturas robustas.', view: 'Ver Proyectos', cv: 'Descargar CV', availability: 'Disponible para proyectos' },
+    hero: { role: 'Desarrollador Full Stack', title1: 'Sistemas Robustos.', title2: 'Arquitectura de Vanguardia.', desc: 'Ingeniero de Sistemas enfocado en desarrollo web. Transformo problemas complejos de UX en soluciones UI escalables, mediante código limpio y arquitecturas robustas.', techList: 'Tecnologías y Desarrollo: React.js, Laravel (PHP), TypeScript, Inertia.js, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, PostgreSQL y SQL', view: 'Ver Proyectos', cv: 'Descargar CV', availability: 'Disponible para proyectos' },
     metrics: [
       { title: '6+', subtitle: 'MESES DE EXPERIENCIA', status: 'system_status: active' },
       { title: '100%', subtitle: 'ENFOQUE PIXEL-PERFECT', status: 'ux_latency: <100ms' },
@@ -146,7 +146,7 @@ const translations = {
   },
   EN: {
     nav: { home: 'Home', skills: 'Skills', works: 'Works', timeline: 'Trajectory', contact: 'Contact', contactNow: 'Contact Now' },
-    hero: { role: 'Full Stack Developer', title1: 'Robust Systems.', title2: 'Cutting-Edge Architecture.', desc: 'Systems Engineer focused on web development. I transform complex UX problems into scalable UI solutions, using clean code and robust architectures.', view: 'View Projects', cv: 'Download CV', availability: 'Available for projects' },
+    hero: { role: 'Full Stack Developer', title1: 'Robust Systems.', title2: 'Cutting-Edge Architecture.', desc: 'Systems Engineer focused on web development. I transform complex UX problems into scalable UI solutions, using clean code and robust architectures.', techList: 'Technologies and Development: React.js, Laravel (PHP), TypeScript, Inertia.js, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, PostgreSQL, and SQL', view: 'View Projects', cv: 'Download CV', availability: 'Available for projects' },
     metrics: [
       { title: '6+', subtitle: 'MONTHS OF EXPERIENCE', status: 'system_status: active' },
       { title: '100%', subtitle: 'PIXEL-PERFECT FOCUS', status: 'ux_latency: <100ms' },
@@ -857,7 +857,36 @@ git push origin feature/optimization`,
             <div className={`${isDark ? 'bg-[#0F0F10]/95 border-white/10' : 'bg-white/95 border-black/10'} backdrop-blur-2xl border rounded-3xl p-4 shadow-[0_25px_60px_rgba(0,0,0,0.3)]`}>
               <ul className="flex flex-col gap-1">
                 {navLinks.map((link) => (
-                    <li key={link.name} className={`flex items-center justify-between p-4 rounded-2xl transition-all cursor-pointer group ${isDark ? 'hover:bg-white/5' : 'hover:bg-black/5'}`}>
+                    <li 
+                      key={link.name} 
+                      onClick={(e) => {
+                        if (link.href.startsWith('#')) {
+                          e.preventDefault();
+                          const targetId = link.href.substring(1);
+                          const target = document.getElementById(targetId);
+                          if (target) {
+                            // Close menu
+                            setIsMenuOpen(false);
+
+                            // Block Scroll Spy immediately
+                            isScrollingRef.current = true;
+                            
+                            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+                            
+                            setActiveSection(link.name);
+                            
+                            const offset = targetId === 'inicio' ? 0 : 100;
+                            const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+                            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                            
+                            scrollTimeoutRef.current = setTimeout(() => {
+                              isScrollingRef.current = false;
+                            }, 1000);
+                          }
+                        }
+                      }}
+                      className={`flex items-center justify-between p-4 rounded-2xl transition-all cursor-pointer group ${isDark ? 'hover:bg-white/5' : 'hover:bg-black/5'}`}
+                    >
                     <div className="flex items-center gap-3">
                       <span className={`text-base font-semibold transition-colors ${isDark ? 'text-[#94A3B8] group-hover:text-white' : 'text-[#64748B] group-hover:text-black'}`}>{link.label}</span>
                       {link.name === 'Trabajos' && isScrolled && (
@@ -871,7 +900,14 @@ git push origin feature/optimization`,
                   </li>
                 ))}
                 <li className="mt-2 pt-4 border-t border-white/5 px-2 pb-2">
-                  <button className="w-full bg-[#582CFF] py-3.5 rounded-2xl font-bold shadow-lg shadow-[#582CFF]/20 active:scale-[0.98] transition-all text-sm text-white">
+                  <button 
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      const target = document.getElementById('contacto');
+                      if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="w-full bg-[#582CFF] py-3.5 rounded-2xl font-bold shadow-lg shadow-[#582CFF]/20 active:scale-[0.98] transition-all text-sm text-white"
+                  >
                     {t.nav.contactNow}
                   </button>
                 </li>
@@ -897,9 +933,15 @@ git push origin feature/optimization`,
                 <span className={`italic bg-gradient-to-r from-[#582CFF] to-[#8E54FF] bg-clip-text text-transparent`}>{t.hero.title2}</span>
               </h1>
 
-              <p className={`text-base md:text-lg max-w-xl mb-8 leading-relaxed animate-entrance ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`} style={{ animationDelay: '300ms' }}>
+              <p className={`text-base md:text-lg max-w-xl mb-4 leading-relaxed animate-entrance ${isDark ? 'text-[#94A3B8]' : 'text-[#64748B]'}`} style={{ animationDelay: '300ms' }}>
                 {t.hero.desc}
               </p>
+
+              <div className="mb-8 animate-entrance" style={{ animationDelay: '350ms' }}>
+                <span className={`text-[10px] font-black uppercase tracking-[0.2em] opacity-60 ${isDark ? 'text-[#582CFF]' : 'text-[#4a24d9]'}`}>
+                  {t.hero.techList}
+                </span>
+              </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-entrance" style={{ animationDelay: '450ms' }}>
                 <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#582CFF] px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition-all shadow-[0_15px_30_rgba(88,44,255,0.25)] active:scale-95 text-white">
